@@ -1,0 +1,35 @@
+{
+  "name": "bot.ext_taon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeandroParisi/bot.ext_taon.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LeandroParisi/bot.ext_taon/issues"
+  },
+  "homepage": "https://github.com/LeandroParisi/bot.ext_taon#readme",
+  "dependencies": {
+    "nedb": "^1.8.0",
+    "venom-bot": "^4.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "nodemon": "^2.0.7"
+  }
+}
