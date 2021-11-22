@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dbtest": "node ./tests/dbTests.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,7 @@
   "homepage": "https://github.com/LeandroParisi/bot.ext_taon#readme",
   "dependencies": {
     "nedb": "^1.8.0",
+    "nedb-promises": "^5.0.2",
     "venom-bot": "^4.0.1"
   },
   "devDependencies": {

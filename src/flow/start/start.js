@@ -1,14 +1,16 @@
-const checkClientSession = require('../../services/sessionDb/queries/checkClientSession');
+const SessionRepository = require('../../services/sessionDb/Repository');
 
-async function start(client) {
-  client.onMessage((message) => {
+async function start(bot) {
+  bot.onMessage((message) => {
     if (message.body === 'Hi' && message.isGroupMsg === false) {
-      client
+      console.log(message);
+
+      bot
         .sendText(message.from, 'Welcome Venom 🕷')
         .then((result) => {
-          const test = checkClientSession(message.from);
+          // const test = SessionRepository.GetClientCurrentStep();
 
-          console.log({ test });
+          // console.log({ test });
 
           // console.log('Result: ', result); // return object success
         })

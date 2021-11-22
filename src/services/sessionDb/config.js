@@ -1,5 +1,10 @@
-const Datastore = require('nedb');
+const Datastore = require('nedb-promises');
+const errorHandler = require('./errorHandler');
 
-const db = new Datastore({ filename: './services/sessionDb/database/botMemory.db', autoload: true });
+const db = Datastore.create('./src/data/sessionDb/botMemory.db');
+
+db.on('__error__', (datastore, event, error) => {
+  errorHandler(datastore, event, error);
+});
 
 module.exports = db;
