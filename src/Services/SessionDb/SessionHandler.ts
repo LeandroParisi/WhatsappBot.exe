@@ -1,15 +1,14 @@
-const SessionRepository = require('./Repository');
+import { Service } from "typedi";
+import SessionRepository from './SessionRepository';
 
-class SessionHandler {
-  constructor() {
-    this.repository = SessionRepository;
+@Service()
+export default class SessionHandler {
+  constructor(private readonly repository : SessionRepository) {
   }
 
   async CheckIn(client) {
-    const {
-      hasOpenedSession,
-      currentSession,
-    } = await this.repository.GetClientCurrentStep(client.id);
+    const { hasOpenedSession, currentSession} = await this.repository.GetClientCurrentStep(client.id);
+    return currentSession
   }
 
   // eslint-disable-next-line class-methods-use-this

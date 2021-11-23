@@ -1,6 +1,13 @@
+import { Service } from "typedi";
+import Client from "../../Domain/Models/Client";
+import ISessionDb from "./Interfaces/ISessionDb";
+
 const db = require('./config');
 
-class SessionRepository {
+@Service()
+export default class SessionRepository {
+  db : ISessionDb<Client>
+
   constructor() {
     this.db = db;
   }
@@ -18,4 +25,3 @@ class SessionRepository {
   }
 }
 
-module.exports = new SessionRepository();
