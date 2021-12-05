@@ -1,4 +1,4 @@
-import Messages from "../Interfaces/Messages"
+import { Message } from "venom-bot"
 
 export default class Client {
   public fullName : string
@@ -6,11 +6,11 @@ export default class Client {
   public _id : string
   public currentStep : number
 
-  constructor (message: Messages) {
+  constructor (message: Message) {
     this.fullName = message.sender.name
     this.shortName = message.sender.shortName
     this._id = message.from
-    this.currentStep = 0
+    this.currentStep = 1
   }
 
 }
