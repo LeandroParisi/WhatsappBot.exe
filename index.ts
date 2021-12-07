@@ -25,6 +25,7 @@ class Main {
       });
       
       this.botStartup.SetBot(bot);
+      this.botStartup.LoadUserInfo();
       this.botStartup.Start();
 
     } catch (error) {

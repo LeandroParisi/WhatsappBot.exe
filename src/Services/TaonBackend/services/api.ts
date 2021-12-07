@@ -1,3 +1,5 @@
+import BackendError from "../../Abstractions/Errors/BackendError"
+
 /* eslint-disable max-len */
 const axios = require('axios')
 
@@ -40,6 +42,17 @@ const api = async ({
   return response
 }
 
-export default api
+const errorHandler = async (payload : IApi) => {
+  try {
+    return await api(payload)
+  } catch (error) {
+    const { response } = error
+    throw new BackendError(response.status, response.data.error, error)
+  }
+}
+
+export {
+  errorHandler as api
+}
 
 // teste

@@ -1,64 +1,94 @@
 import readline = require('readline');
 import { Service } from "typedi";
+import MaxLoginReached from '../Abstractions/Errors/MaxLoginReached';
+import BackendError from '../Abstractions/Errors/BackendError';
 import TaonRepository from '../TaonBackend/TaonRepository';
 import UserDataRepository from "./UserDataRepository";
 
 @Service()
 export default class UserDataHandler {
+  loginRetries : number
+
   constructor(
     private readonly repository : UserDataRepository,
     private readonly TaonRepository : TaonRepository
-  ) {}
-
-  async ValidateUser() : Promise<void> {
-    // const {email, password} = this.GetUserInfo();
-    // TODO: Capturar email e password do usuário
-
-
-    const userData = await this.repository.GetLoginData();
-
-    if (userData) {
-      console.log("already saved Token")
-      console.log({ userData })
-      const data = await this.TaonRepository.ValidateSession(userData.email, userData.token)
-      return
-    } else {
-      const email = "user@teste.com"
-      const password = "123456"
-  
-      const data = await this.TaonRepository.Login(email, password)
-  
-      await this.repository.SaveLoginData(data);
-    }
-
+  ) {
+    this.loginRetries = 0
   }
 
-  async LoadUserData() {
-    const email = "user@teste.com"
+  async ValidateUser() : Promise<void> {
+    const userData = await this.repository.GetLoginData();
+
+    try {
+      if (userData) {
+        await this.TaonRepository.ValidateSession(userData.token)
+        return
+      } else {
+        const {email, password} = this.GetUserInfo()
+    
+        const data = await this.TaonRepository.Login(email, password)
+    
+        await this.repository.SaveLoginData(data);
+      }
+    } catch (error) {
+      if (this.loginRetries >= 3) {
+        throw new MaxLoginReached("Max login retries reached, try logging in again", error)
+      }
+      if (this.IsBackendError(error)) {
+        await this.repository.Destroy();
+        this.loginRetries += 1
+        // TODO adicionar mensagem de retry no console
+        await this.ValidateUser();
+      } else {
+        throw error
+      }
+    }
+  }
+
+  async LoadInitialData(deviceNumber : number) : Promise<void> {
+    const userData = await this.repository.GetLoginData();
+
+    // TODO: Tentar tratar este erro, o catch não funcionou aqui para jogar para o handler global do index    
+    const data = await this.TaonRepository.GetInitialData(userData.token, deviceNumber)
+    await this.repository.SaveUserData(data)
 
   }
 
   GetUserInfo() {
-    let email = ""
-    let password = ""
+    // TODO: Capturar email e password do usuário
 
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout
-    });
-    
-    rl.question('What is your email? ', (answer) => {
-      email = answer
-      rl.close();
-    });
+    const email = "user@teste.com"
+    const password = "123456"
 
-    rl.question('What is your password? ', (answer) => {
-      password = answer
-      rl.close();
-    });
+    return { email, password }
 
-    return {email, password}
   }
+
+  private IsBackendError(error : BackendError) {
+    return error?.status === 401
+  }
+
+  // GetUserInfo() {
+  //   let email = ""
+  //   let password = ""
+
+  //   const rl = readline.createInterface({
+  //     input: process.stdin,
+  //     output: process.stdout
+  //   });
+    
+  //   rl.question('What is your email? ', (answer) => {
+  //     email = answer
+  //     rl.close();
+  //   });
+
+  //   rl.question('What is your password? ', (answer) => {
+  //     password = answer
+  //     rl.close();
+  //   });
+
+  //   return {email, password}
+  // }
 
   // eslint-disable-next-line class-methods-use-this
   async ErrorCatcher(callback: () => any) {

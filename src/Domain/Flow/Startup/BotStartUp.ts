@@ -1,6 +1,8 @@
 import { Service } from 'typedi';
 import { Message } from 'venom-bot';
 import SessionHandler from '../../../Services/SessionManagement/SessionHandler';
+import TaonRepository from '../../../Services/TaonBackend/TaonRepository';
+import UserDataHandler from '../../../Services/UserData/UserDataHandler';
 import Client from '../../Models/Client';
 import StepFactory from '../Steps/StepFactory/StepFactory';
 
@@ -8,7 +10,12 @@ import StepFactory from '../Steps/StepFactory/StepFactory';
 export default class BotStartup {
   bot: any;
 
-  constructor(private readonly SessionHandler : SessionHandler) {}
+  constructor(
+    private readonly SessionHandler : SessionHandler,
+    private readonly TaonRepository : TaonRepository,
+    private readonly UserDataHandler : UserDataHandler) {
+
+    }
 
   public Start() {
     this.bot.onMessage(async (inboundMessage: Message) => {
@@ -31,6 +38,13 @@ export default class BotStartup {
         // No actions for messages received from groups
       }
     });
+  }
+
+  public async LoadUserInfo() {
+    const botInfo = await this.bot.getHostDevice(); 
+    const { id: { user : deviceNumber } } = botInfo
+    
+    await this.UserDataHandler.LoadInitialData(deviceNumber);
   }
 
   private IsValidMessage(inboundMessage: Message) {

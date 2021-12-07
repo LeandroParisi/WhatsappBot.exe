@@ -1,10 +1,20 @@
 const Datastore = require('nedb-promises');
 const errorHandler = require('../Shared/errorHandler');
 
-const db = Datastore.create('./src/data/userData/userData.db');
+const sessionData = Datastore.create('./src/data/userData/sessionData.db');
 
-db.on('__error__', (datastore, event, error) => {
+sessionData.on('__error__', (datastore, event, error) => {
   errorHandler(datastore, event, error);
 });
 
-module.exports = db;
+
+const userData = Datastore.create('./src/data/userData/userData.db');
+
+userData.on('__error__', (datastore, event, error) => {
+  errorHandler(datastore, event, error);
+});
+
+module.exports = {
+  sessionData,
+  userData
+};
