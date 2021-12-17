@@ -2,8 +2,8 @@ import Datastore = require("nedb-promises");
 import { Service } from "typedi";
 import Client from "../../Domain/Models/Client";
 import { api } from "../TaonBackend/services/api";
-import LoginData from "../../Domain/Models/LoginData";
-import BranchData from "../../Domain/Models/BranchData";
+import LoginData from "../../data/Interfaces/LoginData";
+import BranchData from "../../data/Interfaces/BranchData";
 
 const { sessionData, userData } = require('./config');
 
@@ -21,8 +21,12 @@ export default class UserDataRepository {
     await this.sessionData.insert(data);
   }
 
-  async Destroy() {
+  async DestroySessionData() {
     await this.sessionData.remove({}, { multi: true });
+  }
+
+  async DestroyUserData() {
+    await this.userData.remove({}, { multi: true });
   }
 
   async GetLoginData() : Promise<LoginData> {
@@ -31,6 +35,7 @@ export default class UserDataRepository {
   }
 
   async SaveUserData(userData : BranchData) : Promise<any> {
+    await this.DestroyUserData();
     await this.userData.insert(userData);
   }
 }

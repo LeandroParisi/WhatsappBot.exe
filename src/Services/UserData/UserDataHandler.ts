@@ -4,6 +4,8 @@ import MaxLoginReached from '../Abstractions/Errors/MaxLoginReached';
 import BackendError from '../Abstractions/Errors/BackendError';
 import TaonRepository from '../TaonBackend/TaonRepository';
 import UserDataRepository from "./UserDataRepository";
+import BranchData from '../../data/Interfaces/BranchData';
+import BranchDataUtils from '../../Domain/Utils/BranchDataUtils';
 
 @Service()
 export default class UserDataHandler {
@@ -35,7 +37,7 @@ export default class UserDataHandler {
         throw new MaxLoginReached("Max login retries reached, try logging in again", error)
       }
       if (this.IsBackendError(error)) {
-        await this.repository.Destroy();
+        await this.repository.DestroySessionData();
         this.loginRetries += 1
         // TODO adicionar mensagem de retry no console
         await this.ValidateUser();
@@ -45,13 +47,17 @@ export default class UserDataHandler {
     }
   }
 
-  async LoadInitialData(deviceNumber : number) : Promise<void> {
+  async LoadInitialData(deviceNumber : string) : Promise<BranchData> {
     const userData = await this.repository.GetLoginData();
 
     // TODO: Tentar tratar este erro, o catch não funcionou aqui para jogar para o handler global do index    
     const data = await this.TaonRepository.GetInitialData(userData.token, deviceNumber)
+    
+    data.formattedPromotions = BranchDataUtils.GeneratePromotionsMessage(data.promotions)
+    
     await this.repository.SaveUserData(data)
 
+    return data
   }
 
   GetUserInfo() {

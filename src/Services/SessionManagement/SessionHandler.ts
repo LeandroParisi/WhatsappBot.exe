@@ -8,8 +8,8 @@ export default class SessionHandler {
   }
 
   async CheckIn(client: Client) : Promise<number> {
+    // TODO: Verificação da última data de checkin do cliente, se for muito velha resetar a sessão
     const foundClient = await this.repository.GetClientById(client._id);
-    console.log({foundClient})
 
     if (foundClient) {
       client.currentStep = foundClient.currentStep     

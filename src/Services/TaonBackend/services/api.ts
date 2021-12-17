@@ -1,15 +1,10 @@
+import Config from "../../../config"
 import BackendError from "../../Abstractions/Errors/BackendError"
 
 /* eslint-disable max-len */
 const axios = require('axios')
 
-const env : 'dev' | 'prod' =  'dev'
 
-const backendUrl = {
-  // dev: `${process.env.REACT_APP_LOCAL_URL}`,
-  dev: "http://localhost:3030/",
-  prod: "",
-}
 
 interface IApi {
   method: string,
@@ -33,7 +28,7 @@ const api = async ({
   const options = {
     method,
     headers: headers && { ...headers },
-    url: `${backendUrl[env]}${endpoint}`,
+    url: `${Config.backendUrl}${endpoint}`,
     data: body && { ...body },
     ...otherOptions,
   }

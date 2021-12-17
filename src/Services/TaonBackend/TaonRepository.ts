@@ -1,6 +1,6 @@
 import { Service } from "typedi"
-import BranchData from "../../Domain/Models/BranchData";
-import LoginData from "../../Domain/Models/LoginData";
+import BranchData from "../../data/Interfaces/BranchData";
+import LoginData from "../../data/Interfaces/LoginData";
 import { api } from "./services/api"
 
 @Service()
@@ -30,7 +30,7 @@ export default class TaonRepository {
     })
   }
 
-  async GetInitialData(token : string, whatsappNumber : number) : Promise<BranchData> {
+  async GetInitialData(token : string, whatsappNumber : string) : Promise<BranchData> {
     const endpoint = "branches/bot/initialLoad"
     const method = "GET"
 

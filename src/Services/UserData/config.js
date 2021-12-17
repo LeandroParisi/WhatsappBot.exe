@@ -8,7 +8,7 @@ sessionData.on('__error__', (datastore, event, error) => {
 });
 
 
-const userData = Datastore.create('./src/data/userData/userData.db');
+const userData = Datastore.create('./src/data/userData/branchData.db');
 
 userData.on('__error__', (datastore, event, error) => {
   errorHandler(datastore, event, error);
