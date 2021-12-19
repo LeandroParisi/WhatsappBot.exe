@@ -21,11 +21,11 @@ export default interface BranchData {
   deliveryTypes : Array<DeliveryType>,
   promotions : Array<Promotion>
   botName : string,
-  formattedPromotions : string
+  templateMessages : TemplateMessages
 }
 
-interface DeliveryFees {
-  fees: Array<any>,
+export interface DeliveryFees {
+  fees: DeliveryFeeType,
   type: string,
 }
 
@@ -45,14 +45,14 @@ export interface HourInfo {
   overnight: boolean,
 }
 
-interface PaymentMethod {
+export interface PaymentMethod {
   id: number,
-  paymentMethod: string
+  paymentMethod: PaymentMethodsEnum
 }
 
-interface DeliveryType {
+export interface DeliveryType {
   id: number,
-  deliveryType: string
+  deliveryType: DeliveryTypesEnum
 }
 
 export interface Promotion {
@@ -80,7 +80,46 @@ export interface Attribute {
   quantity: number
 }
 
+export interface TemplateMessages {
+  formattedPromotions : string
+  openingHours : string
+  deliveryInformation : string
+  paymentMethods : string
+}
+
+export interface DayInfo {
+  hours: string[],
+  isOpened: boolean,
+  overnight: boolean
+}
+
 export enum AttributeTypes {
   sizes = 'sizes',
   additionals =  'additionals',
 }
+
+export enum DeliveryFeeTypesEnum {
+    UNIQUE = 'unique',
+    RADIUS = 'radius',
+    // neighborhood: 'neighborhood',
+}
+
+export enum DeliveryTypesEnum {
+  DELIVERY = 'delivery',
+  COUNTER_PICKUP = 'counter_pickup',
+  ON_SPOT_CONSUMPTION = 'on_spot_consumption',
+}
+
+export enum PaymentMethodsEnum {
+  MONEY = 'money',
+  PIX = 'pix',
+  CREDIT = 'credit',
+  DEBIT = 'debit',
+  ALELO_MEAL = 'alelo_meal',
+  ALELO_FOOD = 'alelo_food',
+  SODEXO_MEAL = 'sodexo_meal',
+  SODEXO_FOOD = 'sodexo_food',
+}
+
+export type DeliveryFeeType = number | Array<Array<number>>
+  

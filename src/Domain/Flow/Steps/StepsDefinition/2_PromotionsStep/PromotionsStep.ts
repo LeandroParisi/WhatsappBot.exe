@@ -5,54 +5,78 @@ import Client from "../../../../Models/Client";
 import IStep, { STEP_NUMBERS } from "../../Interfaces/IStep";
 import MainMenu from "../10_MainMenu/MainMenu";
 import StepInfo from "../../Messages/StepInfo";
-import IOptionsStep from "../../Interfaces/IOptionsStep";
 import Validations from "../../../Utils/Validations";
-import BranchDataUtils from "../../../../Utils/BranchDataUtils";
 import MessageUtils from "../../../../Utils/MessageUtils";
 import PromotionsSelectionStep from "../DefaultSteps/PromotionsSelectionStep";
+import ReturnToMenu from "../DefaultSteps/ReturnToMenu";
+import OptionsStep from "../../Interfaces/OptionsStep";
+import StepError from "../../../../Abstractions/Errors/StepError";
 
 
 enum PossibleAnswers {
   back = "VOLTAR",
 }
 
+enum SelectedOption {
+  buy = "BUY_PROMOTION",
+  invalidPromotionNumber = "INVALID_PROMOTION_NUMBER",
+  back = "VOLTAR"
+}
+
 @staticImplements<IStep>()
-// @staticImplements<IOptionsStep>()
 export default class PromotionsStep {
   static STEP_NUMBER = STEP_NUMBERS.promotionStep
   static STEP_NAME = "Selecionar promoção"
   
   static Interact(client: Client, message : Message, branchData : BranchData) : StepInfo {
     const clientAnswer = message.body
-    if (this.ValidateAnswer(clientAnswer, branchData.promotions.length)) {
-      console.log('Promotions validation')
-      console.log(this.ValidateAnswer(clientAnswer, branchData.promotions.length))
-      return PromotionsSelectionStep.GenerateMessage({
-        promotions: branchData.formattedPromotions, 
-        prefixMessages: ['VALIDO!, mas vamos testar essa porra!'] 
-      })
+    const { isValid, selectedOption } = this.ValidateAnswer(clientAnswer, branchData.promotions.length)
+
+    if (isValid) {
+      return this.AnswerFactory(selectedOption, branchData)
     } else {
       return PromotionsSelectionStep.GenerateMessage({ 
-        promotions: branchData.formattedPromotions, 
-        prefixMessages: ['Desculpe, não entendi qual opção deseja.\nFavor tentar novamente.'] 
+        prefixMessages: ['Desculpe, não entendi qual opção deseja.\nFavor tentar novamente.'],
+        promotions: branchData.templateMessages.formattedPromotions
       })
     }
   }
 
-  private static ValidateAnswer(answer : string, numberOfOptions : number) : boolean {
+  private static ValidateAnswer(answer : string, numberOfOptions : number) : {isValid : boolean, selectedOption? : SelectedOption} {
     if (Validations.IsNumber(answer)) {
       const formattedAnswer = MessageUtils.FormatNumberOption(answer)
-      return formattedAnswer >= numberOfOptions && formattedAnswer <= numberOfOptions
+      const isValidNumber = formattedAnswer >= numberOfOptions && formattedAnswer <= numberOfOptions
+      return { 
+        isValid: true,
+        selectedOption: isValidNumber 
+          ? SelectedOption.buy 
+          : SelectedOption.invalidPromotionNumber
+        }
     } else if (answer.toUpperCase().trim() === PossibleAnswers.back) {
-      return true
+      return {isValid: true, selectedOption: SelectedOption.back}
     } else {
-      return false
+      return { isValid: false }
     }
   }
 
-  // static AnswerFactory(selectedOption : number, branchData : BranchData) : StepInfo {
-  //   switch (selectedOption) {
-      
-  //   }
-  // }
+  private static AnswerFactory(selectedOption: SelectedOption, branchData: BranchData): StepInfo {
+    switch (selectedOption) {
+      case SelectedOption.buy:
+        return new StepInfo(
+          [
+            'TODO: Implementar a compra direta de promoção'
+          ],
+          STEP_NUMBERS.mainMenu
+        )
+      case SelectedOption.invalidPromotionNumber:
+        return PromotionsSelectionStep.GenerateMessage({ 
+          promotions: branchData.templateMessages.formattedPromotions, 
+          prefixMessages: ['Desculpe, não existe essa promoção, favor digitar um número válido.'] 
+        })
+      case SelectedOption.back:
+        return ReturnToMenu.GenerateMessage({})
+      default:
+        throw new StepError(this.STEP_NUMBER, "Answers was validated, but it wasn't possible to determine which Step to send user based on his answer")
+    }
+  }
 }

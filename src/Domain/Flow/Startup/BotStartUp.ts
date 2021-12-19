@@ -5,7 +5,6 @@ import SessionHandler from '../../../Services/SessionManagement/SessionHandler';
 import TaonRepository from '../../../Services/TaonBackend/TaonRepository';
 import UserDataHandler from '../../../Services/UserData/UserDataHandler';
 import Client from '../../Models/Client';
-import BranchDataUtils from '../../Utils/BranchDataUtils';
 import StepFactory from '../Steps/StepsDefinition/StepFactory/StepFactory';
 
 @Service()
@@ -51,8 +50,6 @@ export default class BotStartup {
     const branchData = await this.UserDataHandler.LoadInitialData(deviceNumber);
 
     this.SetBranchData(branchData)
-
-    // console.log(BranchDataUtils.GeneratePromotionsMessage(branchData.promotions))
   }
 
   private IsValidMessage(inboundMessage: Message) {

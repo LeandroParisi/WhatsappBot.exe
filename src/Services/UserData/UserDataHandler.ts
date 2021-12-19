@@ -5,7 +5,7 @@ import BackendError from '../Abstractions/Errors/BackendError';
 import TaonRepository from '../TaonBackend/TaonRepository';
 import UserDataRepository from "./UserDataRepository";
 import BranchData from '../../data/Interfaces/BranchData';
-import BranchDataUtils from '../../Domain/Utils/BranchDataUtils';
+import TemplateMessagesGenerator from '../../Domain/Utils/TemplateMessagesGenerator';
 
 @Service()
 export default class UserDataHandler {
@@ -53,11 +53,11 @@ export default class UserDataHandler {
     // TODO: Tentar tratar este erro, o catch não funcionou aqui para jogar para o handler global do index    
     const data = await this.TaonRepository.GetInitialData(userData.token, deviceNumber)
     
-    data.formattedPromotions = BranchDataUtils.GeneratePromotionsMessage(data.promotions)
+    const branchData = this.GenerateTemplateMessages(data)
     
-    await this.repository.SaveUserData(data)
+    await this.repository.SaveUserData(branchData)
 
-    return data
+    return branchData
   }
 
   GetUserInfo() {
@@ -72,6 +72,23 @@ export default class UserDataHandler {
 
   private IsBackendError(error : BackendError) {
     return error?.status === 401
+  }
+
+  private GenerateTemplateMessages(data : BranchData) : BranchData {
+    const branchData = {
+      ...data,
+      templateMessages: {
+        formattedPromotions: TemplateMessagesGenerator.GeneratePromotionsMessage(data.promotions),
+        openingHours: TemplateMessagesGenerator.GenerateOpeningHoursMessage(data.openingHours),
+        deliveryInformation: TemplateMessagesGenerator.GenerateDeliveryInformationMessage(
+          data.deliveryTypes,
+          data.deliveryFees
+        ),
+        paymentMethods: TemplateMessagesGenerator.GeneratePaymentMethodsMessage(data.paymentMethods)
+      }
+    }
+
+    return branchData
   }
 
   // GetUserInfo() {

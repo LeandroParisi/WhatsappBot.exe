@@ -3,14 +3,15 @@ import Config from "../../../../../config";
 import BranchData, { OpeningHours, Promotion } from "../../../../../data/Interfaces/BranchData";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
 import Client from "../../../../Models/Client";
-import BranchDataUtils from "../../../../Utils/BranchDataUtils";
 import MessageUtils from "../../../../Utils/MessageUtils";
-import IOptionsStep from "../../Interfaces/IOptionsStep";
+import IOptionsStep from "../../Interfaces/OptionsStep";
 import IStep, { STEP_NUMBERS } from "../../Interfaces/IStep";
 import StepInfo from "../../Messages/StepInfo";
 import ClosingStep from "../9_ClosingStep/ClosingStep";
 import PromotionsSelectionStep from "../DefaultSteps/PromotionsSelectionStep";
 import { UnidentifiedStep } from "../StepFactory/StepFactory";
+import OptionsStep from "../../Interfaces/OptionsStep";
+import StepError from "../../../../Abstractions/Errors/StepError";
 
 const options = [
   '1. Fazer pedido',
@@ -21,7 +22,6 @@ const options = [
 ]
 
 @staticImplements<IStep>()
-@staticImplements<IOptionsStep>()
 export default class MainMenu {
   static STEP_NUMBER = STEP_NUMBERS.mainMenu
   static STEP_NAME = 'Main menu';
@@ -49,7 +49,7 @@ export default class MainMenu {
     return /^[1-9]$/.test(answer) && Number(answer) <= options.length
   }
 
-  static AnswerFactory(selectedOption : number, branchData : BranchData) : StepInfo {
+  private static AnswerFactory(selectedOption : number, branchData : BranchData) : StepInfo {
     switch (selectedOption) {
       case 1:
         return new StepInfo(
@@ -60,29 +60,36 @@ export default class MainMenu {
           STEP_NUMBERS.closingStep
         )
       case 2:
-        return this.PromotionsMessageFactory(branchData.formattedPromotions)
+        return this.PromotionsMessageFactory(branchData.templateMessages.formattedPromotions)
       case 3:
         return new StepInfo(
           [
             "Nossos horários de funcionamento são:",
-            this.GenerateOpeningHoursMessage(branchData.openingHours),
-            this.INTRO_MESSAGE,
-            this.MENU_OPTIONS,
+            branchData.templateMessages.openingHours,
+            ClosingStep.INTRO_MESSAGE,
           ],
-          STEP_NUMBERS.mainMenu
+          STEP_NUMBERS.closingStep
         )
       case 4:
-        throw new Error("Não implementado")
-      case 5:
-        throw new Error("Não implementado")
-      default: 
         return new StepInfo(
           [
-            "Desculpe, não consegui interpretar sua última mensagem, poderia tentar novamente?",
-            this.INTRO_MESSAGE
+            "Nossa política de entrega é a seguinte:",
+            branchData.templateMessages.deliveryInformation,
+            ClosingStep.INTRO_MESSAGE,
           ],
-          STEP_NUMBERS.mainMenu
+          STEP_NUMBERS.closingStep
         )
+      case 5:
+        return new StepInfo(
+          [
+            branchData.templateMessages.paymentMethods,
+            ClosingStep.INTRO_MESSAGE,
+          ],
+          STEP_NUMBERS.closingStep
+        )
+      default:
+        throw new StepError(this.STEP_NUMBER, `Invalid stepNumber selected by user ${selectedOption}`)
+
     }
   }
 
@@ -100,9 +107,4 @@ export default class MainMenu {
     }
   }
 
-  private static GenerateOpeningHoursMessage(openingHours : OpeningHours) : string {
-    let message = ""
-
-    return message
-  }
 }

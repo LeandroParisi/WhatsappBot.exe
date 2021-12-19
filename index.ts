@@ -25,7 +25,7 @@ class Main {
       });
       
       this.botStartup.SetBot(bot);
-      this.botStartup.LoadUserInfo();
+      await this.botStartup.LoadUserInfo();
       console.log("Bot running")
       this.botStartup.Start();
 

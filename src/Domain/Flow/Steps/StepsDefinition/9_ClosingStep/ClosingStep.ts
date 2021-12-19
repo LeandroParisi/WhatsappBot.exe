@@ -3,13 +3,13 @@ import BranchData from "../../../../../data/Interfaces/BranchData"
 import staticImplements from "../../../../../Shared/Anotations/staticImplements"
 import Client from "../../../../Models/Client"
 import MessageUtils from "../../../../Utils/MessageUtils"
-import IOptionsStep from "../../Interfaces/IOptionsStep"
+import IOptionsStep from "../../Interfaces/OptionsStep"
 import IStep, { STEP_NUMBERS } from "../../Interfaces/IStep"
 import StepInfo from "../../Messages/StepInfo"
 import MainMenu from "../10_MainMenu/MainMenu"
+import ReturnToMenu from "../DefaultSteps/ReturnToMenu"
 
 @staticImplements<IStep>()
-@staticImplements<IOptionsStep>()
 export default class ClosingStep {
   static STEP_NUMBER = STEP_NUMBERS.closingStep
   static STEP_NAME = "Fechamento"
@@ -33,16 +33,10 @@ export default class ClosingStep {
     }
   }
 
-  static AnswerFactory(selectedOption: number, branchData: BranchData): StepInfo {
+  private static AnswerFactory(selectedOption: number, branchData: BranchData): StepInfo {
     switch (selectedOption) {
       case 1:
-        return new StepInfo(
-          [
-            `Perfeito! Me diga então qual informação deseja (digite o número da opção para darmos continuidade)`,
-            MainMenu.MENU_OPTIONS,
-          ],
-          STEP_NUMBERS.mainMenu
-        )
+        return ReturnToMenu.GenerateMessage({})
       case 2:
         return new StepInfo(
           [
