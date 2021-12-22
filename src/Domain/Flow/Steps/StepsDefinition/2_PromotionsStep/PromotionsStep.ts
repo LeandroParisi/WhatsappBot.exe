@@ -1,5 +1,5 @@
 import { Message } from "venom-bot";
-import BranchData from "../../../../../data/Interfaces/BranchData";
+import BranchData, { PromotionsInformation } from "../../../../../data/Interfaces/BranchData";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
 import Client from "../../../../Models/Client";
 import IStep, { STEP_NUMBERS } from "../../Interfaces/IStep";
@@ -30,19 +30,29 @@ export default class PromotionsStep {
   
   static Interact(client: Client, message : Message, branchData : BranchData) : StepInfo {
     const clientAnswer = message.body
-    const { isValid, selectedOption } = this.ValidateAnswer(clientAnswer, branchData.promotions.length)
+    
+    const { isValid, selectedOption } = this.ValidateAnswer(
+      clientAnswer,
+      branchData.templateMessages.promotionsInformation.avaiablePromotions
+    )
 
     if (isValid) {
-      return this.AnswerFactory(selectedOption, branchData)
+      return this.AnswerFactory(selectedOption, branchData.templateMessages.promotionsInformation)
     } else {
       return PromotionsSelectionStep.GenerateMessage({ 
         prefixMessages: ['Desculpe, não entendi qual opção deseja.\nFavor tentar novamente.'],
-        promotions: branchData.templateMessages.formattedPromotions
+        promotions: branchData.templateMessages.promotionsInformation.message
       })
     }
   }
 
-  private static ValidateAnswer(answer : string, numberOfOptions : number) : {isValid : boolean, selectedOption? : SelectedOption} {
+  private static ValidateAnswer(
+    answer : string,
+    numberOfOptions : number
+  ) : {
+    isValid : boolean,
+    selectedOption? : SelectedOption
+  } {
     if (Validations.IsNumber(answer)) {
       const formattedAnswer = MessageUtils.FormatNumberOption(answer)
       const isValidNumber = formattedAnswer >= numberOfOptions && formattedAnswer <= numberOfOptions
@@ -53,13 +63,13 @@ export default class PromotionsStep {
           : SelectedOption.invalidPromotionNumber
         }
     } else if (answer.toUpperCase().trim() === PossibleAnswers.back) {
-      return {isValid: true, selectedOption: SelectedOption.back}
+      return { isValid: true, selectedOption: SelectedOption.back }
     } else {
       return { isValid: false }
     }
   }
 
-  private static AnswerFactory(selectedOption: SelectedOption, branchData: BranchData): StepInfo {
+  private static AnswerFactory(selectedOption: SelectedOption, promotions: PromotionsInformation): StepInfo {
     switch (selectedOption) {
       case SelectedOption.buy:
         return new StepInfo(
@@ -70,7 +80,7 @@ export default class PromotionsStep {
         )
       case SelectedOption.invalidPromotionNumber:
         return PromotionsSelectionStep.GenerateMessage({ 
-          promotions: branchData.templateMessages.formattedPromotions, 
+          promotions: promotions.message, 
           prefixMessages: ['Desculpe, não existe essa promoção, favor digitar um número válido.'] 
         })
       case SelectedOption.back:

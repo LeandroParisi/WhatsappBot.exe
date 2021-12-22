@@ -81,10 +81,16 @@ export interface Attribute {
 }
 
 export interface TemplateMessages {
-  formattedPromotions : string
+  promotionsInformation : PromotionsInformation
   openingHours : string
   deliveryInformation : string
   paymentMethods : string
+}
+
+export interface PromotionsInformation {
+  message : string
+  hasPromotions : boolean
+  avaiablePromotions : number
 }
 
 export interface DayInfo {

@@ -1,15 +1,29 @@
-import { Promotion, Product, Attribute, AttributeTypes, OpeningHours, DayInfo, DeliveryType, DeliveryFees, DeliveryFeeTypesEnum, DeliveryFeeType, PaymentMethod } from "../../data/Interfaces/BranchData";
+import { Promotion, Product, Attribute, AttributeTypes, OpeningHours, DayInfo, DeliveryType, DeliveryFees, DeliveryFeeTypesEnum, DeliveryFeeType, PaymentMethod, PromotionsInformation } from "../../data/Interfaces/BranchData";
 import staticImplements from "../../Shared/Anotations/staticImplements";
 import DaysUtils from "../../Shared/Utils/DaysUtils";
 import DeliveryTypeUtils from "../../Shared/Utils/DeliveryTypeUtils";
 import GenericParser from "../../Shared/Utils/GenericParser";
 import PaymentMethodsUtils from "../../Shared/Utils/PaymentMethodsUtils";
+import PromotionsUtils from "../../Shared/Utils/PromotionsUtils";
 import SystemUtils from "../../Shared/Utils/SystemUtils";
 import GenerateTemplateMessageError from "../Abstractions/Errors/GenerateTemplateMessageError";
 
 @staticImplements()
 export default class TemplateMessagesGenerator {
-  static GeneratePromotionsMessage(promotions : Promotion[]) : string {
+  static GeneratePromotionsMessage(promotions : Promotion[], dateNow : Date) : PromotionsInformation {
+
+    const currentDay = DaysUtils.GetDayNumberFromTimestamp(dateNow.getTime() / 1000)
+
+    const avaiablePromotions = PromotionsUtils.GetAvaiablePromotions(promotions, currentDay)
+
+    if (avaiablePromotions.length === 0) {
+      return {
+        message: "Infelizmente hoje estamos sem nenhuma promoção disponível.",
+        hasPromotions: false,
+        avaiablePromotions: 0
+      } 
+    }
+
     const message = promotions.map((promotion : Promotion, promoIndex : number) => {
       const promotionMessage =  `*${promoIndex + 1}. ${promotion.name}* - R$ ${promotion.totalPrice}:
       \n*Produtos:*`
@@ -31,7 +45,11 @@ export default class TemplateMessagesGenerator {
       return promotionMessage + formattedProduct
     }).join("\n---\n\n")
 
-    return message
+    return {
+      message,
+      hasPromotions: true,
+      avaiablePromotions: avaiablePromotions.length
+    }
   }
 
   static GenerateOpeningHoursMessage(openingHours : OpeningHours) : string {

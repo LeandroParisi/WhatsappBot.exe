@@ -3,10 +3,8 @@ import BranchData from "../../../../../data/Interfaces/BranchData"
 import staticImplements from "../../../../../Shared/Anotations/staticImplements"
 import Client from "../../../../Models/Client"
 import MessageUtils from "../../../../Utils/MessageUtils"
-import IOptionsStep from "../../Interfaces/OptionsStep"
 import IStep, { STEP_NUMBERS } from "../../Interfaces/IStep"
 import StepInfo from "../../Messages/StepInfo"
-import MainMenu from "../10_MainMenu/MainMenu"
 import ReturnToMenu from "../DefaultSteps/ReturnToMenu"
 
 @staticImplements<IStep>()
@@ -57,8 +55,6 @@ export default class ClosingStep {
   }
 
   private static ValidateAnswer(answer : string) : boolean {
-    console.log("Validation")
-    console.log(  /^[1-2]$/.test(answer))
     return /^[1-2]$/.test(answer)
   }
 }

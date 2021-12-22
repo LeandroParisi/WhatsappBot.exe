@@ -1,6 +1,6 @@
 import { Message } from "venom-bot";
 import Config from "../../../../../config";
-import BranchData, { OpeningHours, Promotion } from "../../../../../data/Interfaces/BranchData";
+import BranchData, { OpeningHours, Promotion, PromotionsInformation } from "../../../../../data/Interfaces/BranchData";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
 import Client from "../../../../Models/Client";
 import MessageUtils from "../../../../Utils/MessageUtils";
@@ -60,7 +60,7 @@ export default class MainMenu {
           STEP_NUMBERS.closingStep
         )
       case 2:
-        return this.PromotionsMessageFactory(branchData.templateMessages.formattedPromotions)
+        return this.PromotionsMessageFactory(branchData.templateMessages.promotionsInformation)
       case 3:
         return new StepInfo(
           [
@@ -93,9 +93,9 @@ export default class MainMenu {
     }
   }
 
-  private static PromotionsMessageFactory(promotions: string): StepInfo {
-    if (!!promotions.length) {
-      return PromotionsSelectionStep.GenerateMessage({ promotions })
+  private static PromotionsMessageFactory(promotions: PromotionsInformation): StepInfo {
+    if (promotions.hasPromotions) {
+      return PromotionsSelectionStep.GenerateMessage({ promotions: promotions.message })
     } else {
       return new StepInfo (
         [

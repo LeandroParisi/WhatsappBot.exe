@@ -1,4 +1,3 @@
-import MainMenu from "../StepsDefinition/10_MainMenu/MainMenu";
 import IStepInfo from "./IStepInfo";
 
 export default class StepInfo implements IStepInfo {

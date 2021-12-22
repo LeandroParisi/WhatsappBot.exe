@@ -6,6 +6,8 @@ import TaonRepository from '../TaonBackend/TaonRepository';
 import UserDataRepository from "./UserDataRepository";
 import BranchData from '../../data/Interfaces/BranchData';
 import TemplateMessagesGenerator from '../../Domain/Utils/TemplateMessagesGenerator';
+import DaysUtils from '../../Shared/Utils/DaysUtils';
+import SessionRepository from '../SessionManagement/SessionRepository';
 
 @Service()
 export default class UserDataHandler {
@@ -18,19 +20,20 @@ export default class UserDataHandler {
     this.loginRetries = 0
   }
 
-  async ValidateUser() : Promise<void> {
+  async ValidateUser() : Promise<string> {
     const userData = await this.repository.GetLoginData();
 
     try {
       if (userData) {
         await this.TaonRepository.ValidateSession(userData.token)
-        return
+        return userData._id
       } else {
-        const {email, password} = this.GetUserInfo()
+        const { email, password } = this.GetUserInfo()
     
         const data = await this.TaonRepository.Login(email, password)
     
-        await this.repository.SaveLoginData(data);
+        const insertedId = await this.repository.SaveLoginData(data);
+        return insertedId
       }
     } catch (error) {
       if (this.loginRetries >= 3) {
@@ -47,20 +50,27 @@ export default class UserDataHandler {
     }
   }
 
+  async SetStartupTime(userId : string, lastStartup : Date) {
+    await this.repository.UpdateUserData(
+      { _id: userId },
+      { lastStartup }
+    )
+  }
+
   async LoadInitialData(deviceNumber : string) : Promise<BranchData> {
     const userData = await this.repository.GetLoginData();
 
     // TODO: Tentar tratar este erro, o catch não funcionou aqui para jogar para o handler global do index    
     const data = await this.TaonRepository.GetInitialData(userData.token, deviceNumber)
     
-    const branchData = this.GenerateTemplateMessages(data)
+    const branchData = await this.GenerateTemplateMessages(data)
     
     await this.repository.SaveUserData(branchData)
 
     return branchData
   }
 
-  GetUserInfo() {
+  private GetUserInfo() {
     // TODO: Capturar email e password do usuário
 
     const email = "user@teste.com"
@@ -74,11 +84,13 @@ export default class UserDataHandler {
     return error?.status === 401
   }
 
-  private GenerateTemplateMessages(data : BranchData) : BranchData {
+  private async GenerateTemplateMessages(data : BranchData) : Promise<BranchData> {
+    const { lastStartup } = await this.repository.GetLoginData()
+
     const branchData = {
       ...data,
       templateMessages: {
-        formattedPromotions: TemplateMessagesGenerator.GeneratePromotionsMessage(data.promotions),
+        promotionsInformation: TemplateMessagesGenerator.GeneratePromotionsMessage(data.promotions, lastStartup),
         openingHours: TemplateMessagesGenerator.GenerateOpeningHoursMessage(data.openingHours),
         deliveryInformation: TemplateMessagesGenerator.GenerateDeliveryInformationMessage(
           data.deliveryTypes,

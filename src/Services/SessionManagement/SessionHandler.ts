@@ -1,10 +1,16 @@
 import { Service } from "typedi";
+import { Message } from "venom-bot";
 import Client from "../../Domain/Models/Client";
+import DaysUtils from "../../Shared/Utils/DaysUtils";
+import UserDataRepository from "../UserData/UserDataRepository";
 import SessionRepository from './SessionRepository';
 
 @Service()
 export default class SessionHandler {
-  constructor(private readonly repository : SessionRepository) {
+  constructor(
+    private readonly repository : SessionRepository,
+    private readonly UserDataRepository : UserDataRepository
+  ) {
   }
 
   async CheckIn(client: Client) : Promise<number> {
@@ -12,7 +18,7 @@ export default class SessionHandler {
     const foundClient = await this.repository.GetClientById(client._id);
 
     if (foundClient) {
-      client.currentStep = foundClient.currentStep     
+      client.currentStep = foundClient.currentStep
       return foundClient.currentStep;
     }
     
@@ -20,10 +26,25 @@ export default class SessionHandler {
 
     return insertedClient.currentStep;
   }
+  
+  public async UpdateTemplateMessages(currentSession : Client, startupDate : Date) {
+    const currentSessionTime = currentSession.lastMessage
+    const daysDifference = DaysUtils.GetDatesDifferenceInDays(currentSessionTime, startupDate)
+    // DOING
+    if (daysDifference) {
+      
+    }
+
+  }
 
   async UpdateClientStep(client : Client, nextStep : number) {
-    client.currentStep = nextStep
-    await this.repository.UpdateClient(client, { currentStep: nextStep })
+    await this.repository.UpdateClient(
+      client, 
+      { 
+        currentStep: nextStep,
+        lastMessage: client.lastMessage
+      }
+    )
   }
 
   // eslint-disable-next-line class-methods-use-this

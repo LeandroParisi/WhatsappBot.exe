@@ -7,28 +7,26 @@ const venom = require('venom-bot')
 
 class Main {
   botStartup : BotStartup
-  UserDataHandler : UserDataHandler
 
   constructor() {
     this.botStartup = Container.get(BotStartup);
-    this.UserDataHandler = Container.get(UserDataHandler)
   }
 
   async createBot() {
     try {
-      await this.UserDataHandler.ValidateUser();
-      // Carga inicial -> nome do bot, promoções do dia, ?
+      await this.botStartup.InitialLoad();
       
       const bot = await venom.create({
         session: 'session-name', // name of session
         multidevice: false, // for version not multidevice use false.(default: true)
       });
-      
       this.botStartup.SetBot(bot);
+
       await this.botStartup.LoadUserInfo();
-      console.log("Bot running")
+
       this.botStartup.Start();
 
+      console.log("Bot Running")
     } catch (error) {
       // Enviar log do erro para um servidor
       console.log(error);

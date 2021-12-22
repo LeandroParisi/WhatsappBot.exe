@@ -4,21 +4,21 @@ import Client from "../../Domain/Models/Client";
 import { api } from "../TaonBackend/services/api";
 import LoginData from "../../data/Interfaces/LoginData";
 import BranchData from "../../data/Interfaces/BranchData";
-
-const { sessionData, userData } = require('./config');
+import BranchDataDb from './config'
 
 @Service()
 export default class UserDataRepository {
   sessionData : Datastore
-  userData : Datastore
+  branchData : Datastore
 
   constructor() {
-    this.sessionData = sessionData;
-    this.userData = userData;
+    this.sessionData = BranchDataDb.sessionData;
+    this.branchData = BranchDataDb.branchData;
   }
 
-  async SaveLoginData(data : LoginData) : Promise<void> {
-    await this.sessionData.insert(data);
+  async SaveLoginData(data : LoginData) : Promise<string> {
+    const insertedData = await this.sessionData.insert(data);
+    return insertedData._id
   }
 
   async DestroySessionData() {
@@ -26,7 +26,7 @@ export default class UserDataRepository {
   }
 
   async DestroyUserData() {
-    await this.userData.remove({}, { multi: true });
+    await this.branchData.remove({}, { multi: true });
   }
 
   async GetLoginData() : Promise<LoginData> {
@@ -34,9 +34,13 @@ export default class UserDataRepository {
     return data;
   }
 
-  async SaveUserData(userData : BranchData) : Promise<any> {
+  async SaveUserData(branchData : BranchData) : Promise<any> {
     await this.DestroyUserData();
-    await this.userData.insert(userData);
+    await this.branchData.insert(branchData);
+  }
+
+  async UpdateUserData(query : any, payload: { lastStartup: Date; }) {
+    await this.sessionData.update(query, { $set: payload })
   }
 }
 

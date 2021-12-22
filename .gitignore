@@ -8,7 +8,8 @@ lerna-debug.log*
 
 # Custom ignores
 tokens/
-src/data/sessionDb
+src/data/sessionManagement
+src/data/userData
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json

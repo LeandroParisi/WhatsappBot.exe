@@ -23,7 +23,7 @@ export default class SessionRepository {
   }
 
   async UpdateClient(client : Client, payload : any) : Promise<number> {
-    const affectedRows = await this.db.update({_id: client._id}, {$set: payload})
+    const affectedRows = await this.db.update({ _id: client._id }, { $set: payload })
     return affectedRows
   }
 }
