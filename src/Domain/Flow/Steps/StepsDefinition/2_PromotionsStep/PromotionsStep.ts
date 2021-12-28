@@ -11,6 +11,8 @@ import PromotionsSelectionStep from "../DefaultSteps/PromotionsSelectionStep";
 import ReturnToMenu from "../DefaultSteps/ReturnToMenu";
 import OptionsStep from "../../Interfaces/OptionsStep";
 import StepError from "../../../../Abstractions/Errors/StepError";
+import { SessionData } from "../../../Startup/BotStartUp";
+import DaysUtils from "../../../../../Shared/Utils/DaysUtils";
 
 
 enum PossibleAnswers {
@@ -20,7 +22,8 @@ enum PossibleAnswers {
 enum SelectedOption {
   buy = "BUY_PROMOTION",
   invalidPromotionNumber = "INVALID_PROMOTION_NUMBER",
-  back = "VOLTAR"
+  back = "VOLTAR",
+  outdatedOptions = "OUTDATED_OPTIONS"
 }
 
 @staticImplements<IStep>()
@@ -28,12 +31,14 @@ export default class PromotionsStep {
   static STEP_NUMBER = STEP_NUMBERS.promotionStep
   static STEP_NAME = "Selecionar promoção"
   
-  static Interact(client: Client, message : Message, branchData : BranchData) : StepInfo {
+  static Interact(client: Client, message : Message, sessionData : SessionData) : StepInfo {
     const clientAnswer = message.body
+    const { branchData, startupDate } = sessionData
     
     const { isValid, selectedOption } = this.ValidateAnswer(
       clientAnswer,
-      branchData.templateMessages.promotionsInformation.avaiablePromotions
+      sessionData,
+      client
     )
 
     if (isValid) {
@@ -48,24 +53,33 @@ export default class PromotionsStep {
 
   private static ValidateAnswer(
     answer : string,
-    numberOfOptions : number
+    { branchData, startupDate } : SessionData,
+    client : Client,
   ) : {
     isValid : boolean,
     selectedOption? : SelectedOption
   } {
-    if (Validations.IsNumber(answer)) {
-      const formattedAnswer = MessageUtils.FormatNumberOption(answer)
-      const isValidNumber = formattedAnswer >= numberOfOptions && formattedAnswer <= numberOfOptions
-      return { 
+    const numberOfOptions = branchData.avaiablePromotions.length
+    const daysDifference = DaysUtils.GetDatesDifferenceInDays(client.lastMessage, startupDate)
+
+    if (daysDifference) {
+      return {
         isValid: true,
-        selectedOption: isValidNumber 
-          ? SelectedOption.buy 
-          : SelectedOption.invalidPromotionNumber
-        }
+        selectedOption: SelectedOption.outdatedOptions
+      }
+    } else if (Validations.IsNumber(answer)) {
+        const formattedAnswer = MessageUtils.FormatNumberOption(answer)
+        const isValidNumber = formattedAnswer >= numberOfOptions && formattedAnswer <= numberOfOptions
+        return { 
+          isValid: true,
+          selectedOption: isValidNumber 
+            ? SelectedOption.buy 
+            : SelectedOption.invalidPromotionNumber
+          }
     } else if (answer.toUpperCase().trim() === PossibleAnswers.back) {
-      return { isValid: true, selectedOption: SelectedOption.back }
+        return { isValid: true, selectedOption: SelectedOption.back }
     } else {
-      return { isValid: false }
+        return { isValid: false }
     }
   }
 
@@ -85,6 +99,11 @@ export default class PromotionsStep {
         })
       case SelectedOption.back:
         return ReturnToMenu.GenerateMessage({})
+      case SelectedOption.outdatedOptions:
+        return PromotionsSelectionStep.GenerateMessage({
+          promotions: promotions.message, 
+          prefixMessages: ['Opa, já passou da meia noite!! As promoções que te apresentei anteriormente eram de ontem, vou te mandar a nova lista para você escolher, tudo bem?'] 
+        })
       default:
         throw new StepError(this.STEP_NUMBER, "Answers was validated, but it wasn't possible to determine which Step to send user based on his answer")
     }

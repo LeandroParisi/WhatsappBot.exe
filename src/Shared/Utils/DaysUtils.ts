@@ -65,4 +65,12 @@ export default class DaysUtils {
 
     return yearsDifference * 360 + monthsDifference * 30 + daysDifference
   }
+
+  static SubtractTimeFromDate(currentDate : Date, hoursToSubtract : number) : Date {
+    var numberOfMlSeconds = currentDate.getTime();
+    var addMlSeconds = (hoursToSubtract * 60) * 60 * 1000;
+    var newDateObj = new Date(numberOfMlSeconds - addMlSeconds);
+
+    return newDateObj;
+}
 }

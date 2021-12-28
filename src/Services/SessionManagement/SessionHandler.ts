@@ -1,5 +1,6 @@
 import { Service } from "typedi";
 import { Message } from "venom-bot";
+import Config from "../../config";
 import Client from "../../Domain/Models/Client";
 import DaysUtils from "../../Shared/Utils/DaysUtils";
 import UserDataRepository from "../UserData/UserDataRepository";
@@ -9,7 +10,6 @@ import SessionRepository from './SessionRepository';
 export default class SessionHandler {
   constructor(
     private readonly repository : SessionRepository,
-    private readonly UserDataRepository : UserDataRepository
   ) {
   }
 
@@ -26,16 +26,6 @@ export default class SessionHandler {
 
     return insertedClient.currentStep;
   }
-  
-  public async UpdateTemplateMessages(currentSession : Client, startupDate : Date) {
-    const currentSessionTime = currentSession.lastMessage
-    const daysDifference = DaysUtils.GetDatesDifferenceInDays(currentSessionTime, startupDate)
-    // DOING
-    if (daysDifference) {
-      
-    }
-
-  }
 
   async UpdateClientStep(client : Client, nextStep : number) {
     await this.repository.UpdateClient(
@@ -46,6 +36,29 @@ export default class SessionHandler {
       }
     )
   }
+
+  async ValidateCurrentSessions(startupDate : Date) : Promise<void> {
+    const lastMessageLimit = DaysUtils.SubtractTimeFromDate(
+      startupDate, Config.sessionResetRules.lastMessageInHours
+    )
+
+    const findQuery = {
+      $or: [
+        { currentStep: { $in: Config.sessionResetRules.currenStep } },
+        { lastMessage: { $lte: lastMessageLimit } }
+      ]
+    }
+
+    const invalidSessions = await this.repository.FindAll(findQuery);
+
+    const deleteQuery = {
+      _id: { $in: invalidSessions.map((client : Client) => client._id)}
+    }
+
+    await this.repository.DeleteClient(deleteQuery)
+  }
+
+
 
   // eslint-disable-next-line class-methods-use-this
   async ErrorCatcher(callback: () => any) {

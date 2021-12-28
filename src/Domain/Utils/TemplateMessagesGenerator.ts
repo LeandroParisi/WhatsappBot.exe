@@ -10,21 +10,15 @@ import GenerateTemplateMessageError from "../Abstractions/Errors/GenerateTemplat
 
 @staticImplements()
 export default class TemplateMessagesGenerator {
-  static GeneratePromotionsMessage(promotions : Promotion[], dateNow : Date) : PromotionsInformation {
-
-    const currentDay = DaysUtils.GetDayNumberFromTimestamp(dateNow.getTime() / 1000)
-
-    const avaiablePromotions = PromotionsUtils.GetAvaiablePromotions(promotions, currentDay)
-
+  static GeneratePromotionsMessage(avaiablePromotions : Promotion[]) : PromotionsInformation {
     if (avaiablePromotions.length === 0) {
       return {
         message: "Infelizmente hoje estamos sem nenhuma promoção disponível.",
         hasPromotions: false,
-        avaiablePromotions: 0
       } 
     }
 
-    const message = promotions.map((promotion : Promotion, promoIndex : number) => {
+    const message = avaiablePromotions.map((promotion : Promotion, promoIndex : number) => {
       const promotionMessage =  `*${promoIndex + 1}. ${promotion.name}* - R$ ${promotion.totalPrice}:
       \n*Produtos:*`
 
@@ -48,7 +42,6 @@ export default class TemplateMessagesGenerator {
     return {
       message,
       hasPromotions: true,
-      avaiablePromotions: avaiablePromotions.length
     }
   }
 
@@ -100,8 +93,6 @@ export default class TemplateMessagesGenerator {
 
   private static CreateDeliveryFeeText(deliveryFees: DeliveryFees) {
     let deliveryFeeText = "*Taxas:*\n"
-
-    console.log(DeliveryFeeTypesEnum.RADIUS)
 
     if (deliveryFees.type === DeliveryFeeTypesEnum.UNIQUE) {
       return deliveryFeeText += this.ParseUniqueFeeType(deliveryFees.fees)

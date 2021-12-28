@@ -4,10 +4,12 @@ import MaxLoginReached from '../Abstractions/Errors/MaxLoginReached';
 import BackendError from '../Abstractions/Errors/BackendError';
 import TaonRepository from '../TaonBackend/TaonRepository';
 import UserDataRepository from "./UserDataRepository";
-import BranchData from '../../data/Interfaces/BranchData';
+import BranchData, { Promotion } from '../../data/Interfaces/BranchData';
 import TemplateMessagesGenerator from '../../Domain/Utils/TemplateMessagesGenerator';
 import DaysUtils from '../../Shared/Utils/DaysUtils';
 import SessionRepository from '../SessionManagement/SessionRepository';
+import PromotionsUtils from '../../Shared/Utils/PromotionsUtils';
+import Client from '../../Domain/Models/Client';
 
 @Service()
 export default class UserDataHandler {
@@ -22,6 +24,7 @@ export default class UserDataHandler {
 
   async ValidateUser() : Promise<string> {
     const userData = await this.repository.GetLoginData();
+    console.log({userData})
 
     try {
       if (userData) {
@@ -63,11 +66,36 @@ export default class UserDataHandler {
     // TODO: Tentar tratar este erro, o catch não funcionou aqui para jogar para o handler global do index    
     const data = await this.TaonRepository.GetInitialData(userData.token, deviceNumber)
     
-    const branchData = await this.GenerateTemplateMessages(data)
-    
-    await this.repository.SaveUserData(branchData)
+
+    const branchData = await this.EnrichBranchData(data)
 
     return branchData
+  }
+
+  public async UpdateTemplateMessages(
+    currentDate : Date,
+    branchData : BranchData
+  ) {
+    const { lastStartup } = await this.repository.GetLoginData()
+
+    const daysDifference = DaysUtils.GetDatesDifferenceInDays(currentDate, lastStartup)
+
+    if (daysDifference) {
+      return this.FilterPromotions(branchData, lastStartup)
+    } else {
+      return branchData
+    }
+
+  }
+  
+  private async EnrichBranchData(branchData: BranchData) : Promise<BranchData> {
+    const { lastStartup } = await this.repository.GetLoginData()
+
+    let enrichedBranchData = this.FilterPromotions(branchData, lastStartup)
+
+    enrichedBranchData = this.GenerateTemplateMessages(enrichedBranchData)
+    
+    return enrichedBranchData
   }
 
   private GetUserInfo() {
@@ -84,13 +112,28 @@ export default class UserDataHandler {
     return error?.status === 401
   }
 
-  private async GenerateTemplateMessages(data : BranchData) : Promise<BranchData> {
-    const { lastStartup } = await this.repository.GetLoginData()
+  private FilterPromotions(branchData : BranchData, lastStartup : Date) : BranchData {
+    const currentDay = DaysUtils.GetDayNumberFromTimestamp(lastStartup.getTime() / 1000)
 
+    const avaiablePromotions = PromotionsUtils.GetAvaiablePromotions(branchData.promotions, currentDay)
+
+    let enrichedBranchData = { 
+      ...branchData,
+      avaiablePromotions: [...avaiablePromotions],
+      templateMessages: {
+        ...branchData.templateMessages,
+        promotionsInformation: TemplateMessagesGenerator.GeneratePromotionsMessage(avaiablePromotions),
+      }
+    }
+
+    return enrichedBranchData
+  }
+
+  private GenerateTemplateMessages(data : BranchData) : BranchData {
     const branchData = {
       ...data,
       templateMessages: {
-        promotionsInformation: TemplateMessagesGenerator.GeneratePromotionsMessage(data.promotions, lastStartup),
+        promotionsInformation: TemplateMessagesGenerator.GeneratePromotionsMessage(data.avaiablePromotions),
         openingHours: TemplateMessagesGenerator.GenerateOpeningHoursMessage(data.openingHours),
         deliveryInformation: TemplateMessagesGenerator.GenerateDeliveryInformationMessage(
           data.deliveryTypes,

@@ -16,23 +16,32 @@ interface SetupInfo {
   stepHandler : IStep
 }
 
+export interface SessionData {
+  branchData : BranchData
+  startupDate : Date
+}
+
 @Service()
 export default class BotStartup {
   private bot: any;
-  private branchData: BranchData
-  private startupDate: Date;
+  private sessionData : SessionData
 
   constructor(
     private readonly SessionHandler : SessionHandler,
     private readonly TaonRepository : TaonRepository,
-    private readonly UserDataHandler : UserDataHandler) {}
+    private readonly UserDataHandler : UserDataHandler) {
+      this.sessionData = {
+        branchData: null,
+        startupDate: null
+      }
+    }
 
   public Start() {
     this.bot.onMessage(async (inboundMessage: Message) => {
       if (this.IsValidMessage(inboundMessage)) {
         const { client, stepHandler } = await this.MessageSetup(inboundMessage)
 
-        const stepInfo = stepHandler.Interact(client, inboundMessage, this.branchData)
+        const stepInfo = stepHandler.Interact(client, inboundMessage, this.sessionData)
 
         // TODO: validação que o stepInfo voltou certo
         for (let outboundMessage of stepInfo.outboundMessages) {
@@ -52,7 +61,9 @@ export default class BotStartup {
 
     const currentStep = await this.SessionHandler.CheckIn(client);
     
-    await this.SessionHandler.UpdateTemplateMessages(client, this.startupDate)     
+    const branchData = await this.UserDataHandler.UpdateTemplateMessages(client.lastMessage, this.sessionData.branchData)   
+    
+    this.SetBranchData(branchData)
   
     const stepHandler = StepFactory.Create(currentStep)
 
@@ -62,10 +73,9 @@ export default class BotStartup {
     }
   }
 
-  public async InitialLoad() : Promise<void> {
+  public async ValidateUser(startupDate : Date) : Promise<void> {
     const userId = await this.UserDataHandler.ValidateUser();
-    const startupDate = DaysUtils.GetDateFromTimestamp(Date.now() / 1000)
-    this.startupDate = startupDate
+    this.sessionData.startupDate = startupDate
     await this.UserDataHandler.SetStartupTime(userId, startupDate)
   }
 
@@ -89,6 +99,6 @@ export default class BotStartup {
   }
 
   private SetBranchData(branchData: BranchData) {
-    this.branchData = branchData
+    this.sessionData.branchData = branchData
   }
 }

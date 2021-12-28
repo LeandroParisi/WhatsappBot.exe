@@ -19,7 +19,8 @@ export default interface BranchData {
   openingHours : OpeningHours,
   paymentMethods : Array<PaymentMethod>,
   deliveryTypes : Array<DeliveryType>,
-  promotions : Array<Promotion>
+  promotions : Array<Promotion>,
+  avaiablePromotions : Array<Promotion>,
   botName : string,
   templateMessages : TemplateMessages
 }
@@ -90,7 +91,6 @@ export interface TemplateMessages {
 export interface PromotionsInformation {
   message : string
   hasPromotions : boolean
-  avaiablePromotions : number
 }
 
 export interface DayInfo {

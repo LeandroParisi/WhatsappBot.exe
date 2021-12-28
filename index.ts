@@ -1,38 +1,59 @@
 import 'reflect-metadata';
 import Container from 'typedi';
+import Config from './src/config';
 import BotStartup from './src/Domain/Flow/Startup/BotStartUp'
 import UserDataHandler from './src/Services/UserData/UserDataHandler';
+import SessionHandler from './src/Services/SessionManagement/SessionHandler'
+import DaysUtils from './src/Shared/Utils/DaysUtils';
 
 const venom = require('venom-bot')
 
 class Main {
-  botStartup : BotStartup
+  BotStartup : BotStartup
+  SessionHandler : SessionHandler
 
   constructor() {
-    this.botStartup = Container.get(BotStartup);
+    this.BotStartup = Container.get(BotStartup);
+    this.SessionHandler = Container.get(SessionHandler)
   }
 
-  async createBot() {
+  async Run() {
     try {
-      await this.botStartup.InitialLoad();
-      
-      const bot = await venom.create({
-        session: 'session-name', // name of session
-        multidevice: false, // for version not multidevice use false.(default: true)
-      });
-      this.botStartup.SetBot(bot);
+      await this.Startup()
 
-      await this.botStartup.LoadUserInfo();
+      const bot = await this.CreateBot()
 
-      this.botStartup.Start();
+      await this.InitialLoad(bot)
 
-      console.log("Bot Running")
+      this.BotStartup.Start();
     } catch (error) {
-      // Enviar log do erro para um servidor
+      // Trace
       console.log(error);
     }
   }
+
+  private async CreateBot() : Promise<any> {
+    const bot = await venom.create({
+      session: 'session-name', // name of session
+      multidevice: false, // for version not multidevice use false.(default: true)
+    });
+
+    return bot
+  }
+
+  private async Startup() {
+    const startupDate = DaysUtils.GetDateFromTimestamp(Date.now() / 1000)
+    await this.BotStartup.ValidateUser(startupDate);
+    await this.SessionHandler.ValidateCurrentSessions(startupDate);
+  }
+
+  private async InitialLoad(bot : any) : Promise<void> {
+    this.BotStartup.SetBot(bot);
+
+    await this.BotStartup.LoadUserInfo();
+  }
+  
 }
 
 
-new Main().createBot();
+new Main().Run();

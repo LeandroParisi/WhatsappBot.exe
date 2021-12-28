@@ -1,6 +1,7 @@
 import { Message } from "venom-bot";
 import BranchData from "../../../../data/Interfaces/BranchData";
 import Client from "../../../Models/Client"
+import { SessionData } from "../../Startup/BotStartUp";
 import StepInfo from "../Messages/StepInfo";
 
 export const STEP_NUMBERS = {
@@ -14,5 +15,5 @@ export default interface IStep {
   STEP_NUMBER : number
   STEP_NAME : string
 
-  Interact(client: Client, message : Message, branchData : BranchData) : StepInfo
+  Interact(client: Client, message : Message, sessionData : SessionData) : StepInfo
 }

@@ -9,11 +9,9 @@ import BranchDataDb from './config'
 @Service()
 export default class UserDataRepository {
   sessionData : Datastore
-  branchData : Datastore
 
   constructor() {
     this.sessionData = BranchDataDb.sessionData;
-    this.branchData = BranchDataDb.branchData;
   }
 
   async SaveLoginData(data : LoginData) : Promise<string> {
@@ -25,18 +23,9 @@ export default class UserDataRepository {
     await this.sessionData.remove({}, { multi: true });
   }
 
-  async DestroyUserData() {
-    await this.branchData.remove({}, { multi: true });
-  }
-
   async GetLoginData() : Promise<LoginData> {
     const data = await this.sessionData.findOne({});
     return data;
-  }
-
-  async SaveUserData(branchData : BranchData) : Promise<any> {
-    await this.DestroyUserData();
-    await this.branchData.insert(branchData);
   }
 
   async UpdateUserData(query : any, payload: { lastStartup: Date; }) {

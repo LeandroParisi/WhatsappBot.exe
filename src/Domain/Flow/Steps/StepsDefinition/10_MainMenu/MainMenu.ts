@@ -12,6 +12,7 @@ import PromotionsSelectionStep from "../DefaultSteps/PromotionsSelectionStep";
 import { UnidentifiedStep } from "../StepFactory/StepFactory";
 import OptionsStep from "../../Interfaces/OptionsStep";
 import StepError from "../../../../Abstractions/Errors/StepError";
+import { SessionData } from "../../../Startup/BotStartUp";
 
 const options = [
   '1. Fazer pedido',
@@ -29,7 +30,7 @@ export default class MainMenu {
   static INTRO_MESSAGE = "Em que posso te ajudar hoje?\n(Digite o número da opção para darmos continuidade)"
   static MENU_OPTIONS = options.join("\n")
 
-  static Interact(client: Client, message: Message, branchData : BranchData): StepInfo {
+  static Interact(client: Client, message: Message, { branchData } : SessionData): StepInfo {
     const clientAnswer = message.body
     if (this.ValidateAnswer(clientAnswer)) {
       return this.AnswerFactory(MessageUtils.FormatNumberOption(clientAnswer), branchData)

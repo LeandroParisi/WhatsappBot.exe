@@ -26,5 +26,15 @@ export default class SessionRepository {
     const affectedRows = await this.db.update({ _id: client._id }, { $set: payload })
     return affectedRows
   }
+
+  async FindAll(query : Object) : Promise<Array<Client>> {
+    const clients = await this.db.find(query)
+    return clients as Array<Client>
+  }
+
+  async DeleteClient(query : Object) : Promise<any> {
+    const affectedRows = await this.db.remove(query, { multi: true })
+    return affectedRows
+  }
 }
 

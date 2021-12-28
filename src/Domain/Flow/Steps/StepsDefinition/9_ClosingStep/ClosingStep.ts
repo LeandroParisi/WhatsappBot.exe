@@ -3,6 +3,7 @@ import BranchData from "../../../../../data/Interfaces/BranchData"
 import staticImplements from "../../../../../Shared/Anotations/staticImplements"
 import Client from "../../../../Models/Client"
 import MessageUtils from "../../../../Utils/MessageUtils"
+import { SessionData } from "../../../Startup/BotStartUp"
 import IStep, { STEP_NUMBERS } from "../../Interfaces/IStep"
 import StepInfo from "../../Messages/StepInfo"
 import ReturnToMenu from "../DefaultSteps/ReturnToMenu"
@@ -14,11 +15,11 @@ export default class ClosingStep {
   
   static INTRO_MESSAGE = "Posso lhe ajudar em mais alguma coisa?\n1. Sim\n2. Não"
 
-  static Interact(client : Client, message : Message, branchData : BranchData) : StepInfo {
+  static Interact(client : Client, message : Message, { branchData } : SessionData) : StepInfo {
     const clientAnswer = message.body
 
     if (this.ValidateAnswer(clientAnswer.trim())) {
-      return this.AnswerFactory(MessageUtils.FormatNumberOption(clientAnswer), branchData)
+      return this.AnswerFactory(MessageUtils.FormatNumberOption(clientAnswer))
     } else {
       return new StepInfo(
         [
@@ -31,7 +32,7 @@ export default class ClosingStep {
     }
   }
 
-  private static AnswerFactory(selectedOption: number, branchData: BranchData): StepInfo {
+  private static AnswerFactory(selectedOption: number): StepInfo {
     switch (selectedOption) {
       case 1:
         return ReturnToMenu.GenerateMessage({})
