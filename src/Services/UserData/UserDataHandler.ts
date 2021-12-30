@@ -1,4 +1,3 @@
-import readline = require('readline');
 import { Service } from "typedi";
 import MaxLoginReached from '../Abstractions/Errors/MaxLoginReached';
 import BackendError from '../Abstractions/Errors/BackendError';
@@ -7,9 +6,7 @@ import UserDataRepository from "./UserDataRepository";
 import BranchData, { Promotion } from '../../data/Interfaces/BranchData';
 import TemplateMessagesGenerator from '../../Domain/Utils/TemplateMessagesGenerator';
 import DaysUtils from '../../Shared/Utils/DaysUtils';
-import SessionRepository from '../SessionManagement/SessionRepository';
 import PromotionsUtils from '../../Shared/Utils/PromotionsUtils';
-import Client from '../../Domain/Models/Client';
 
 @Service()
 export default class UserDataHandler {
@@ -24,7 +21,6 @@ export default class UserDataHandler {
 
   async ValidateUser() : Promise<string> {
     const userData = await this.repository.GetLoginData();
-    console.log({userData})
 
     try {
       if (userData) {

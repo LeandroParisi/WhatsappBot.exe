@@ -10,6 +10,7 @@ import MessageUtils from '../../Utils/MessageUtils';
 import IStep from '../Steps/Interfaces/IStep';
 import StepFactory from '../Steps/StepsDefinition/StepFactory/StepFactory';
 import BranchDataDb from "../../../Services/UserData/config"
+import ActionsFactory from '../StepActions/ActionDefinitions/ActionsFactory/ActionsFactory';
 
 interface SetupInfo {
   client : Client
@@ -41,11 +42,15 @@ export default class BotStartup {
       if (this.IsValidMessage(inboundMessage)) {
         const { client, stepHandler } = await this.MessageSetup(inboundMessage)
 
-        const stepInfo = stepHandler.Interact(client, inboundMessage, this.sessionData)
+        const stepInfo = stepHandler.Interact(client, inboundMessage, { ...this.sessionData })
 
-        // TODO: validação que o stepInfo voltou certo
         for (let outboundMessage of stepInfo.outboundMessages) {
           await this.bot.sendText(client._id, outboundMessage)
+        }
+
+        if (stepInfo.requiredAction) {
+          const action = ActionsFactory.Create(stepInfo.requiredAction)
+          action.DispatchAction(stepInfo.actionPayload, client);
         }
 
         await this.SessionHandler.UpdateClientStep(client, stepInfo.nextStep)
