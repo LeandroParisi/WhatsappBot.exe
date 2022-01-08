@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "npx ts-node index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dbtest": "node ./tests/dbTests.js"
   },
@@ -20,18 +20,27 @@
   },
   "homepage": "https://github.com/LeandroParisi/bot.ext_taon#readme",
   "dependencies": {
+    "axios": "^0.24.0",
     "nedb": "^1.8.0",
     "nedb-promises": "^5.0.2",
+    "node-fetch": "^3.1.0",
+    "reflect-metadata": "^0.1.13",
+    "ts-node": "^10.4.0",
+    "typedi": "^0.10.0",
+    "typescript": "^4.5.2",
+    "uuid": "^8.3.2",
     "venom-bot": "^4.0.1"
   },
   "devDependencies": {
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb": "^18.2.1",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.24.1",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-react": "^7.24.0",
-    "eslint-plugin-react-hooks": "^1.7.0",
+    "@types/uuid": "^8.3.4",
+    "@typescript-eslint/eslint-plugin": "^2.34.0",
+    "electron": "^16.0.4",
+    "eslint": "^6.8.0",
+    "eslint-config-standard-with-typescript": "^21.0.1",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.3.1",
+    "eslint-plugin-standard": "^4.1.0",
     "nodemon": "^2.0.7"
   }
 }

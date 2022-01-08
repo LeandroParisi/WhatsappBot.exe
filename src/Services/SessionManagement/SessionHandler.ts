@@ -1,0 +1,77 @@
+import { Service } from "typedi";
+import { Message } from "venom-bot";
+import Config from "../../config";
+import Customer from "../../Domain/Models/Customer";
+import DaysUtils from "../../Shared/Utils/DaysUtils";
+import TaonRepository from "../TaonBackend/TaonRepository";
+import CustomerRepository from './CustomerRepository';
+
+@Service()
+export default class SessionHandler {
+  constructor(
+    private readonly Repository : CustomerRepository,
+    private readonly TaonRepository : TaonRepository
+  ) {
+  }
+
+  async CheckIn(message: Message) : Promise<Customer> {
+    const foundCustomer = await this.Repository.GetClientById(message.from);
+    
+    if (foundCustomer) return foundCustomer;
+
+    const customer = new Customer(message);
+
+    const customerInfo = await this.TaonRepository.CheckCustomerInfo(customer, message)
+
+    customer.info = customerInfo
+
+    await this.Repository.InsertCustomer(customer)
+
+    return customer;
+  }
+
+  async UpdateClientStep(client : Customer, nextStep : number) {
+    await this.Repository.UpdateClient(
+      client, 
+      { 
+        currentStep: nextStep,
+        lastMessage: client.lastMessage
+      }
+    )
+  }
+
+  async ValidateCurrentSessions(startupDate : Date) : Promise<void> {
+    const { sessionResetRules } = Config
+
+    const lastMessageLimit = DaysUtils.SubtractTimeFromDate(
+      startupDate, sessionResetRules.lastMessageInHours
+    )
+
+    const findQuery = {
+      $or: [
+        { currentStep: { $in: sessionResetRules.currenStep } },
+        { lastMessage: { $lte: lastMessageLimit } }
+      ]
+    }
+
+    const invalidSessions = await this.Repository.FindAll(findQuery);
+
+    const deleteQuery = {
+      _id: { $in: invalidSessions.map((client : Customer) => client._id)}
+    }
+
+    await this.Repository.DeleteClient(deleteQuery)
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async ErrorCatcher(callback: () => any) {
+    try {
+      const result = await callback();
+      return result;
+    } catch (error) {
+      // No need to treat error since it's already beeing treated
+      // on config/database.onError event listener
+      return null;
+    }
+  }
+}
