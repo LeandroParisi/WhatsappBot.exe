@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios"
 import Config from "../../../config"
 import BackendError from "../../Abstractions/Errors/BackendError"
 

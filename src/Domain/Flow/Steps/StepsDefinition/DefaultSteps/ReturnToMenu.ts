@@ -1,5 +1,5 @@
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
-import { STEP_NUMBERS } from "../../Interfaces/IStep";
+import { StepNumbers } from "../../Interfaces/IStep";
 import IStepInfo from "../../Messages/IStepInfo";
 import StepInfo from "../../Messages/StepInfo";
 import MainMenu from "../10_MainMenu/MainMenu";
@@ -23,7 +23,7 @@ export default class ReturnToMenu {
         MainMenu.MENU_OPTIONS,
       ...sufixMessages
       ],
-      STEP_NUMBERS.mainMenu
+      StepNumbers.mainMenu
     )
   }
 

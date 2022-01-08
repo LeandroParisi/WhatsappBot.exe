@@ -1,10 +1,10 @@
-import { StepActionEnum } from "../../Flow/StepActions/Interfaces/IStepAction";
+import { ActionsEnum } from "../../Flow/StepActions/Interfaces/IActionHandler";
 
 export default class StepActionError extends Error {
-  action: StepActionEnum;
+  action: ActionsEnum;
   originalError: any;
 
-  constructor (action : StepActionEnum, message : string, error? : any) {
+  constructor (action : ActionsEnum, message : string, error? : any) {
     super();
     this.action = action,
     this.message = message

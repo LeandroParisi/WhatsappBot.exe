@@ -1,20 +1,18 @@
 import { Message } from "venom-bot";
 import BranchData, { Promotion, PromotionsInformation } from "../../../../../data/Interfaces/BranchData";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
-import Client from "../../../../Models/Client";
-import IStep, { STEP_NUMBERS } from "../../Interfaces/IStep";
-import MainMenu from "../10_MainMenu/MainMenu";
+import Customer from "../../../../Models/Customer";
+import IStep, { StepNumbers } from "../../Interfaces/IStep";
 import StepInfo from "../../Messages/StepInfo";
 import Validations from "../../../Utils/Validations";
 import MessageUtils from "../../../../Utils/MessageUtils";
 import PromotionsSelectionStep from "../DefaultSteps/PromotionsSelectionStep";
 import ReturnToMenu from "../DefaultSteps/ReturnToMenu";
-import OptionsStep from "../../Interfaces/OptionsStep";
 import StepError from "../../../../Abstractions/Errors/StepError";
 import { SessionData } from "../../../Startup/BotStartUp";
 import DaysUtils from "../../../../../Shared/Utils/DaysUtils";
-import { StepActionEnum } from "../../../StepActions/Interfaces/IStepAction";
-import { BuyPromotionPayload } from "../../../StepActions/DTOs/BuyPromotionPayload";
+import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
+import { RegisterOrderDTO } from "../../../StepActions/ActionDefinitions/RegisterOrderAction/RegisterOrderDTO";
 
 enum PossibleAnswers {
   back = "VOLTAR",
@@ -29,10 +27,10 @@ enum SelectedOption {
 
 @staticImplements<IStep>()
 export default class PromotionsStep {
-  static STEP_NUMBER = STEP_NUMBERS.promotionStep
+  static STEP_NUMBER = StepNumbers.promotionStep
   static STEP_NAME = "Selecionar promoção"
   
-  static Interact(client: Client, message : Message, sessionData : SessionData) : StepInfo {
+  static Interact(client: Customer, message : Message, sessionData : SessionData) : StepInfo {
     const clientAnswer = message.body
     const { branchData, startupDate } = sessionData
     
@@ -59,7 +57,7 @@ export default class PromotionsStep {
   private static ValidateAnswer(
     answer : string,
     { branchData, startupDate } : SessionData,
-    client : Client,
+    client : Customer,
   ) : {
     isValid : boolean,
     selectedOption? : SelectedOption
@@ -99,12 +97,13 @@ export default class PromotionsStep {
       case SelectedOption.buy:
         return new StepInfo(
           [
-            'TODO: Implementar a compra direta de promoção'
+            'Perfeito! Perfeito, precisamos confirmar alguns dados antes de finalizar seu pedido:'
           ],
-          STEP_NUMBERS.mainMenu,
-          StepActionEnum.BUY_PROMOTION,
-          new BuyPromotionPayload(
-            branchData.avaiablePromotions[formattedAnswer - 1].id,
+          StepNumbers.enrichOrderStep,
+          ActionsEnum.REGISTER_ORDER,
+          new RegisterOrderDTO(
+            branchData.avaiablePromotions.find(
+              (x : Promotion) => x.id === formattedAnswer).id,
             branchData.id
           )
         )

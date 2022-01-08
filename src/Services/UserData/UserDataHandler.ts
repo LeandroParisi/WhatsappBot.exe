@@ -126,20 +126,37 @@ export default class UserDataHandler {
   }
 
   private GenerateTemplateMessages(data : BranchData) : BranchData {
-    const branchData = {
-      ...data,
-      templateMessages: {
-        promotionsInformation: TemplateMessagesGenerator.GeneratePromotionsMessage(data.avaiablePromotions),
-        openingHours: TemplateMessagesGenerator.GenerateOpeningHoursMessage(data.openingHours),
-        deliveryInformation: TemplateMessagesGenerator.GenerateDeliveryInformationMessage(
-          data.deliveryTypes,
-          data.deliveryFees
-        ),
-        paymentMethods: TemplateMessagesGenerator.GeneratePaymentMethodsMessage(data.paymentMethods)
-      }
-    }
 
-    return branchData
+    data.templateMessages.deliveryInformation = 
+    TemplateMessagesGenerator
+      .GenerateDeliveryInformationMessage(
+        data.deliveryTypes,
+        data.deliveryFees
+      )
+
+    data.templateMessages.openingHours = 
+    TemplateMessagesGenerator
+      .GenerateOpeningHoursMessage(data.openingHours)
+
+    data.templateMessages.paymentMethods = 
+    TemplateMessagesGenerator
+      .GeneratePaymentMethodsMessage(data.paymentMethods)
+
+    data.templateMessages.promotionsInformation = 
+    TemplateMessagesGenerator
+      .GeneratePromotionsMessage(data.avaiablePromotions)
+
+    data.templateMessages.deliveryTypes = 
+    TemplateMessagesGenerator
+      .CreateDeliveryTypeText(data.deliveryTypes)
+
+    const {paymentMethods, deliveryTypes, } = data
+    console.log({ templates: data.templateMessages })
+    console.log({ paymentMethods })
+    console.log({ deliveryTypes })
+
+
+    return data
   }
 
   // GetUserInfo() {

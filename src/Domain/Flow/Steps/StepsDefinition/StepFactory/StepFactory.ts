@@ -1,28 +1,28 @@
 import { Message } from "venom-bot";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
-import Client from "../../../../Models/Client";
-import IStep, {STEP_NUMBERS} from "../../Interfaces/IStep";
+import Customer from "../../../../Models/Customer";
+import IStep, {StepNumbers} from "../../Interfaces/IStep";
 import MainMenu from "../10_MainMenu/MainMenu";
 import StepInfo from "../../Messages/StepInfo";
 import WelcomeStep from "../1_WelcomeStep/WelcomeStep";
 import ClosingStep from "../9_ClosingStep/ClosingStep";
-import PromotionsStep from "../2_PromotionsStep/PromotionsStep";
+import PromotionsStep from "../2.1_PromotionsStep/PromotionsStep";
 
 export default class StepFactory {
   static Create(currentStep : number) : IStep {
-    if (!new Set([...Object.values(STEP_NUMBERS)]).has(currentStep)) {
+    if (!new Set([...Object.values(StepNumbers)]).has(currentStep)) {
       // TODO: enviar log de erro para o backend
       return UnidentifiedStep 
     }
 
     switch (currentStep) {
-      case STEP_NUMBERS.welcomeStep:
+      case StepNumbers.welcomeStep:
         return WelcomeStep
-      case STEP_NUMBERS.mainMenu:
+      case StepNumbers.mainMenu:
         return MainMenu
-      case STEP_NUMBERS.closingStep:
+      case StepNumbers.closingStep:
         return ClosingStep
-      case STEP_NUMBERS.promotionStep:
+      case StepNumbers.promotionStep:
         return PromotionsStep
       default:
         // TODO: enviar log de erro para o backend
@@ -38,10 +38,10 @@ export class UnidentifiedStep {
   static STEP_NUMBER: -1;
   static STEP_NAME: "Unidentified Step";
 
-  static Interact(client: Client, message: Message) : StepInfo {
+  static Interact(client: Customer, message: Message) : StepInfo {
     return new StepInfo(
       ["Desculpe, não consegui interpretar sua última mensagem, poderia tentar novamente?"],
-      STEP_NUMBERS.welcomeStep
+      StepNumbers.welcomeStep
     )
   }
 

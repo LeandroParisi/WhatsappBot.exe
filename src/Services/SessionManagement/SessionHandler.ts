@@ -1,33 +1,37 @@
 import { Service } from "typedi";
 import { Message } from "venom-bot";
 import Config from "../../config";
-import Client from "../../Domain/Models/Client";
+import Customer from "../../Domain/Models/Customer";
 import DaysUtils from "../../Shared/Utils/DaysUtils";
-import UserDataRepository from "../UserData/UserDataRepository";
-import SessionRepository from './SessionRepository';
+import TaonRepository from "../TaonBackend/TaonRepository";
+import CustomerRepository from './CustomerRepository';
 
 @Service()
 export default class SessionHandler {
   constructor(
-    private readonly repository : SessionRepository,
+    private readonly Repository : CustomerRepository,
+    private readonly TaonRepository : TaonRepository
   ) {
   }
 
-  async CheckIn(client: Client) : Promise<number> {
-    const foundClient = await this.repository.GetClientById(client._id);
-
-    if (foundClient) {
-      client.currentStep = foundClient.currentStep
-      return foundClient.currentStep;
-    }
+  async CheckIn(message: Message) : Promise<Customer> {
+    const foundCustomer = await this.Repository.GetClientById(message.from);
     
-    const insertedClient = await this.repository.InsertClient(client)
+    if (foundCustomer) return foundCustomer;
 
-    return insertedClient.currentStep;
+    const customer = new Customer(message);
+
+    const customerInfo = await this.TaonRepository.CheckCustomerInfo(customer, message)
+
+    customer.info = customerInfo
+
+    await this.Repository.InsertCustomer(customer)
+
+    return customer;
   }
 
-  async UpdateClientStep(client : Client, nextStep : number) {
-    await this.repository.UpdateClient(
+  async UpdateClientStep(client : Customer, nextStep : number) {
+    await this.Repository.UpdateClient(
       client, 
       { 
         currentStep: nextStep,
@@ -37,27 +41,27 @@ export default class SessionHandler {
   }
 
   async ValidateCurrentSessions(startupDate : Date) : Promise<void> {
+    const { sessionResetRules } = Config
+
     const lastMessageLimit = DaysUtils.SubtractTimeFromDate(
-      startupDate, Config.sessionResetRules.lastMessageInHours
+      startupDate, sessionResetRules.lastMessageInHours
     )
 
     const findQuery = {
       $or: [
-        { currentStep: { $in: Config.sessionResetRules.currenStep } },
+        { currentStep: { $in: sessionResetRules.currenStep } },
         { lastMessage: { $lte: lastMessageLimit } }
       ]
     }
 
-    const invalidSessions = await this.repository.FindAll(findQuery);
+    const invalidSessions = await this.Repository.FindAll(findQuery);
 
     const deleteQuery = {
-      _id: { $in: invalidSessions.map((client : Client) => client._id)}
+      _id: { $in: invalidSessions.map((client : Customer) => client._id)}
     }
 
-    await this.repository.DeleteClient(deleteQuery)
+    await this.Repository.DeleteClient(deleteQuery)
   }
-
-
 
   // eslint-disable-next-line class-methods-use-this
   async ErrorCatcher(callback: () => any) {

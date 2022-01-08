@@ -5,16 +5,26 @@ import SessionHandler from '../../../Services/SessionManagement/SessionHandler';
 import TaonRepository from '../../../Services/TaonBackend/TaonRepository';
 import UserDataHandler from '../../../Services/UserData/UserDataHandler';
 import DaysUtils from '../../../Shared/Utils/DaysUtils';
-import Client from '../../Models/Client';
+import Customer from '../../Models/Customer';
 import MessageUtils from '../../Utils/MessageUtils';
-import IStep from '../Steps/Interfaces/IStep';
+import IStep, { BUY_STEPS } from '../Steps/Interfaces/IStep';
 import StepFactory from '../Steps/StepsDefinition/StepFactory/StepFactory';
 import BranchDataDb from "../../../Services/UserData/config"
 import ActionsFactory from '../StepActions/ActionDefinitions/ActionsFactory/ActionsFactory';
+import TaonHandler from '../../../Services/TaonBackend/TaonHandler';
+import StepInfo from '../Steps/Messages/StepInfo';
+import Order from '../../Models/Order';
+import OrderRepository from '../../../Services/SessionManagement/OrderRepository';
 
 interface SetupInfo {
-  client : Client
+  customer : Customer
   stepHandler : IStep
+  orderInfo : Order
+}
+
+interface HandledMessage {
+  stepInfo : StepInfo
+  customer : Customer
 }
 
 export interface SessionData {
@@ -29,8 +39,10 @@ export default class BotStartup {
 
   constructor(
     private readonly SessionHandler : SessionHandler,
-    private readonly TaonRepository : TaonRepository,
-    private readonly UserDataHandler : UserDataHandler) {
+    private readonly TaonHandler : TaonHandler,
+    private readonly UserDataHandler : UserDataHandler,
+    private readonly OrderRepository : OrderRepository
+    ) {
       this.sessionData = {
         branchData: null,
         startupDate: null
@@ -40,56 +52,78 @@ export default class BotStartup {
   public Start() {
     this.bot.onMessage(async (inboundMessage: Message) => {
       if (this.IsValidMessage(inboundMessage)) {
-        const { client, stepHandler } = await this.MessageSetup(inboundMessage)
+        const { stepInfo, customer } = await this.HandleMessage(inboundMessage)
 
-        const stepInfo = stepHandler.Interact(client, inboundMessage, { ...this.sessionData })
+        await this.SendMessages(stepInfo.outboundMessages, customer)
 
-        for (let outboundMessage of stepInfo.outboundMessages) {
-          await this.bot.sendText(client._id, outboundMessage)
-        }
+        await this.HandleStepAction(stepInfo, customer);
 
-        if (stepInfo.requiredAction) {
-          const action = ActionsFactory.Create(stepInfo.requiredAction)
-          action.DispatchAction(stepInfo.actionPayload, client);
-        }
-
-        await this.SessionHandler.UpdateClientStep(client, stepInfo.nextStep)
+        await this.SessionHandler.UpdateClientStep(customer, stepInfo.nextStep)
 
       } else {
         // No actions for messages received from groups
       }
     });
   }
-  
-  private async MessageSetup(inboundMessage: Message) : Promise<SetupInfo> {
-    const client = new Client(inboundMessage);
 
-    const currentStep = await this.SessionHandler.CheckIn(client);
-    
-    const branchData = await this.UserDataHandler.UpdateTemplateMessages(client.lastMessage, this.sessionData.branchData)   
-    
-    this.SetBranchData(branchData)
-  
-    const stepHandler = StepFactory.Create(currentStep)
-
-    return {
-      client,
-      stepHandler
-    }
-  }
-
+  // TODO: TIrar daqui?
   public async ValidateUser(startupDate : Date) : Promise<void> {
     const userId = await this.UserDataHandler.ValidateUser();
     this.sessionData.startupDate = startupDate
     await this.UserDataHandler.SetStartupTime(userId, startupDate)
   }
 
+  private async HandleMessage(inboundMessage: Message) : Promise<HandledMessage> {
+    const { 
+      customer, 
+      stepHandler, 
+      orderInfo 
+    } = await this.MessageSetup(inboundMessage)
+
+    let stepInfo = null
+
+
+    stepInfo = stepHandler.Interact(
+      customer,
+      inboundMessage,
+      { ...this.sessionData },
+      orderInfo
+    )
+
+    return {
+      stepInfo,
+      customer
+    }
+  }
+  
+  private async MessageSetup(inboundMessage: Message) : Promise<SetupInfo> {
+    const customer = await this.SessionHandler.CheckIn(inboundMessage);
+    
+    const branchData = await this.UserDataHandler.UpdateTemplateMessages(customer.lastMessage, this.sessionData.branchData)   
+    
+    this.SetBranchData(branchData)
+  
+    const stepHandler = StepFactory.Create(customer.currentStep)
+
+    let orderInfo = null
+    
+    if (BUY_STEPS.has(customer.currentStep)) {
+      orderInfo = await this.OrderRepository.GetClientOrders(customer._id)
+    }
+
+    return {
+      customer,
+      stepHandler,
+      orderInfo
+    }
+  }
+
   public async LoadUserInfo() {
     // TODO: tratamento erro
-    const botInfo = await this.bot.getHostDevice(); 
-    const { id: { user : deviceNumber } } = botInfo
+    // const botInfo = await this.bot.getHostDevice(); 
+    // const { id: { user : deviceNumber } } = botInfo
     
-    // const deviceNumber = "553175080415"
+    const deviceNumber = "553175080415"
     const branchData = await this.UserDataHandler.LoadInitialData(deviceNumber);
 
     this.SetBranchData(branchData)
@@ -97,6 +131,19 @@ export default class BotStartup {
 
   public SetBot(bot: any) {
     this.bot = bot
+  }
+
+  private async SendMessages(outboundMessages : string[], customer : Customer) {
+    for (let outboundMessage of outboundMessages) {
+      await this.bot.sendText(customer._id, outboundMessage)
+    }
+  }
+
+  private async HandleStepAction(stepInfo: StepInfo, client: Customer) {
+    if (stepInfo.requiredAction) {
+      const actionHandler = ActionsFactory.Create(stepInfo.requiredAction)
+      await actionHandler.DispatchAction(stepInfo.actionPayload, client);
+    }
   }
 
   private IsValidMessage(inboundMessage: Message) {

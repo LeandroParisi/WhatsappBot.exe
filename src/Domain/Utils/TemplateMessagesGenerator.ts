@@ -10,6 +10,9 @@ import GenerateTemplateMessageError from "../Abstractions/Errors/GenerateTemplat
 
 @staticImplements()
 export default class TemplateMessagesGenerator {
+  static GenerateDeliveryTypesMessage(deliveryTypes: DeliveryType[]) {
+    throw new Error("Method not implemented.");
+  }
   static GeneratePromotionsMessage(avaiablePromotions : Promotion[]) : PromotionsInformation {
     if (avaiablePromotions.length === 0) {
       return {
@@ -85,8 +88,8 @@ export default class TemplateMessagesGenerator {
 
     let message = "Atualmente aceitamos os seguintes métodos de pagamento:\n"
     
-    return message + paymentMethods.map(({ paymentMethod } : PaymentMethod, index : number) => {
-      return `${index + 1}. ${PaymentMethodsUtils.TranslateToPt(paymentMethod)}`
+    return message + paymentMethods.map((paymentMethod  : PaymentMethod, index : number) => {
+      return `${paymentMethod.id}. ${PaymentMethodsUtils.TranslateToPt(paymentMethod.paymentMethod)}`
     }).join("\n")
 
   }
@@ -122,13 +125,14 @@ export default class TemplateMessagesGenerator {
     return `Cobramos uma taxa única de ${fees}`
   }
 
-  private static CreateDeliveryTypeText(deliveryTypes: Array<DeliveryType>) {
+  public static CreateDeliveryTypeText(deliveryTypes: Array<DeliveryType>) {
     let deliveryTypeText = "*Tipos de entrega:*\n"
 
     if (deliveryTypes.length === 0) return deliveryTypeText += "Por enquanto não temos nenhum tipo de modo de entrega\n\n"
     
-    deliveryTypeText += deliveryTypes.map(({ deliveryType } : DeliveryType, index : number) => {
-      return `${index + 1}. ${DeliveryTypeUtils.TranslateToPt(deliveryType)}`
+    deliveryTypeText += deliveryTypes.map(
+      (deliveryType : DeliveryType, index : number) => {
+      return `${deliveryType.id}. ${DeliveryTypeUtils.TranslateToPt(deliveryType.deliveryType)}`
     }).join('\n')
 
     deliveryTypeText += "\n\n"

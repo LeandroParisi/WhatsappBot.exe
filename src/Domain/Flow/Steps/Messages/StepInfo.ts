@@ -1,12 +1,12 @@
 import Payload from "../../StepActions/DTOs/Payload";
-import { StepActionEnum } from "../../StepActions/Interfaces/IStepAction";
+import { ActionsEnum } from "../../StepActions/Interfaces/IActionHandler";
 import IStepInfo from "./IStepInfo";
 
 
 export default class StepInfo implements IStepInfo {
   outboundMessages: string[];
   nextStep: number;
-  requiredAction: StepActionEnum
+  requiredAction: ActionsEnum
   actionPayload: Payload
   /**
    *
@@ -14,7 +14,7 @@ export default class StepInfo implements IStepInfo {
   constructor(
     outboundMessages : string[],
     nextStep : number,
-    requiredAction? : StepActionEnum,
+    requiredAction? : ActionsEnum,
     actionPayload? : Payload
   ) {
     this.outboundMessages = outboundMessages

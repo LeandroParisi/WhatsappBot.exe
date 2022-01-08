@@ -1,5 +1,5 @@
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
-import { STEP_NUMBERS } from "../../Interfaces/IStep";
+import { StepNumbers } from "../../Interfaces/IStep";
 import IStepInfo from "../../Messages/IStepInfo";
 import StepInfo from "../../Messages/StepInfo";
 
@@ -26,7 +26,7 @@ export default class PromotionsSelectionStep {
         "Ou, se preferir, digite *voltar* para retornar ao menu anterior.",
         ...sufixMessages
       ],
-      STEP_NUMBERS.promotionStep
+      StepNumbers.promotionStep
     )
   }
 

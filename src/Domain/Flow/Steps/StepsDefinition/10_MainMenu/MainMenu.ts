@@ -2,15 +2,12 @@ import { Message } from "venom-bot";
 import Config from "../../../../../config";
 import BranchData, { OpeningHours, Promotion, PromotionsInformation } from "../../../../../data/Interfaces/BranchData";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
-import Client from "../../../../Models/Client";
+import Customer from "../../../../Models/Customer";
 import MessageUtils from "../../../../Utils/MessageUtils";
-import IOptionsStep from "../../Interfaces/OptionsStep";
-import IStep, { STEP_NUMBERS } from "../../Interfaces/IStep";
+import IStep, { StepNumbers } from "../../Interfaces/IStep";
 import StepInfo from "../../Messages/StepInfo";
 import ClosingStep from "../9_ClosingStep/ClosingStep";
 import PromotionsSelectionStep from "../DefaultSteps/PromotionsSelectionStep";
-import { UnidentifiedStep } from "../StepFactory/StepFactory";
-import OptionsStep from "../../Interfaces/OptionsStep";
 import StepError from "../../../../Abstractions/Errors/StepError";
 import { SessionData } from "../../../Startup/BotStartUp";
 
@@ -24,13 +21,13 @@ const options = [
 
 @staticImplements<IStep>()
 export default class MainMenu {
-  static STEP_NUMBER = STEP_NUMBERS.mainMenu
+  static STEP_NUMBER = StepNumbers.mainMenu
   static STEP_NAME = 'Main menu';
   
   static INTRO_MESSAGE = "Em que posso te ajudar hoje?\n(Digite o número da opção para darmos continuidade)"
   static MENU_OPTIONS = options.join("\n")
 
-  static Interact(client: Client, message: Message, { branchData } : SessionData): StepInfo {
+  static Interact(client: Customer, message: Message, { branchData } : SessionData): StepInfo {
     const clientAnswer = message.body
     if (this.ValidateAnswer(clientAnswer)) {
       return this.AnswerFactory(MessageUtils.FormatNumberOption(clientAnswer), branchData)
@@ -41,7 +38,7 @@ export default class MainMenu {
           'Digite só o número da opção para darmos continuidade.',
           this.MENU_OPTIONS,
         ], 
-        STEP_NUMBERS.mainMenu
+        StepNumbers.mainMenu
       )
     }
   }
@@ -58,7 +55,7 @@ export default class MainMenu {
             `Para fazer um pedido basta acessar o link abaixo:\n${Config.onlineMenuUrl}/${branchData.id}`,
             ClosingStep.INTRO_MESSAGE,
           ],
-          STEP_NUMBERS.closingStep
+          StepNumbers.closingStep
         )
       case 2:
         return this.PromotionsMessageFactory(branchData.templateMessages.promotionsInformation)
@@ -69,7 +66,7 @@ export default class MainMenu {
             branchData.templateMessages.openingHours,
             ClosingStep.INTRO_MESSAGE,
           ],
-          STEP_NUMBERS.closingStep
+          StepNumbers.closingStep
         )
       case 4:
         return new StepInfo(
@@ -78,7 +75,7 @@ export default class MainMenu {
             branchData.templateMessages.deliveryInformation,
             ClosingStep.INTRO_MESSAGE,
           ],
-          STEP_NUMBERS.closingStep
+          StepNumbers.closingStep
         )
       case 5:
         return new StepInfo(
@@ -86,7 +83,7 @@ export default class MainMenu {
             branchData.templateMessages.paymentMethods,
             ClosingStep.INTRO_MESSAGE,
           ],
-          STEP_NUMBERS.closingStep
+          StepNumbers.closingStep
         )
       default:
         throw new StepError(this.STEP_NUMBER, `Invalid stepNumber selected by user ${selectedOption}`)
@@ -103,7 +100,7 @@ export default class MainMenu {
           "Infelizmente hoje estamos sem nenhuma promoção disponível.",
           ClosingStep.INTRO_MESSAGE
         ],
-        STEP_NUMBERS.closingStep
+        StepNumbers.closingStep
       )
     }
   }

@@ -1,21 +1,21 @@
 import { Message } from "venom-bot"
 import BranchData from "../../../../../data/Interfaces/BranchData"
 import staticImplements from "../../../../../Shared/Anotations/staticImplements"
-import Client from "../../../../Models/Client"
+import Customer from "../../../../Models/Customer"
 import MessageUtils from "../../../../Utils/MessageUtils"
 import { SessionData } from "../../../Startup/BotStartUp"
-import IStep, { STEP_NUMBERS } from "../../Interfaces/IStep"
+import IStep, { StepNumbers } from "../../Interfaces/IStep"
 import StepInfo from "../../Messages/StepInfo"
 import ReturnToMenu from "../DefaultSteps/ReturnToMenu"
 
 @staticImplements<IStep>()
 export default class ClosingStep {
-  static STEP_NUMBER = STEP_NUMBERS.closingStep
+  static STEP_NUMBER = StepNumbers.closingStep
   static STEP_NAME = "Fechamento"
   
   static INTRO_MESSAGE = "Posso lhe ajudar em mais alguma coisa?\n1. Sim\n2. Não"
 
-  static Interact(client : Client, message : Message, { branchData } : SessionData) : StepInfo {
+  static Interact(client : Customer, message : Message, { branchData } : SessionData) : StepInfo {
     const clientAnswer = message.body
 
     if (this.ValidateAnswer(clientAnswer.trim())) {
@@ -27,7 +27,7 @@ export default class ClosingStep {
           'Digite só o número da opção para darmos continuidade.',
           this.INTRO_MESSAGE,
         ], 
-        STEP_NUMBERS.closingStep
+        StepNumbers.closingStep
       )
     }
   }
@@ -41,7 +41,7 @@ export default class ClosingStep {
           [
             `Entendido! Lhe desejo um ótimo dia e caso precise de ajuda no futuro basta me chamar!`,
           ],
-          STEP_NUMBERS.welcomeStep
+          StepNumbers.welcomeStep
         )
       default: 
         // TODO: Setar ErrorStep Static, setando no banco um counter para evitar infinite loop
@@ -50,7 +50,7 @@ export default class ClosingStep {
             "Desculpe, não consegui interpretar sua última mensagem, poderia tentar novamente?",
             this.INTRO_MESSAGE
           ],
-          STEP_NUMBERS.closingStep
+          StepNumbers.closingStep
         )
     }
   }

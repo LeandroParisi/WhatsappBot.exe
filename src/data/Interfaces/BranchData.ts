@@ -86,6 +86,7 @@ export interface TemplateMessages {
   openingHours : string
   deliveryInformation : string
   paymentMethods : string
+  deliveryTypes : string
 }
 
 export interface PromotionsInformation {

@@ -17,6 +17,18 @@ class Main {
     this.SessionHandler = Container.get(SessionHandler)
   }
 
+  async TESTE() {
+    try {
+      await this.Startup()
+
+      await this.BotStartup.LoadUserInfo();
+
+    } catch (error) {
+      // Trace
+      console.log(error);
+    }
+  }
+
   async Run() {
     try {
       await this.Startup()
@@ -55,5 +67,5 @@ class Main {
   
 }
 
-
-new Main().Run();
+// new Main().Run();
+new Main().TESTE();
