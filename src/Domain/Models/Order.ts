@@ -1,6 +1,5 @@
 import IOrderInfo, { OrderStatusEnum } from "../../data/Interfaces/IOrderInfo";
 import DaysUtils from "../../Shared/Utils/DaysUtils";
-import Address from "./Address";
 import { v4 as uuid } from 'uuid';
 
 export default class Order implements IOrderInfo {
@@ -10,7 +9,7 @@ export default class Order implements IOrderInfo {
   status: OrderStatusEnum;
   createdAt: Date;
   deliveryTypeId? : number
-  address? : Address
+  addressId? : number
   paymentMethodId? : number
 
   /**

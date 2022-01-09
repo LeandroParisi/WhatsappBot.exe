@@ -8,6 +8,8 @@ import StepInfo from "../../Messages/StepInfo";
 import { SessionData } from "../../../Startup/BotStartUp";
 import Order from "../../../../Models/Order";
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
+import { AddressPossibleAnswers } from "./2.2.3_SelectAddress/SelectAddressStep";
+import SelectAddress from "../StepGenerators/SelectAddress";
 
 @staticImplements<IStep>()
 export default class EnrichOrderStep {
@@ -21,14 +23,13 @@ export default class EnrichOrderStep {
     orderInfo : Order
   ) : StepInfo {
     console.log({ address: customer.info.addresses })
-    this.ExtractMissingOrderInfo(orderInfo, branchData)
-    throw new Error();
-    // const invalidInformations = this.ExtractMissingOrderInfo(orderInfo)
+    return this.ExtractMissingOrderInfo(orderInfo, branchData, customer)
   }
   
-  private static ExtractMissingOrderInfo(
+  public static ExtractMissingOrderInfo(
     orderInfo: Order,
-    branchData : BranchData
+    branchData : BranchData,
+    customer : Customer
     ) : StepInfo {
     if (!orderInfo.deliveryTypeId) {
       return new StepInfo(
@@ -48,24 +49,16 @@ export default class EnrichOrderStep {
         ],
         StepNumbers.selectPaymentMethod
       )
-    } else if (!orderInfo.address) {
-      return new StepInfo(
-        [
-          "Precisamos preencher alguns dados de seu pedido.",
-          "Favor digitar o número do endereço de entrega:",
-          branchData.templateMessages.paymentMethods,
-          "Ou, se quiser a entrega em outro endereço digite *cadastrar*."
-        ],
-        StepNumbers.selectPaymentMethod
-      )
+    } else if (!orderInfo.addressId) {
+      return SelectAddress.GenerateMessage({}, customer)
     } else {
+      // TODO: Calll to action para iniciar o cadastro antes de entrar no proximo step
       return new StepInfo(
         [
           "Todos os dados foram coletados corretamente!",
-          "Agora vamos finalizar seu pedido",
-          "Favor aguarde um instante"
+          "Vamos só confirmar os dados do pedido, ok?"
         ],
-        StepNumbers.closingStep,
+        StepNumbers.confirmOrder,
         ActionsEnum.SEND_ORDER,
         Order
       )

@@ -6,13 +6,14 @@ import IStep, { StepNumbers } from "../../Interfaces/IStep";
 import StepInfo from "../../Messages/StepInfo";
 import Validations from "../../../Utils/Validations";
 import MessageUtils from "../../../../Utils/MessageUtils";
-import PromotionsSelectionStep from "../DefaultSteps/PromotionsSelectionStep";
-import ReturnToMenu from "../DefaultSteps/ReturnToMenu";
+import PromotionsSelectionStep from "../StepGenerators/PromotionsSelectionStep";
+import ReturnToMenu from "../StepGenerators/ReturnToMenu";
 import StepError from "../../../../Abstractions/Errors/StepError";
 import { SessionData } from "../../../Startup/BotStartUp";
 import DaysUtils from "../../../../../Shared/Utils/DaysUtils";
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
 import { RegisterOrderDTO } from "../../../StepActions/ActionDefinitions/RegisterOrderAction/RegisterOrderDTO";
+import IValidatedStep from "../../Interfaces/IValidatedStep";
 
 enum PossibleAnswers {
   back = "VOLTAR",
@@ -102,8 +103,7 @@ export default class PromotionsStep {
           StepNumbers.enrichOrderStep,
           ActionsEnum.REGISTER_ORDER,
           new RegisterOrderDTO(
-            branchData.avaiablePromotions.find(
-              (x : Promotion) => x.id === formattedAnswer).id,
+            branchData.avaiablePromotions[formattedAnswer].id,
             branchData.id
           )
         )

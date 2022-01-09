@@ -5,6 +5,7 @@ import BotStartup from './src/Domain/Flow/Startup/BotStartUp'
 import UserDataHandler from './src/Services/UserData/UserDataHandler';
 import SessionHandler from './src/Services/SessionManagement/SessionHandler'
 import DaysUtils from './src/Shared/Utils/DaysUtils';
+import Installer from './src/Domain/Flow/Startup/Installer';
 
 const venom = require('venom-bot')
 
@@ -54,6 +55,7 @@ class Main {
   }
 
   private async Startup() {
+    Installer.InstallServices()
     const startupDate = DaysUtils.GetDateFromTimestamp(Date.now() / 1000)
     await this.BotStartup.ValidateUser(startupDate);
     await this.SessionHandler.ValidateCurrentSessions(startupDate);

@@ -1,7 +1,10 @@
 import { Service } from "typedi";
 import { Message } from "venom-bot";
 import Config from "../../config";
+import CustomerInfo from "../../data/Interfaces/CustomerInfo";
+import CustomerTemplateMessages from "../../data/Interfaces/CustomerTemplateMessages";
 import Customer from "../../Domain/Models/Customer";
+import CustomerTemplateMessagesFactory from "../../Domain/Utils/CustomerTemplateMessagesFactory";
 import DaysUtils from "../../Shared/Utils/DaysUtils";
 import TaonRepository from "../TaonBackend/TaonRepository";
 import CustomerRepository from './CustomerRepository';
@@ -25,9 +28,19 @@ export default class SessionHandler {
 
     customer.info = customerInfo
 
+    customer.customerTemplateMessages = this.GenerateTemplateMessages(customer.info)
+
     await this.Repository.InsertCustomer(customer)
 
     return customer;
+  }
+
+  private GenerateTemplateMessages(customerInfo : CustomerInfo): CustomerTemplateMessages {
+    var addresses = CustomerTemplateMessagesFactory.GenerateAddressMessage(customerInfo.addresses)
+    
+    return {
+      addresses
+    }
   }
 
   async UpdateClientStep(client : Customer, nextStep : number) {

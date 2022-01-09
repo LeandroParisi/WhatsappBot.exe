@@ -6,26 +6,28 @@ import { StepNumbers } from "../../../Steps/Interfaces/IStep";
 import { RegisterOrderDTO } from "../RegisterOrderAction/RegisterOrderDTO";
 import Payload from "../../DTOs/Payload";
 
-import BuyPromotionAction from "../BuyPromotionAction/BuyPromotionAction";
+import BuyPromotionAction from "../SendOrderAction/SendOrderAction";
 import TaonRepository from "../../../../../Services/TaonBackend/TaonRepository";
 import RegisterOrderAction from "../RegisterOrderAction/RegisterOrderAction";
 import OrderRepository from "../../../../../Services/SessionManagement/OrderRepository";
 import IActionHandler, { ActionsEnum } from "../../Interfaces/IActionHandler";
+import { Dictionary } from "../../../../../Shared/Utils/SystemUtils";
+
 
 @staticImplements()
 export default class ActionsFactory {
 
-  static Create(requiredAction : ActionsEnum) : IActionHandler<Payload> {
-    const taonRepository = Container.get(TaonRepository);
-    const orderRepository = Container.get(OrderRepository);
+  private static ActionWarehouse : Dictionary<IActionHandler<Payload>>
 
-    switch(requiredAction) {
-      case(ActionsEnum.SEND_ORDER):
-        return new BuyPromotionAction(taonRepository);
-      case(ActionsEnum.REGISTER_ORDER):
-        return new RegisterOrderAction(orderRepository);
-      default:
-        throw new StepActionError(requiredAction, `Invalid step action ${requiredAction}`)
+  static Create(actionName : ActionsEnum) : IActionHandler<Payload> {
+    try {
+      return this.ActionWarehouse[actionName]
+    } catch {
+      throw new Error("Unregistered Step type and number")
     }
+  }
+
+  public static RegisterAction(action : IActionHandler<Payload>) {
+    this.ActionWarehouse[action.actionName] = action
   }
 }

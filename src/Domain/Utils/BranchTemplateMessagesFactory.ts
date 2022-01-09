@@ -9,7 +9,7 @@ import SystemUtils from "../../Shared/Utils/SystemUtils";
 import GenerateTemplateMessageError from "../Abstractions/Errors/GenerateTemplateMessageError";
 
 @staticImplements()
-export default class TemplateMessagesGenerator {
+export default class BranchTemplateMessagesFactory {
   static GenerateDeliveryTypesMessage(deliveryTypes: DeliveryType[]) {
     throw new Error("Method not implemented.");
   }
@@ -89,7 +89,7 @@ export default class TemplateMessagesGenerator {
     let message = "Atualmente aceitamos os seguintes métodos de pagamento:\n"
     
     return message + paymentMethods.map((paymentMethod  : PaymentMethod, index : number) => {
-      return `${paymentMethod.id}. ${PaymentMethodsUtils.TranslateToPt(paymentMethod.paymentMethod)}`
+      return `${index + 1}. ${PaymentMethodsUtils.TranslateToPt(paymentMethod.paymentMethod)}`
     }).join("\n")
 
   }
@@ -132,7 +132,7 @@ export default class TemplateMessagesGenerator {
     
     deliveryTypeText += deliveryTypes.map(
       (deliveryType : DeliveryType, index : number) => {
-      return `${deliveryType.id}. ${DeliveryTypeUtils.TranslateToPt(deliveryType.deliveryType)}`
+      return `${index + 1}. ${DeliveryTypeUtils.TranslateToPt(deliveryType.deliveryType)}`
     }).join('\n')
 
     deliveryTypeText += "\n\n"

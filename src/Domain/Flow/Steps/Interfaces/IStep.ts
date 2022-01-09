@@ -12,6 +12,8 @@ export enum StepNumbers {
   selectDeliveryType = 2.21,
   selectPaymentMethod = 2.22,
   selectAddress = 2.23,
+  registerAddress = 3,
+  confirmOrder = 8,
   closingStep = 9,
   mainMenu = 10,
 }
@@ -20,7 +22,6 @@ export const BUY_STEPS = new Set([StepNumbers.enrichOrderStep])
 
 export default interface IStep {
   STEP_NUMBER : StepNumbers
-  STEP_NAME : string
 
   Interact(
     client: Customer, 

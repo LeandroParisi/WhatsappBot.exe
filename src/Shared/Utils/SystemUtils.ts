@@ -4,6 +4,10 @@ type Entries<T> = {
   [K in keyof T]: [K, T[K]]
 }[keyof T][]
 
+export interface Dictionary<T> {
+  [Key: string]: T;
+}
+
 @staticImplements()
 export default class SystemUtils {
   public static GetObjectEntries<T>(obj: T): Entries<T> {

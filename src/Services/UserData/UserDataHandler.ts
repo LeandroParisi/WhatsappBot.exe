@@ -4,7 +4,7 @@ import BackendError from '../Abstractions/Errors/BackendError';
 import TaonRepository from '../TaonBackend/TaonRepository';
 import UserDataRepository from "./UserDataRepository";
 import BranchData, { Promotion } from '../../data/Interfaces/BranchData';
-import TemplateMessagesGenerator from '../../Domain/Utils/TemplateMessagesGenerator';
+import BranchTemplateMessagesFactory from '../../Domain/Utils/BranchTemplateMessagesFactory';
 import DaysUtils from '../../Shared/Utils/DaysUtils';
 import PromotionsUtils from '../../Shared/Utils/PromotionsUtils';
 
@@ -118,7 +118,7 @@ export default class UserDataHandler {
       avaiablePromotions: [...avaiablePromotions],
       templateMessages: {
         ...branchData.templateMessages,
-        promotionsInformation: TemplateMessagesGenerator.GeneratePromotionsMessage(avaiablePromotions),
+        promotionsInformation: BranchTemplateMessagesFactory.GeneratePromotionsMessage(avaiablePromotions),
       }
     }
 
@@ -128,26 +128,26 @@ export default class UserDataHandler {
   private GenerateTemplateMessages(data : BranchData) : BranchData {
 
     data.templateMessages.deliveryInformation = 
-    TemplateMessagesGenerator
+    BranchTemplateMessagesFactory
       .GenerateDeliveryInformationMessage(
         data.deliveryTypes,
         data.deliveryFees
       )
 
     data.templateMessages.openingHours = 
-    TemplateMessagesGenerator
+    BranchTemplateMessagesFactory
       .GenerateOpeningHoursMessage(data.openingHours)
 
     data.templateMessages.paymentMethods = 
-    TemplateMessagesGenerator
+    BranchTemplateMessagesFactory
       .GeneratePaymentMethodsMessage(data.paymentMethods)
 
     data.templateMessages.promotionsInformation = 
-    TemplateMessagesGenerator
+    BranchTemplateMessagesFactory
       .GeneratePromotionsMessage(data.avaiablePromotions)
 
     data.templateMessages.deliveryTypes = 
-    TemplateMessagesGenerator
+    BranchTemplateMessagesFactory
       .CreateDeliveryTypeText(data.deliveryTypes)
 
     const {paymentMethods, deliveryTypes, } = data

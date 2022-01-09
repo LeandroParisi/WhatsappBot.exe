@@ -7,9 +7,10 @@ import MessageUtils from "../../../../Utils/MessageUtils";
 import IStep, { StepNumbers } from "../../Interfaces/IStep";
 import StepInfo from "../../Messages/StepInfo";
 import ClosingStep from "../9_ClosingStep/ClosingStep";
-import PromotionsSelectionStep from "../DefaultSteps/PromotionsSelectionStep";
+import PromotionsSelectionStep from "../StepGenerators/PromotionsSelectionStep";
 import StepError from "../../../../Abstractions/Errors/StepError";
 import { SessionData } from "../../../Startup/BotStartUp";
+import IValidatedStep, { ValidateParameters } from "../../Interfaces/IValidatedStep";
 
 const options = [
   '1. Fazer pedido',
@@ -20,6 +21,7 @@ const options = [
 ]
 
 @staticImplements<IStep>()
+@staticImplements<IValidatedStep>()
 export default class MainMenu {
   static STEP_NUMBER = StepNumbers.mainMenu
   static STEP_NAME = 'Main menu';
@@ -29,7 +31,7 @@ export default class MainMenu {
 
   static Interact(client: Customer, message: Message, { branchData } : SessionData): StepInfo {
     const clientAnswer = message.body
-    if (this.ValidateAnswer(clientAnswer)) {
+    if (this.ValidateAnswer({ answer: clientAnswer })) {
       return this.AnswerFactory(MessageUtils.FormatNumberOption(clientAnswer), branchData)
     } else {
       return new StepInfo(
@@ -43,7 +45,11 @@ export default class MainMenu {
     }
   }
 
-  private static ValidateAnswer(answer : string) : boolean {
+  static ValidateAnswer({
+      answer
+    } : ValidateParameters
+    ) 
+    : boolean {
     return /^[1-9]$/.test(answer) && Number(answer) <= options.length
   }
 

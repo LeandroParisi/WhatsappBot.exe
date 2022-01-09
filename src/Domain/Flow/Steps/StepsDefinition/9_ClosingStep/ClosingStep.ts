@@ -5,10 +5,12 @@ import Customer from "../../../../Models/Customer"
 import MessageUtils from "../../../../Utils/MessageUtils"
 import { SessionData } from "../../../Startup/BotStartUp"
 import IStep, { StepNumbers } from "../../Interfaces/IStep"
+import IValidatedStep, { ValidateParameters } from "../../Interfaces/IValidatedStep"
 import StepInfo from "../../Messages/StepInfo"
-import ReturnToMenu from "../DefaultSteps/ReturnToMenu"
+import ReturnToMenu from "../StepGenerators/ReturnToMenu"
 
 @staticImplements<IStep>()
+@staticImplements<IValidatedStep>()
 export default class ClosingStep {
   static STEP_NUMBER = StepNumbers.closingStep
   static STEP_NAME = "Fechamento"
@@ -18,7 +20,7 @@ export default class ClosingStep {
   static Interact(client : Customer, message : Message, { branchData } : SessionData) : StepInfo {
     const clientAnswer = message.body
 
-    if (this.ValidateAnswer(clientAnswer.trim())) {
+    if (this.ValidateAnswer({answer: clientAnswer.trim()})) {
       return this.AnswerFactory(MessageUtils.FormatNumberOption(clientAnswer))
     } else {
       return new StepInfo(
@@ -55,7 +57,7 @@ export default class ClosingStep {
     }
   }
 
-  private static ValidateAnswer(answer : string) : boolean {
+  static ValidateAnswer({ answer } : ValidateParameters) : boolean {
     return /^[1-2]$/.test(answer)
   }
 }
