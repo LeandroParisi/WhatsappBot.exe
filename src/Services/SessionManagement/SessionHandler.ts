@@ -1,8 +1,8 @@
 import { Service } from "typedi";
 import { Message } from "venom-bot";
 import Config from "../../config";
-import CustomerInfo from "../../data/Interfaces/CustomerInfo";
-import CustomerTemplateMessages from "../../data/Interfaces/CustomerTemplateMessages";
+import CustomerInfo from "../../../data/Interfaces/CustomerInfo";
+import CustomerTemplateMessages from "../../../data/Interfaces/CustomerTemplateMessages";
 import Customer from "../../Domain/Models/Customer";
 import CustomerTemplateMessagesFactory from "../../Domain/Utils/CustomerTemplateMessagesFactory";
 import DaysUtils from "../../Shared/Utils/DaysUtils";

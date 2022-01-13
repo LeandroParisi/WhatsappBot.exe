@@ -1,6 +1,6 @@
 import { Service } from 'typedi';
 import { Message } from 'venom-bot';
-import BranchData from '../../../data/Interfaces/BranchData';
+import BranchData from '../../../../data/Interfaces/BranchData';
 import SessionHandler from '../../../Services/SessionManagement/SessionHandler';
 import TaonRepository from '../../../Services/TaonBackend/TaonRepository';
 import UserDataHandler from '../../../Services/UserData/UserDataHandler';

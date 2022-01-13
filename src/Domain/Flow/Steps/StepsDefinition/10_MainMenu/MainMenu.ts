@@ -1,6 +1,6 @@
 import { Message } from "venom-bot";
 import Config from "../../../../../config";
-import BranchData, { OpeningHours, Promotion, PromotionsInformation } from "../../../../../data/Interfaces/BranchData";
+import BranchData, { OpeningHours, Promotion, PromotionsInformation } from "../../../../../../data/Interfaces/BranchData";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
 import Customer from "../../../../Models/Customer";
 import MessageUtils from "../../../../Utils/MessageUtils";

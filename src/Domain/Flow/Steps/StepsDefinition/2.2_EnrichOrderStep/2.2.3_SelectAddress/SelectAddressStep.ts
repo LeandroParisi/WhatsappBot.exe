@@ -1,5 +1,5 @@
 import { Message } from "venom-bot"
-import BranchData from "../../../../../../data/Interfaces/BranchData"
+import BranchData from "../../../../../../../data/Interfaces/BranchData"
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements"
 import StepError from "../../../../../Abstractions/Errors/StepError"
 import Customer from "../../../../../Models/Customer"

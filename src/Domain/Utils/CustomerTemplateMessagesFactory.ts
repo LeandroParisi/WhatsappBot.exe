@@ -1,5 +1,5 @@
-import CustomerAddress from "../../data/Interfaces/CustomerAddress";
-import CustomerInfo from "../../data/Interfaces/CustomerInfo";
+import CustomerAddress from "../../../data/Interfaces/CustomerAddress";
+import CustomerInfo from "../../../data/Interfaces/CustomerInfo";
 import staticImplements from "../../Shared/Anotations/staticImplements";
 import AddressUtils from "../../Shared/Utils/AddressUtils";
 import Customer from "../Models/Customer";

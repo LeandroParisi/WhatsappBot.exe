@@ -1,4 +1,4 @@
-import IOrderInfo, { OrderStatusEnum } from "../../data/Interfaces/IOrderInfo";
+import IOrderInfo, { OrderStatusEnum } from "../../../data/Interfaces/IOrderInfo";
 import DaysUtils from "../../Shared/Utils/DaysUtils";
 import { v4 as uuid } from 'uuid';
 

@@ -1,6 +1,6 @@
 
 import { v4 as uuid } from 'uuid';
-import IOrderInfo, { OrderStatusEnum } from '../../../../data/Interfaces/IOrderInfo';
+import IOrderInfo, { OrderStatusEnum } from '../../../../../data/Interfaces/IOrderInfo';
 import Order from '../../../Models/Order';
 import Payload from "./Payload";
 

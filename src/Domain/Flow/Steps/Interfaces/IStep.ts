@@ -1,5 +1,5 @@
 import { Message } from "venom-bot";
-import BranchData from "../../../../data/Interfaces/BranchData";
+import BranchData from "../../../../../data/Interfaces/BranchData";
 import Customer from "../../../Models/Customer"
 import Order from "../../../Models/Order";
 import { SessionData } from "../../Startup/BotStartUp";

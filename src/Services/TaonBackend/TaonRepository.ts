@@ -1,8 +1,8 @@
 import { Service } from "typedi"
 import { Message } from "venom-bot";
-import BranchData from "../../data/Interfaces/BranchData";
-import CustomerInfo from "../../data/Interfaces/CustomerInfo";
-import LoginData from "../../data/Interfaces/LoginData";
+import BranchData from "../../../data/Interfaces/BranchData";
+import CustomerInfo from "../../../data/Interfaces/CustomerInfo";
+import LoginData from "../../../data/Interfaces/LoginData";
 import Customer from "../../Domain/Models/Customer";
 import { api } from "./services/api"
 

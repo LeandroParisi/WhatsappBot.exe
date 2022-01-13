@@ -1,6 +1,6 @@
 import Datastore = require("nedb-promises");
 import { Service } from "typedi";
-import IOrderInfo from "../../data/Interfaces/IOrderInfo";
+import IOrderInfo from "../../../data/Interfaces/IOrderInfo";
 import Customer from "../../Domain/Models/Customer";
 import Order from "../../Domain/Models/Order";
 import SessionDataDbs from './config'

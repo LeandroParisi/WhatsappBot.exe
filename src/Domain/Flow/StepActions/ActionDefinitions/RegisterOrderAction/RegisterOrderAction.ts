@@ -1,5 +1,5 @@
 import Container, { Service } from "typedi";
-import { OrderStatusEnum } from "../../../../../data/Interfaces/IOrderInfo";
+import { OrderStatusEnum } from "../../../../../../data/Interfaces/IOrderInfo";
 import OrderRepository from "../../../../../Services/SessionManagement/OrderRepository";
 import Customer from "../../../../Models/Customer";
 import Order from "../../../../Models/Order";

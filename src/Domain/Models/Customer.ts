@@ -1,6 +1,6 @@
 import { Message } from "venom-bot"
-import CustomerInfo from "../../data/Interfaces/CustomerInfo"
-import CustomerTemplateMessages from "../../data/Interfaces/CustomerTemplateMessages"
+import CustomerInfo from "../../../data/Interfaces/CustomerInfo"
+import CustomerTemplateMessages from "../../../data/Interfaces/CustomerTemplateMessages"
 import DaysUtils from "../../Shared/Utils/DaysUtils"
 
 export default class Customer {

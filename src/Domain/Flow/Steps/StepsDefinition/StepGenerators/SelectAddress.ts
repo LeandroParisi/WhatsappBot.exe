@@ -1,4 +1,4 @@
-import CustomerInfo from "../../../../../data/Interfaces/CustomerInfo";
+import CustomerInfo from "../../../../../../data/Interfaces/CustomerInfo";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
 import Customer from "../../../../Models/Customer";
 import { StepNumbers } from "../../Interfaces/IStep";

@@ -1,4 +1,4 @@
-import { Attribute, AttributeTypes, Product, Promotion } from "../../data/Interfaces/BranchData";
+import { Attribute, AttributeTypes, Product, Promotion } from "../../../data/Interfaces/BranchData";
 
 export interface PromotionMessage {
   promoInfo : string

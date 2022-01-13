@@ -1,6 +1,6 @@
 import { Message } from "venom-bot"
-import BranchData, { DeliveryType, PaymentMethod, Promotion } from "../../../../../data/Interfaces/BranchData"
-import CustomerAddress from "../../../../../data/Interfaces/CustomerAddress"
+import BranchData, { DeliveryType, PaymentMethod, Promotion } from "../../../../../../data/Interfaces/BranchData"
+import CustomerAddress from "../../../../../../data/Interfaces/CustomerAddress"
 import staticImplements from "../../../../../Shared/Anotations/staticImplements"
 import AddressUtils from "../../../../../Shared/Utils/AddressUtils"
 import PromotionsUtils from "../../../../../Shared/Utils/PromotionsUtils"

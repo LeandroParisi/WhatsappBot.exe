@@ -1,4 +1,4 @@
-import CustomerAddress from "../../data/Interfaces/CustomerAddress";
+import CustomerAddress from "../../../data/Interfaces/CustomerAddress";
 
 export default class AddressUtils {
   public static ParseAddressToText(a : CustomerAddress) {

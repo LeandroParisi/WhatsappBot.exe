@@ -3,7 +3,7 @@ import MaxLoginReached from '../Abstractions/Errors/MaxLoginReached';
 import BackendError from '../Abstractions/Errors/BackendError';
 import TaonRepository from '../TaonBackend/TaonRepository';
 import UserDataRepository from "./UserDataRepository";
-import BranchData, { Promotion } from '../../data/Interfaces/BranchData';
+import BranchData, { Promotion } from '../../../data/Interfaces/BranchData';
 import BranchTemplateMessagesFactory from '../../Domain/Utils/BranchTemplateMessagesFactory';
 import DaysUtils from '../../Shared/Utils/DaysUtils';
 import PromotionsUtils from '../../Shared/Utils/PromotionsUtils';
