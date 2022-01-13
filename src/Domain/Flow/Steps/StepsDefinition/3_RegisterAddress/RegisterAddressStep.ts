@@ -9,7 +9,7 @@ import StepInfo from "../../Messages/StepInfo";
 
 
 @staticImplements<IStep>()
-@staticImplements<IValidatedStep>()
+@staticImplements<IValidatedStep<boolean>>()
 export default class RegisterAddressStep {
   static STEP_NUMBER = StepNumbers.registerAddress
   

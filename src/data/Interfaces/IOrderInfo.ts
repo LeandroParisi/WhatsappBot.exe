@@ -3,9 +3,13 @@ export enum OrderStatusEnum {
 }
 
 export default interface IOrderInfo {
-  _id? : string
-  customerId : string
-  promotionId? : number
-  status : OrderStatusEnum
-  createdAt : Date
+  _id: string;
+  customerId: string;
+  branchId : string;
+  promotionId?: number;
+  status: OrderStatusEnum;
+  createdAt: Date;
+  deliveryTypeId? : number
+  addressId? : number
+  paymentMethodId? : number
 }

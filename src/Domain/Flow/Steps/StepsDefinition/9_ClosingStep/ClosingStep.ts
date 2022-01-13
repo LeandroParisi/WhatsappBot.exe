@@ -10,7 +10,7 @@ import StepInfo from "../../Messages/StepInfo"
 import ReturnToMenu from "../StepGenerators/ReturnToMenu"
 
 @staticImplements<IStep>()
-@staticImplements<IValidatedStep>()
+@staticImplements<IValidatedStep<boolean>>()
 export default class ClosingStep {
   static STEP_NUMBER = StepNumbers.closingStep
   static STEP_NAME = "Fechamento"

@@ -1,6 +1,7 @@
 import { Message } from "venom-bot";
 import BranchData, { Promotion, PromotionsInformation } from "../../../../../data/Interfaces/BranchData";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
+import { ValidateParameters } from '../../Interfaces/IValidatedStep'
 import Customer from "../../../../Models/Customer";
 import IStep, { StepNumbers } from "../../Interfaces/IStep";
 import StepInfo from "../../Messages/StepInfo";
@@ -19,6 +20,12 @@ enum PossibleAnswers {
   back = "VOLTAR",
 }
 
+interface ValidationPayload {
+  isValid : boolean,
+  selectedOption? : SelectedOption
+  formattedAnswer? : number
+}
+
 enum SelectedOption {
   buy = "BUY_PROMOTION",
   invalidPromotionNumber = "INVALID_PROMOTION_NUMBER",
@@ -27,19 +34,20 @@ enum SelectedOption {
 }
 
 @staticImplements<IStep>()
+@staticImplements<IValidatedStep<ValidationPayload>>()
 export default class PromotionsStep {
   static STEP_NUMBER = StepNumbers.promotionStep
   static STEP_NAME = "Selecionar promoção"
   
-  static Interact(client: Customer, message : Message, sessionData : SessionData) : StepInfo {
-    const clientAnswer = message.body
+  static Interact(customer: Customer, message : Message, sessionData : SessionData) : StepInfo {
+    const answer = message.body
     const { branchData, startupDate } = sessionData
     
-    const { isValid, selectedOption, formattedAnswer } = this.ValidateAnswer(
-      clientAnswer,
+    const { isValid, selectedOption, formattedAnswer } = this.ValidateAnswer({
+      answer,
       sessionData,
-      client
-    )
+      customer
+    })
 
     if (isValid) {
       return this.AnswerFactory(
@@ -55,17 +63,15 @@ export default class PromotionsStep {
     }
   }
 
-  private static ValidateAnswer(
-    answer : string,
-    { branchData, startupDate } : SessionData,
-    client : Customer,
-  ) : {
-    isValid : boolean,
-    selectedOption? : SelectedOption
-    formattedAnswer? : number
-  } {
+  static ValidateAnswer({
+    answer,
+    sessionData,
+    customer
+    } : ValidateParameters
+  ) : ValidationPayload {
+    const { branchData, startupDate } = sessionData
     const numberOfOptions = branchData.avaiablePromotions.length
-    const daysDifference = DaysUtils.GetDatesDifferenceInDays(client.lastMessage, startupDate)
+    const daysDifference = DaysUtils.GetDatesDifferenceInDays(customer.lastMessage, startupDate)
 
     if (daysDifference) {
       return {

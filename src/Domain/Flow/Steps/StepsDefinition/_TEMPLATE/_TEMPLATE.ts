@@ -10,7 +10,7 @@ import StepInfo from "../../Messages/StepInfo"
 
 
 @staticImplements<IStep>()
-@staticImplements<IValidatedStep>()
+@staticImplements<IValidatedStep<boolean>>()
 export default class _TEMPLATE {
   static STEP_NUMBER = StepNumbers.selectPaymentMethod
   

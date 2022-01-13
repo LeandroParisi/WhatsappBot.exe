@@ -1,4 +1,3 @@
-import Address from "../../../../Models/Address"
 import Payload from "../../DTOs/Payload"
 
 export class RegisterOrderDTO extends Payload {

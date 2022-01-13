@@ -5,6 +5,7 @@ import StepError from "../../../../../Abstractions/Errors/StepError"
 import Customer from "../../../../../Models/Customer"
 import Order from "../../../../../Models/Order"
 import { SessionData } from "../../../../Startup/BotStartUp"
+import OrderDTO from "../../../../StepActions/DTOs/OrderDTO"
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler"
 import Validations from "../../../../Utils/Validations"
 import IStep, { StepNumbers } from "../../../Interfaces/IStep"
@@ -86,7 +87,7 @@ export default class SelectAddressStep {
             nextStep.outboundMessages,
             nextStep.nextStep,
             ActionsEnum.UPDATE_ORDER,
-            orderInfo
+            new OrderDTO(orderInfo)
           )
 
         default:

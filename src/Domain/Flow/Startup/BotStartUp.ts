@@ -51,8 +51,12 @@ export default class BotStartup {
 
   public Start() {
     this.bot.onMessage(async (inboundMessage: Message) => {
+      console.log(inboundMessage.from)
+
       if (this.IsValidMessage(inboundMessage)) {
         const { stepInfo, customer } = await this.HandleMessage(inboundMessage)
+
+        console.log({customer})
 
         await this.SendMessages(stepInfo.outboundMessages, customer)
 
@@ -120,10 +124,9 @@ export default class BotStartup {
 
   public async LoadUserInfo() {
     // TODO: tratamento erro
-    // const botInfo = await this.bot.getHostDevice(); 
-    // const { id: { user : deviceNumber } } = botInfo
+    const botInfo = await this.bot.getHostDevice(); 
+    const { id: { user : deviceNumber } } = botInfo
     
-    const deviceNumber = "553175080415"
     const branchData = await this.UserDataHandler.LoadInitialData(deviceNumber);
 
     this.SetBranchData(branchData)
@@ -147,7 +150,7 @@ export default class BotStartup {
   }
 
   private IsValidMessage(inboundMessage: Message) {
-    return !inboundMessage.isGroupMsg && inboundMessage.from === "5521993368575@c.us"
+    return !inboundMessage.isGroupMsg && inboundMessage.from === "553197794403@c.us"
   }
 
   private SetBranchData(branchData: BranchData) {

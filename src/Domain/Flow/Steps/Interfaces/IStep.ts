@@ -18,7 +18,14 @@ export enum StepNumbers {
   mainMenu = 10,
 }
 
-export const BUY_STEPS = new Set([StepNumbers.enrichOrderStep])
+export const BUY_STEPS = new Set([
+  StepNumbers.enrichOrderStep,
+  StepNumbers.selectDeliveryType,
+  StepNumbers.selectPaymentMethod,
+  StepNumbers.selectAddress,
+  StepNumbers.registerAddress,
+  StepNumbers.confirmOrder,
+])
 
 export default interface IStep {
   STEP_NUMBER : StepNumbers

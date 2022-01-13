@@ -4,27 +4,22 @@ import OrderRepository from "../../../../../Services/SessionManagement/OrderRepo
 import Customer from "../../../../Models/Customer";
 import Order from "../../../../Models/Order";
 import { RegisterOrderDTO } from "./RegisterOrderDTO";
-import IActionHandler from "../../Interfaces/IActionHandler";
+import IActionHandler, { ActionsEnum } from "../../Interfaces/IActionHandler";
 
 
 export default class RegisterOrderAction implements IActionHandler<RegisterOrderDTO> {
-
-  /**
-   *
-   */
-  constructor(private readonly repository : OrderRepository) {
-    
-  }
-
-  public static async DispatchAction(payload: RegisterOrderDTO, customer: Customer): Promise<void> {
+  actionName = ActionsEnum.REGISTER_ORDER;
+  
+  async DispatchAction(payload: RegisterOrderDTO, customer: Customer): Promise<void> {
     const orderRepository = Container.get(OrderRepository);
 
     const order = new Order(
       customer.info.id,
+      payload.branchId,
       payload.promotionId,
       OrderStatusEnum.REGISTERED
     )
 
-   await this.orderRepository.Insert(order);
+   await orderRepository.Insert(order);
   }
 }

@@ -12,7 +12,7 @@ import { Dictionary } from "../../../../../Shared/Utils/SystemUtils";
 @staticImplements()
 export default class StepFactory {
 
-  private static StepWarehouse : Dictionary<IStep>
+  private static StepWarehouse : Dictionary<IStep> = {}
 
   static Create(currentStep : number) : IStep {
     try {
@@ -23,6 +23,7 @@ export default class StepFactory {
   }
 
   public static RegisterStep(step : IStep) {
+    console.log(this.StepWarehouse)
     this.StepWarehouse[step.STEP_NUMBER] = step
   }
 }

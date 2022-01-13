@@ -43,6 +43,7 @@ const errorHandler = async (payload : IApi) => {
     return await api(payload)
   } catch (error) {
     const { response } = error
+    console.log({error})
     throw new BackendError(response.status, response.data.error, error)
   }
 }

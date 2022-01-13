@@ -10,6 +10,6 @@ export interface ValidateParameters {
   customer? : Customer,
 }
 
-export default interface IValidateStep {
-  ValidateAnswer(params: ValidateParameters) : boolean
+export default interface IValidateStep<T> {
+  ValidateAnswer(params: ValidateParameters) : T
 }

@@ -10,6 +10,9 @@ import Order from "../../../../Models/Order";
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
 import { AddressPossibleAnswers } from "./2.2.3_SelectAddress/SelectAddressStep";
 import SelectAddress from "../StepGenerators/SelectAddress";
+import OrderDTO from "../../../StepActions/DTOs/OrderDTO";
+import ConfirmOrder, { OrderConfirmationAnswers } from "../8_ConfirmOrder/ConfirmOrder";
+import ConfirmOrderStep from "../8_ConfirmOrder/ConfirmOrder";
 
 @staticImplements<IStep>()
 export default class EnrichOrderStep {
@@ -52,15 +55,15 @@ export default class EnrichOrderStep {
     } else if (!orderInfo.addressId) {
       return SelectAddress.GenerateMessage({}, customer)
     } else {
-      // TODO: Calll to action para iniciar o cadastro antes de entrar no proximo step
       return new StepInfo(
         [
           "Todos os dados foram coletados corretamente!",
-          "Vamos só confirmar os dados do pedido, ok?"
+          "Vamos só confirmar os dados do pedido, ok?",
+          "Vou lhe enviar as informações de seu pedido, caso algumas delas estiver errada favor *digitar o número* da mesma para corrigirmos.",
+          `Caso esteja tudo certo digite *${OrderConfirmationAnswers.OK}*`,
+          ...ConfirmOrderStep.GenerateConfirmationMessage(orderInfo, branchData, customer)
         ],
         StepNumbers.confirmOrder,
-        ActionsEnum.SEND_ORDER,
-        Order
       )
     }
   }

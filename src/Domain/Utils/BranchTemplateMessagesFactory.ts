@@ -22,24 +22,11 @@ export default class BranchTemplateMessagesFactory {
     }
 
     const message = avaiablePromotions.map((promotion : Promotion, promoIndex : number) => {
-      const promotionMessage =  `*${promoIndex + 1}. ${promotion.name}* - R$ ${promotion.totalPrice}:
-      \n*Produtos:*`
+      const { promoInfo, productInfo } = PromotionsUtils.ParsePromotionToText(promotion)
+      
+      const promotionMessage =  `*${promoIndex + 1}.* ${promoInfo}`
 
-      const formattedProduct = promotion.promotionProducts.map((product : Product) => {
-        const formattedAttributes = product.attributes
-          .map((a : Attribute) => {
-            if (a.type === AttributeTypes.sizes) {
-              return `${a.name}`
-            } else {
-              return `${a.name} - ${a.quantity}un`
-            }
-          })
-          .join(", ")
-
-        return `\n${product.name}${!!product.attributes.length ? " -> " : ""}${formattedAttributes}`
-      }).join("\n")
-
-      return promotionMessage + formattedProduct
+      return promotionMessage + productInfo
     }).join("\n---\n\n")
 
     return {

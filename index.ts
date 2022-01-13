@@ -69,5 +69,5 @@ class Main {
   
 }
 
-// new Main().Run();
-new Main().TESTE();
+new Main().Run();
+// new Main().TESTE();

@@ -21,7 +21,7 @@ const options = [
 ]
 
 @staticImplements<IStep>()
-@staticImplements<IValidatedStep>()
+@staticImplements<IValidatedStep<boolean>>()
 export default class MainMenu {
   static STEP_NUMBER = StepNumbers.mainMenu
   static STEP_NAME = 'Main menu';

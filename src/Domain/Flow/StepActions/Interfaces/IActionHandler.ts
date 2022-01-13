@@ -9,5 +9,5 @@ export enum ActionsEnum {
 export default interface IActionHandler<PayloadType> {
   actionName : ActionsEnum
   
-  DispatchAction(payload : PayloadType, customer : Customer) : Promise<void>
+  DispatchAction(payload : PayloadType, customer? : Customer) : Promise<void>
 }

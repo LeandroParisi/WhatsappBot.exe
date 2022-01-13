@@ -4,7 +4,7 @@ import TaonRepository from "../../../../../Services/TaonBackend/TaonRepository";
 import IActionHandler, { ActionsEnum } from "../../Interfaces/IActionHandler";
 import OrderDTO from "../../DTOs/OrderDTO";
 
-export default class SendOrderAction implements IActionHandler<OrderDTO> {
+export default class _TEMPLATE implements IActionHandler<OrderDTO> {
   
   actionName = ActionsEnum.SEND_ORDER;
 
