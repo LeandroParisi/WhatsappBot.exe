@@ -1,6 +1,6 @@
 import { Message } from "venom-bot"
 import BranchData, { DeliveryType, PaymentMethod, Promotion } from "../../../../../../data/Interfaces/BranchData"
-import CustomerAddress from "../../../../../../data/Interfaces/CustomerAddress"
+import ICustomerAddress from "../../../../../../data/Interfaces/ICustomerAddress"
 import staticImplements from "../../../../../Shared/Anotations/staticImplements"
 import AddressUtils from "../../../../../Shared/Utils/AddressUtils"
 import PromotionsUtils from "../../../../../Shared/Utils/PromotionsUtils"
@@ -8,7 +8,7 @@ import Customer from "../../../../Models/Customer"
 import Order from "../../../../Models/Order"
 import { SessionData } from "../../../Startup/BotStartUp"
 import Validations from "../../../Utils/Validations"
-import IStep, { StepNumbers } from "../../Interfaces/IStep"
+import IStep, { StepInteractionPayload, StepNumbers } from "../../Interfaces/IStep"
 import IValidatedStep, { ValidateParameters } from "../../Interfaces/IValidatedStep"
 import StepInfo from "../../Messages/StepInfo"
 
@@ -40,11 +40,12 @@ export enum OrderConfirmationOptions {
 export default class ConfirmOrderStep {
   static STEP_NUMBER = StepNumbers.confirmOrder
   
-  static Interact(
-    customer: Customer,
-    message : Message,
-    sessionData : SessionData,
-    orderInfo : Order
+  static Interact({
+    customer,
+    message,
+    sessionData,
+    orderInfo,
+    } : StepInteractionPayload
     ) : StepInfo {
       throw new Error()
   }
@@ -68,7 +69,7 @@ export default class ConfirmOrderStep {
 
     const address = AddressUtils.ParseAddressToText(
       customer.info.addresses
-        .find((a : CustomerAddress) => a.id === orderInfo.addressId)
+        .find((a : ICustomerAddress) => a.id === orderInfo.addressId)
     )
 
     const paymentMethod = branchData.paymentMethods

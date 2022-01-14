@@ -7,7 +7,7 @@ import UserDataHandler from '../../../Services/UserData/UserDataHandler';
 import DaysUtils from '../../../Shared/Utils/DaysUtils';
 import Customer from '../../Models/Customer';
 import MessageUtils from '../../Utils/MessageUtils';
-import IStep, { BUY_STEPS } from '../Steps/Interfaces/IStep';
+import IStep, { BUY_STEPS, StepInteractionPayload } from '../Steps/Interfaces/IStep';
 import StepFactory from '../Steps/StepsDefinition/StepFactory/StepFactory';
 import BranchDataDb from "../../../Services/UserData/config"
 import ActionsFactory from '../StepActions/ActionDefinitions/ActionsFactory/ActionsFactory';
@@ -19,7 +19,6 @@ import OrderRepository from '../../../Services/SessionManagement/OrderRepository
 interface SetupInfo {
   customer : Customer
   stepHandler : IStep
-  orderInfo : Order
 }
 
 interface HandledMessage {
@@ -81,22 +80,32 @@ export default class BotStartup {
     const { 
       customer, 
       stepHandler, 
-      orderInfo 
     } = await this.MessageSetup(inboundMessage)
+
+    const stepPayload = await this.PayloadFactory(customer, inboundMessage)
 
     let stepInfo = null
 
-
-    stepInfo = stepHandler.Interact(
-      customer,
-      inboundMessage,
-      { ...this.sessionData },
-      orderInfo
-    )
+    stepInfo = stepHandler.Interact(stepPayload)
 
     return {
       stepInfo,
       customer
+    }
+  }
+
+  async PayloadFactory(customer : Customer, message : Message) : Promise<StepInteractionPayload> {
+    let orderInfo = null
+    
+    if (BUY_STEPS.has(customer.currentStep)) {
+      orderInfo = await this.OrderRepository.GetClientOrders(customer._id)
+    }
+
+    return {
+      customer,
+      message,
+      sessionData: { ...this.sessionData },
+      orderInfo
     }
   }
   
@@ -109,16 +118,9 @@ export default class BotStartup {
   
     const stepHandler = StepFactory.Create(customer.currentStep)
 
-    let orderInfo = null
-    
-    if (BUY_STEPS.has(customer.currentStep)) {
-      orderInfo = await this.OrderRepository.GetClientOrders(customer._id)
-    }
-
     return {
       customer,
       stepHandler,
-      orderInfo
     }
   }
 

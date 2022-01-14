@@ -8,9 +8,10 @@ import { SessionData } from "../../../../Startup/BotStartUp"
 import OrderDTO from "../../../../StepActions/DTOs/OrderDTO"
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler"
 import Validations from "../../../../Utils/Validations"
-import IStep, { StepNumbers } from "../../../Interfaces/IStep"
+import IStep, { StepInteractionPayload, StepNumbers } from "../../../Interfaces/IStep"
 import IValidatedStep, { ValidateParameters } from "../../../Interfaces/IValidatedStep"
 import StepInfo from "../../../Messages/StepInfo"
+import SelectAddress from "../../StepGenerators/SelectAddress"
 import EnrichOrderStep from "../EnrichOrderStep"
 
 export enum AddressPossibleAnswers {
@@ -31,11 +32,12 @@ interface ValidationPayload {
 export default class SelectAddressStep {
   static STEP_NUMBER = StepNumbers.selectAddress
   
-  static Interact(
-    customer: Customer,
-    message : Message,
-    sessionData : SessionData,
-    orderInfo : Order
+  static Interact({
+    customer,
+    message ,
+    sessionData,
+    orderInfo,
+    } : StepInteractionPayload
     ) : StepInfo {
     const { branchData } = sessionData
     const answer = message.body
@@ -70,14 +72,7 @@ export default class SelectAddressStep {
     
       switch(selectedOption) {
         case SelectedOption.registerAddress:
-          // TODO: Call to action para iniciar o cadastro antes de entrar no proximo step
-          return new StepInfo(
-            [
-              "Perfeito!",
-              "Vamos cadastrar um endereço de entrega",
-            ],
-            StepNumbers.registerAddress
-          )
+          return SelectAddress.GetRegisterStep()
         case SelectedOption.selectAddress:
           orderInfo.addressId = customer.info.addresses[formattedAnswer - 1].id
           
@@ -93,7 +88,6 @@ export default class SelectAddressStep {
         default:
           throw new StepError(this.STEP_NUMBER, "Answers was validated, but it wasn't possible to determine which Step to send user based on his answer")
       }
-    throw new Error("Method not implemented.")
   }
 
   static ValidateAnswer(

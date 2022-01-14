@@ -6,7 +6,7 @@ import { SessionData } from "../../../../Startup/BotStartUp"
 import OrderDTO from "../../../../StepActions/DTOs/OrderDTO"
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler"
 import Validations from "../../../../Utils/Validations"
-import IStep, { StepNumbers } from "../../../Interfaces/IStep"
+import IStep, { StepInteractionPayload, StepNumbers } from "../../../Interfaces/IStep"
 import IValidatedStep, { ValidateParameters } from "../../../Interfaces/IValidatedStep"
 import StepInfo from "../../../Messages/StepInfo"
 import EnrichOrderStep from "../EnrichOrderStep"
@@ -17,11 +17,12 @@ import EnrichOrderStep from "../EnrichOrderStep"
 export default class SelectPaymentMethodStep {
   static STEP_NUMBER = StepNumbers.selectPaymentMethod
   
-  static Interact(
-    customer: Customer,
-    message : Message,
-    sessionData : SessionData,
-    orderInfo : Order
+  static Interact({
+    customer,
+    message,
+    sessionData,
+    orderInfo,
+    } : StepInteractionPayload
     ) : StepInfo {
     const { branchData } = sessionData
     const answer = message.body

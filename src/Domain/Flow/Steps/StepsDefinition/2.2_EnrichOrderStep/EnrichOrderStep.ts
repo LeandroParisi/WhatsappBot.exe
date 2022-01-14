@@ -2,7 +2,7 @@ import { Message } from "venom-bot";
 import BranchData from "../../../../../../data/Interfaces/BranchData";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
 import Customer from "../../../../Models/Customer";
-import IStep, { StepNumbers } from "../../Interfaces/IStep";
+import IStep, { StepInteractionPayload, StepNumbers } from "../../Interfaces/IStep";
 import MainMenu from "../10_MainMenu/MainMenu";
 import StepInfo from "../../Messages/StepInfo";
 import { SessionData } from "../../../Startup/BotStartUp";
@@ -19,11 +19,11 @@ export default class EnrichOrderStep {
   static STEP_NUMBER = StepNumbers.enrichOrderStep
   static STEP_NAME = "Verificar dados do usuário"
   
-  static Interact(
-    customer: Customer,
-    message : Message,
-    { branchData } : SessionData,
-    orderInfo : Order
+  static Interact({
+    customer,
+    sessionData: { branchData },
+    orderInfo,
+  } : StepInteractionPayload
   ) : StepInfo {
     console.log({ address: customer.info.addresses })
     return this.ExtractMissingOrderInfo(orderInfo, branchData, customer)

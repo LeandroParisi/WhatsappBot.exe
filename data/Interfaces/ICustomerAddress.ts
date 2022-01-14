@@ -1,4 +1,4 @@
-export default interface CustomerAddress {
+export default interface ICustomerAddress {
   id : number
   countryName : string
   stateName : string

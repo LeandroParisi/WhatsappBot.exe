@@ -1,7 +1,7 @@
 import CustomerInfo from "../../../../../../data/Interfaces/CustomerInfo";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
 import Customer from "../../../../Models/Customer";
-import { StepNumbers } from "../../Interfaces/IStep";
+import IStep, { StepNumbers } from "../../Interfaces/IStep";
 import IStepInfo from "../../Messages/IStepInfo";
 import StepInfo from "../../Messages/StepInfo";
 import MainMenu from "../10_MainMenu/MainMenu";
@@ -32,16 +32,18 @@ export default class SelectAddress {
         )
       } else {
         // TODO: Calll to action para iniciar o cadastro antes de entrar no proximo step
-        return new StepInfo(
-          [
-            "Você não tem nenhum endereço cadastrado conosco.",
-            "Que tal cadastrarmos um?",
-          ],
-          StepNumbers.registerAddress
-        )
+        return this.GetRegisterStep()
       }
-    
+    }
 
+  static GetRegisterStep() : StepInfo {
+    // TODO: Call to action para iniciar o cadastro antes de entrar no proximo step
+    return new StepInfo(
+      [
+        "Você não tem nenhum endereço cadastrado conosco.",
+        "Que tal cadastrarmos um?",
+      ],
+      StepNumbers.registerAddress
+    )
   }
-
 } 

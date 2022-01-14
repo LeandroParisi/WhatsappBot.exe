@@ -3,7 +3,7 @@ import BranchData, { Promotion, PromotionsInformation } from "../../../../../../
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
 import { ValidateParameters } from '../../Interfaces/IValidatedStep'
 import Customer from "../../../../Models/Customer";
-import IStep, { StepNumbers } from "../../Interfaces/IStep";
+import IStep, { StepInteractionPayload, StepNumbers } from "../../Interfaces/IStep";
 import StepInfo from "../../Messages/StepInfo";
 import Validations from "../../../Utils/Validations";
 import MessageUtils from "../../../../Utils/MessageUtils";
@@ -39,7 +39,12 @@ export default class PromotionsStep {
   static STEP_NUMBER = StepNumbers.promotionStep
   static STEP_NAME = "Selecionar promoção"
   
-  static Interact(customer: Customer, message : Message, sessionData : SessionData) : StepInfo {
+  static Interact({
+    customer,
+    message,
+    sessionData
+    } : StepInteractionPayload
+    ) : StepInfo {
     const answer = message.body
     const { branchData, startupDate } = sessionData
     

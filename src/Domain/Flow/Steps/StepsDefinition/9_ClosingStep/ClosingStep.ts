@@ -4,7 +4,7 @@ import staticImplements from "../../../../../Shared/Anotations/staticImplements"
 import Customer from "../../../../Models/Customer"
 import MessageUtils from "../../../../Utils/MessageUtils"
 import { SessionData } from "../../../Startup/BotStartUp"
-import IStep, { StepNumbers } from "../../Interfaces/IStep"
+import IStep, { StepInteractionPayload, StepNumbers } from "../../Interfaces/IStep"
 import IValidatedStep, { ValidateParameters } from "../../Interfaces/IValidatedStep"
 import StepInfo from "../../Messages/StepInfo"
 import ReturnToMenu from "../StepGenerators/ReturnToMenu"
@@ -17,7 +17,10 @@ export default class ClosingStep {
   
   static INTRO_MESSAGE = "Posso lhe ajudar em mais alguma coisa?\n1. Sim\n2. Não"
 
-  static Interact(client : Customer, message : Message, { branchData } : SessionData) : StepInfo {
+  static Interact({
+    message,
+    } : StepInteractionPayload 
+    ) : StepInfo {
     const clientAnswer = message.body
 
     if (this.ValidateAnswer({answer: clientAnswer.trim()})) {

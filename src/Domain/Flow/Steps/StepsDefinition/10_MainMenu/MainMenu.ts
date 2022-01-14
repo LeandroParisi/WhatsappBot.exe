@@ -4,7 +4,7 @@ import BranchData, { OpeningHours, Promotion, PromotionsInformation } from "../.
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
 import Customer from "../../../../Models/Customer";
 import MessageUtils from "../../../../Utils/MessageUtils";
-import IStep, { StepNumbers } from "../../Interfaces/IStep";
+import IStep, { StepInteractionPayload, StepNumbers } from "../../Interfaces/IStep";
 import StepInfo from "../../Messages/StepInfo";
 import ClosingStep from "../9_ClosingStep/ClosingStep";
 import PromotionsSelectionStep from "../StepGenerators/PromotionsSelectionStep";
@@ -29,7 +29,12 @@ export default class MainMenu {
   static INTRO_MESSAGE = "Em que posso te ajudar hoje?\n(Digite o número da opção para darmos continuidade)"
   static MENU_OPTIONS = options.join("\n")
 
-  static Interact(client: Customer, message: Message, { branchData } : SessionData): StepInfo {
+  static Interact({
+    customer,
+    message,
+    sessionData: { branchData }
+    } : StepInteractionPayload
+    ) : StepInfo {
     const clientAnswer = message.body
     if (this.ValidateAnswer({ answer: clientAnswer })) {
       return this.AnswerFactory(MessageUtils.FormatNumberOption(clientAnswer), branchData)

@@ -27,13 +27,15 @@ export const BUY_STEPS = new Set([
   StepNumbers.confirmOrder,
 ])
 
+export interface StepInteractionPayload {
+  customer: Customer, 
+  message : Message, 
+  sessionData : SessionData,
+  orderInfo? : Order
+}
+
 export default interface IStep {
   STEP_NUMBER : StepNumbers
 
-  Interact(
-    client: Customer, 
-    message : Message, 
-    sessionData : SessionData,
-    orderInfo? : Order
-  ) : StepInfo
+  Interact(paylod : StepInteractionPayload) : StepInfo
 }
