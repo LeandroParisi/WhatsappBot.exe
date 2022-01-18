@@ -10,5 +10,5 @@ export default interface CustomerInfo {
   lastName? : string
   cpf? : string
   isActive : boolean
-  addresses : Array<ICustomerAddress>
+  customerAddresses : Array<ICustomerAddress>
 }

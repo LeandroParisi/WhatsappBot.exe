@@ -105,6 +105,8 @@ export default class PromotionsStep {
     branchData: BranchData,
     formattedAnswer?: number
   ): StepInfo {
+    console.log({branchData})
+
     switch (selectedOption) {
       case SelectedOption.buy:
         return new StepInfo(
@@ -114,7 +116,7 @@ export default class PromotionsStep {
           StepNumbers.enrichOrderStep,
           ActionsEnum.REGISTER_ORDER,
           new RegisterOrderDTO(
-            branchData.avaiablePromotions[formattedAnswer].id,
+            branchData.avaiablePromotions[formattedAnswer - 1].id,
             branchData.id
           )
         )

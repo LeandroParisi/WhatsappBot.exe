@@ -19,7 +19,7 @@ export default class SessionHandler {
 
   async CheckIn(message: Message) : Promise<Customer> {
     const foundCustomer = await this.Repository.GetClientById(message.from);
-    
+
     if (foundCustomer) return foundCustomer;
 
     const customer = new Customer(message);
@@ -38,7 +38,7 @@ export default class SessionHandler {
   }
 
   private GenerateTemplateMessages(customerInfo : CustomerInfo): CustomerTemplateMessages {
-    var addresses = CustomerTemplateMessagesFactory.GenerateAddressMessage(customerInfo.addresses)
+    var addresses = CustomerTemplateMessagesFactory.GenerateAddressMessage(customerInfo.customerAddresses)
     
     return {
       addresses

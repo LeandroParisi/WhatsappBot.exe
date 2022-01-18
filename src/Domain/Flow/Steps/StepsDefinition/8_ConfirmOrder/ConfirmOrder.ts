@@ -68,7 +68,7 @@ export default class ConfirmOrderStep {
       .find((d : DeliveryType) => d.id === orderInfo.deliveryTypeId)
 
     const address = AddressUtils.ParseAddressToText(
-      customer.info.addresses
+      customer.info.customerAddresses
         .find((a : ICustomerAddress) => a.id === orderInfo.addressId)
     )
 

@@ -34,6 +34,8 @@ const api = async ({
     ...otherOptions,
   }
 
+  console.log({options})
+
   const response = await axios(options)
   return response
 }

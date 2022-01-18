@@ -23,7 +23,7 @@ export default class ActionsFactory {
     try {
       return this.ActionWarehouse[actionName]
     } catch {
-      throw new Error("Unregistered Step type and number")
+      throw new Error("Unregistered Step Action type and number")
     }
   }
 

@@ -1,8 +1,10 @@
 import { Service } from "typedi"
 import { Message } from "venom-bot";
+// import { Message } from "venom-bot";
 import BranchData from "../../../data/Interfaces/BranchData";
 import CustomerInfo from "../../../data/Interfaces/CustomerInfo";
 import LoginData from "../../../data/Interfaces/LoginData";
+import { CustomMessage } from "../../../node_modules_extensions/MessageExtension";
 import Customer from "../../Domain/Models/Customer";
 import { api } from "./services/api"
 
@@ -47,15 +49,17 @@ export default class TaonRepository {
     return response.data.data
   }
 
-  async CheckCustomerInfo(customer : Customer, message : Message) : Promise<CustomerInfo>{
+  async CheckCustomerInfo(customer : Customer, message : any) : Promise<CustomerInfo>{
     const endpoint = `customers/bot/checkCustomer/${customer._id}`
     const method = "POST"
+
+    console.log({ message })
 
     const response = await api({
       endpoint,
       method,
       body: {
-        firstName: message.sender.shortName
+        firstName: message.sender.shortName || message.sender.verifiedName || "Não identificado"  
       }
     })
 

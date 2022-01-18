@@ -50,12 +50,8 @@ export default class BotStartup {
 
   public Start() {
     this.bot.onMessage(async (inboundMessage: Message) => {
-      console.log(inboundMessage.from)
-
       if (this.IsValidMessage(inboundMessage)) {
         const { stepInfo, customer } = await this.HandleMessage(inboundMessage)
-
-        console.log({customer})
 
         await this.SendMessages(stepInfo.outboundMessages, customer)
 
@@ -111,7 +107,7 @@ export default class BotStartup {
   
   private async MessageSetup(inboundMessage: Message) : Promise<SetupInfo> {
     const customer = await this.SessionHandler.CheckIn(inboundMessage);
-    
+
     const branchData = await this.UserDataHandler.UpdateTemplateMessages(customer.lastMessage, this.sessionData.branchData)   
     
     this.SetBranchData(branchData)
@@ -152,7 +148,7 @@ export default class BotStartup {
   }
 
   private IsValidMessage(inboundMessage: Message) {
-    return !inboundMessage.isGroupMsg && inboundMessage.from === "553197794403@c.us"
+    return !inboundMessage.isGroupMsg && inboundMessage.from === "553182630325@c.us"
   }
 
   private SetBranchData(branchData: BranchData) {

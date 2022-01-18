@@ -74,7 +74,7 @@ export default class SelectAddressStep {
         case SelectedOption.registerAddress:
           return SelectAddress.GetRegisterStep()
         case SelectedOption.selectAddress:
-          orderInfo.addressId = customer.info.addresses[formattedAnswer - 1].id
+          orderInfo.addressId = customer.info.customerAddresses[formattedAnswer - 1].id
           
           const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(orderInfo, branchData, customer)
 
@@ -103,7 +103,7 @@ export default class SelectAddressStep {
         selectedOption: SelectedOption.registerAddress
       }
     }
-    else if (Validations.isInRange(answer, customer.info.addresses)) {
+    else if (Validations.isInRange(answer, customer.info.customerAddresses)) {
       return {
         isValidAnswer: true,
         selectedOption: SelectedOption.selectAddress

@@ -25,7 +25,6 @@ export default class EnrichOrderStep {
     orderInfo,
   } : StepInteractionPayload
   ) : StepInfo {
-    console.log({ address: customer.info.addresses })
     return this.ExtractMissingOrderInfo(orderInfo, branchData, customer)
   }
   

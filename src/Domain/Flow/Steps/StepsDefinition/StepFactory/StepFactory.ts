@@ -1,7 +1,7 @@
 import { Message } from "venom-bot";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
 import Customer from "../../../../Models/Customer";
-import IStep, {StepNumbers} from "../../Interfaces/IStep";
+import IStep, {StepInteractionPayload, StepNumbers} from "../../Interfaces/IStep";
 import MainMenu from "../10_MainMenu/MainMenu";
 import StepInfo from "../../Messages/StepInfo";
 import WelcomeStep from "../1_WelcomeStep/WelcomeStep";
@@ -33,7 +33,7 @@ export class UnidentifiedStep {
   static STEP_NUMBER: -1;
   static STEP_NAME: "Unidentified Step";
 
-  static Interact(client: Customer, message: Message) : StepInfo {
+  static Interact({} : StepInteractionPayload) : StepInfo {
     return new StepInfo(
       ["Desculpe, não consegui interpretar sua última mensagem, poderia tentar novamente?"],
       StepNumbers.welcomeStep

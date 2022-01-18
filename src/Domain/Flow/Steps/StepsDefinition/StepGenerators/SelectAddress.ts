@@ -20,7 +20,7 @@ export default class SelectAddress {
     customer : Customer
     ) : StepInfo {
 
-      if (customer.info.addresses.length) {
+      if (customer.info.customerAddresses.length) {
         return new StepInfo(
           [
             "Precisamos preencher alguns dados de seu pedido.",
