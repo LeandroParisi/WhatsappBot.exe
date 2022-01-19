@@ -7,7 +7,7 @@ import UserDataHandler from '../../../Services/UserData/UserDataHandler';
 import DaysUtils from '../../../Shared/Utils/DaysUtils';
 import Customer from '../../Models/Customer';
 import MessageUtils from '../../Utils/MessageUtils';
-import IStep, { BUY_STEPS, StepInteractionPayload } from '../Steps/Interfaces/IStep';
+import IStep, { ADDRESS_STEPS, BUY_STEPS, StepInteractionPayload } from '../Steps/Interfaces/IStep';
 import StepFactory from '../Steps/StepsDefinition/StepFactory/StepFactory';
 import BranchDataDb from "../../../Services/UserData/config"
 import ActionsFactory from '../StepActions/ActionDefinitions/ActionsFactory/ActionsFactory';
@@ -15,6 +15,7 @@ import TaonHandler from '../../../Services/TaonBackend/TaonHandler';
 import StepInfo from '../Steps/Messages/StepInfo';
 import Order from '../../Models/Order';
 import OrderRepository from '../../../Services/SessionManagement/OrderRepository';
+import AddressesRepository from '../../../Services/SessionManagement/AddressesRepository';
 
 interface SetupInfo {
   customer : Customer
@@ -40,7 +41,8 @@ export default class BotStartup {
     private readonly SessionHandler : SessionHandler,
     private readonly TaonHandler : TaonHandler,
     private readonly UserDataHandler : UserDataHandler,
-    private readonly OrderRepository : OrderRepository
+    private readonly OrderRepository : OrderRepository,
+    private readonly AddressesRepository : AddressesRepository
     ) {
       this.sessionData = {
         branchData: null,
@@ -52,10 +54,6 @@ export default class BotStartup {
     this.bot.onMessage(async (inboundMessage: Message) => {
       if (this.IsValidMessage(inboundMessage)) {
         const { stepInfo, customer } = await this.HandleMessage(inboundMessage)
-
-        console.log({customer})
-
-        console.log({stepInfo})
 
         await this.SendMessages(stepInfo.outboundMessages, customer)
 
@@ -86,8 +84,6 @@ export default class BotStartup {
 
     let stepInfo = null
 
-    console.log("CHamar Step")
-
     stepInfo = stepHandler.Interact(stepPayload)
 
     return {
@@ -98,16 +94,22 @@ export default class BotStartup {
 
   async PayloadFactory(customer : Customer, message : Message) : Promise<StepInteractionPayload> {
     let orderInfo = null
+    let address = null
 
     if (BUY_STEPS.has(customer.currentStep)) {
       orderInfo = await this.OrderRepository.GetClientOrders(customer._id)
+    }
+
+    if (ADDRESS_STEPS.has(customer.currentStep)) {
+      address = await this.AddressesRepository.GetClienAddresses(customer._id)
     }
 
     return {
       customer,
       message,
       sessionData: { ...this.sessionData },
-      orderInfo
+      orderInfo,
+      address
     }
   }
   

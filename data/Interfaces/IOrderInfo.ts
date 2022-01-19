@@ -1,5 +1,6 @@
 export enum OrderStatusEnum {
-  REGISTERED = 'REGISTERED'
+  REGISTERING = 'REGISTERING',
+  FINISHED = "FINISHED"
 }
 
 export default interface IOrderInfo {

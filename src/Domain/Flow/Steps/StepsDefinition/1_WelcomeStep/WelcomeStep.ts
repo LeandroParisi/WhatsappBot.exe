@@ -22,7 +22,7 @@ export default class WelcomeStep {
       MainMenu.INTRO_MESSAGE,
       MainMenu.MENU_OPTIONS,
     ]
-    console.log({messages})
+    
     return new StepInfo (
       messages,
       StepNumbers.mainMenu

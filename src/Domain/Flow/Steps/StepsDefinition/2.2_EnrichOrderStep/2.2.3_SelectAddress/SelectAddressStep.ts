@@ -5,7 +5,6 @@ import StepError from "../../../../../Abstractions/Errors/StepError"
 import Customer from "../../../../../Models/Customer"
 import Order from "../../../../../Models/Order"
 import { SessionData } from "../../../../Startup/BotStartUp"
-import OrderDTO from "../../../../StepActions/DTOs/OrderDTO"
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler"
 import Validations from "../../../../Utils/Validations"
 import IStep, { StepInteractionPayload, StepNumbers } from "../../../Interfaces/IStep"
@@ -72,7 +71,7 @@ export default class SelectAddressStep {
     
       switch(selectedOption) {
         case SelectedOption.registerAddress:
-          return SelectAddress.GetRegisterStep()
+          return SelectAddress.GetRegisterStep(customer)
         case SelectedOption.selectAddress:
           orderInfo.addressId = customer.info.customerAddresses[formattedAnswer - 1].id
           
@@ -82,7 +81,7 @@ export default class SelectAddressStep {
             nextStep.outboundMessages,
             nextStep.nextStep,
             ActionsEnum.UPDATE_ORDER,
-            new OrderDTO(orderInfo)
+            orderInfo
           )
 
         default:

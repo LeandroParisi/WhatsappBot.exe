@@ -1,14 +1,8 @@
-import { Message } from "venom-bot";
-import BranchData from "../../../../../../data/Interfaces/BranchData";
 import { CurrentlyRegistering } from "../../../../../../data/Interfaces/ICustomerAddress";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
-import Customer from "../../../../Models/Customer";
 import CustomerAddress from "../../../../Models/CustomerAddress";
-import Order from "../../../../Models/Order";
-import { SessionData } from "../../../Startup/BotStartUp";
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
 import IStep, { StepInteractionPayload, StepNumbers } from "../../Interfaces/IStep";
-import IValidatedStep, { ValidateParameters } from "../../Interfaces/IValidatedStep";
 import StepInfo from "../../Messages/StepInfo";
 
 
@@ -24,7 +18,6 @@ export default class RegisterAddressStep {
     address,
     } : StepInteractionPayload
     ) : StepInfo {
-      console.log({address})
       this.UpdateAddress(address, message.body)
       return this.ExtractMissingAddressInfo(address)
   }
@@ -63,8 +56,6 @@ export default class RegisterAddressStep {
     if (!address.countryName) {
       address.currentlyRegistering = CurrentlyRegistering.COUNTRY_NAME
 
-      console.log({address})
-
       return new StepInfo(
         [
           "Vamos cadastrar seu *país*, favor digitar o nome do país de sua residência."
@@ -76,7 +67,6 @@ export default class RegisterAddressStep {
 
     } else if (!address.stateName) {
       address.currentlyRegistering = CurrentlyRegistering.STATE_NAME
-
 
       return new StepInfo(
         [

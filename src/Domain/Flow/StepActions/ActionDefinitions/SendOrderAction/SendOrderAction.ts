@@ -2,13 +2,13 @@ import Container, { Service } from "typedi";
 import Customer from "../../../../Models/Customer";
 import TaonRepository from "../../../../../Services/TaonBackend/TaonRepository";
 import IActionHandler, { ActionsEnum } from "../../Interfaces/IActionHandler";
-import OrderDTO from "../../DTOs/OrderDTO";
+import Order from "../../../../Models/Order";
 
-export default class SendOrderAction implements IActionHandler<OrderDTO> {
+export default class SendOrderAction implements IActionHandler<Order> {
   
   actionName = ActionsEnum.SEND_ORDER;
 
-  async DispatchAction(payload: OrderDTO, client: Customer): Promise<void> {
+  async DispatchAction(payload: Order, client: Customer): Promise<void> {
     const taonRepository = Container.get(TaonRepository);
 
     throw new Error("Method not implemented.");

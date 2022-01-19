@@ -12,13 +12,13 @@ import CustomerRepository from './CustomerRepository';
 @Service()
 export default class SessionHandler {
   constructor(
-    private readonly Repository : CustomerRepository,
+    private readonly CustomerRepository : CustomerRepository,
     private readonly TaonRepository : TaonRepository
   ) {
   }
 
   async CheckIn(message: Message) : Promise<Customer> {
-    const foundCustomer = await this.Repository.GetClientByNumber(message.from);
+    const foundCustomer = await this.CustomerRepository.GetClientByNumber(message.from);
 
     if (foundCustomer) return foundCustomer;
 
@@ -32,7 +32,7 @@ export default class SessionHandler {
 
     customer.customerTemplateMessages = this.GenerateTemplateMessages(customer.info)
 
-    await this.Repository.InsertCustomer(customer)
+    await this.CustomerRepository.InsertCustomer(customer)
 
     return customer;
   }
@@ -46,7 +46,7 @@ export default class SessionHandler {
   }
 
   async UpdateClientStep(client : Customer, nextStep : number) {
-    await this.Repository.UpdateClient(
+    await this.CustomerRepository.UpdateClient(
       client, 
       { 
         currentStep: nextStep,
@@ -69,13 +69,13 @@ export default class SessionHandler {
       ]
     }
 
-    const invalidSessions = await this.Repository.FindAll(findQuery);
+    const invalidSessions = await this.CustomerRepository.FindAll(findQuery);
 
     const deleteQuery = {
       _id: { $in: invalidSessions.map((client : Customer) => client._id)}
     }
 
-    await this.Repository.DeleteClient(deleteQuery)
+    await this.CustomerRepository.DeleteClient(deleteQuery)
   }
 
   // eslint-disable-next-line class-methods-use-this

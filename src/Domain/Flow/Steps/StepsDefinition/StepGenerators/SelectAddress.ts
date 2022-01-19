@@ -1,11 +1,14 @@
 import CustomerInfo from "../../../../../../data/Interfaces/CustomerInfo";
+import { AddressStatusEnum } from "../../../../../../data/Interfaces/ICustomerAddress";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
 import Customer from "../../../../Models/Customer";
+import CustomerAddress from "../../../../Models/CustomerAddress";
 import IStep, { StepNumbers } from "../../Interfaces/IStep";
 import IStepInfo from "../../Messages/IStepInfo";
 import StepInfo from "../../Messages/StepInfo";
 import MainMenu from "../10_MainMenu/MainMenu";
 import { AddressPossibleAnswers } from "../2.2_EnrichOrderStep/2.2.3_SelectAddress/SelectAddressStep";
+import RegisterAddressStep from "../3_RegisterAddress/RegisterAddressStep";
 
 interface options {
   prefixMessages? : string[],
@@ -31,17 +34,23 @@ export default class SelectAddress {
           StepNumbers.selectAddress
         )
       } else {
-        return this.GetRegisterStep()
+        return this.GetRegisterStep(customer)
       }
     }
 
-  static GetRegisterStep() : StepInfo {
+  static GetRegisterStep(customer : Customer) : StepInfo {
+    const address = new CustomerAddress(AddressStatusEnum.REGISTERING, customer._id)
+    const nextStep = RegisterAddressStep.ExtractMissingAddressInfo(address)
+
     return new StepInfo(
       [
         "Você não tem nenhum endereço cadastrado conosco.",
         "Que tal cadastrarmos um?",
+        ...nextStep.outboundMessages
       ],
-      StepNumbers.registerAddress
+      StepNumbers.registerAddress,
+      nextStep.requiredAction,
+      nextStep.actionPayload
     )
   }
 } 

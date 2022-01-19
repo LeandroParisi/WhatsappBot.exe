@@ -3,7 +3,6 @@ import staticImplements from "../../../../../../Shared/Anotations/staticImplemen
 import Customer from "../../../../../Models/Customer"
 import Order from "../../../../../Models/Order"
 import { SessionData } from "../../../../Startup/BotStartUp"
-import OrderDTO from "../../../../StepActions/DTOs/OrderDTO"
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler"
 import Validations from "../../../../Utils/Validations"
 import IStep, { StepInteractionPayload, StepNumbers } from "../../../Interfaces/IStep"
@@ -41,7 +40,7 @@ export default class SelectPaymentMethodStep {
         nextStep.outboundMessages,
         nextStep.nextStep,
         ActionsEnum.UPDATE_ORDER,
-        new OrderDTO(orderInfo)
+        orderInfo
       )
     } else {
       return new StepInfo(

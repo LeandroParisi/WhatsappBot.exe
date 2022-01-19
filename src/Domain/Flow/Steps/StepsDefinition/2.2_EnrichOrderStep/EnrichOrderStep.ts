@@ -10,7 +10,6 @@ import Order from "../../../../Models/Order";
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
 import { AddressPossibleAnswers } from "./2.2.3_SelectAddress/SelectAddressStep";
 import SelectAddress from "../StepGenerators/SelectAddress";
-import OrderDTO from "../../../StepActions/DTOs/OrderDTO";
 import ConfirmOrder, { OrderConfirmationAnswers } from "../8_ConfirmOrder/ConfirmOrder";
 import ConfirmOrderStep from "../8_ConfirmOrder/ConfirmOrder";
 

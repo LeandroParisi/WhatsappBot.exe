@@ -13,7 +13,6 @@ import StepError from "../../../../Abstractions/Errors/StepError";
 import { SessionData } from "../../../Startup/BotStartUp";
 import DaysUtils from "../../../../../Shared/Utils/DaysUtils";
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
-import { RegisterOrderDTO } from "../../../StepActions/ActionDefinitions/RegisterOrderAction/RegisterOrderDTO";
 import IValidatedStep from "../../Interfaces/IValidatedStep";
 import Order from "../../../../Models/Order";
 import { OrderStatusEnum } from "../../../../../../data/Interfaces/IOrderInfo";
@@ -117,7 +116,7 @@ export default class PromotionsStep {
           customer._id,
           branchData.id,
           branchData.avaiablePromotions[formattedAnswer - 1].id,
-          OrderStatusEnum.REGISTERED
+          OrderStatusEnum.REGISTERING
         )
 
         const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(order, branchData, customer)
@@ -128,7 +127,7 @@ export default class PromotionsStep {
           ],
           nextStep.nextStep,
           ActionsEnum.REGISTER_ORDER,
-          new RegisterOrderDTO(order)
+          order
         )
 
       case SelectedOption.invalidPromotionNumber:
