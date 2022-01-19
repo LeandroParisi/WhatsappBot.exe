@@ -124,7 +124,6 @@ export default class PromotionsStep {
 
         return new StepInfo(
           [
-            'Perfeito! Precisamos confirmar alguns dados antes de finalizar seu pedido:',
             ...nextStep.outboundMessages
           ],
           nextStep.nextStep,

@@ -63,6 +63,7 @@ export default class SelectDeliveryTypeStep {
     } : ValidateParameters
   ) : boolean {
     const { branchData } = sessionData
+    console.log({data: branchData.deliveryTypes})
     if (Validations.IsInRange(answer, branchData.deliveryTypes)) {
       return true
     }

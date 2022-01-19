@@ -64,6 +64,8 @@ export default class BranchTemplateMessagesFactory {
 
     message += this.CreateDeliveryTypeText(deliveryTypes)
 
+    message += "\n\n"
+
     message += this.CreateDeliveryFeeText(deliveryFees)
 
     return message
@@ -122,7 +124,6 @@ export default class BranchTemplateMessagesFactory {
       return `${index + 1}. ${DeliveryTypeUtils.TranslateToPt(deliveryType.deliveryType)}`
     }).join('\n')
 
-    deliveryTypeText += "\n\n"
 
     return deliveryTypeText
   }

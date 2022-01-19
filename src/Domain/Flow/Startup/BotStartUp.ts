@@ -53,6 +53,10 @@ export default class BotStartup {
       if (this.IsValidMessage(inboundMessage)) {
         const { stepInfo, customer } = await this.HandleMessage(inboundMessage)
 
+        console.log({customer})
+
+        console.log({stepInfo})
+
         await this.SendMessages(stepInfo.outboundMessages, customer)
 
         await this.HandleStepAction(stepInfo, customer);
@@ -138,7 +142,7 @@ export default class BotStartup {
 
   private async SendMessages(outboundMessages : string[], customer : Customer) {
     for (let outboundMessage of outboundMessages) {
-      await this.bot.sendText(customer._id, outboundMessage)
+      await this.bot.sendText(customer.info.whatsappId, outboundMessage)
     }
   }
 
