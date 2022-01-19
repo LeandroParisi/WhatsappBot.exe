@@ -11,8 +11,8 @@ export default class CustomerRepository {
     this.customerDb = SessionDataDbs.customerDb;
   }
 
-  async GetClientById(clientId: string) : Promise<Customer> {
-    const document = await this.customerDb.findOne({ _id: clientId });
+  async GetClientByNumber(whatsappId: string) : Promise<Customer> {
+    const document = await this.customerDb.findOne({ "info.whatsappId": whatsappId });
     return document as Customer
   }
 

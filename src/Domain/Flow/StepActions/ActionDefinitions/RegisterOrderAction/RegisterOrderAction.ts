@@ -14,7 +14,7 @@ export default class RegisterOrderAction implements IActionHandler<RegisterOrder
     const orderRepository = Container.get(OrderRepository);
 
     const order = new Order(
-      customer.info.id,
+      customer._id,
       payload.branchId,
       payload.promotionId,
       OrderStatusEnum.REGISTERED

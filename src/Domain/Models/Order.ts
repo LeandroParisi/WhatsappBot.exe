@@ -20,9 +20,10 @@ export default class Order implements IOrderInfo {
     customerId : string,
     branchId : string,
     promotionId : number,
-    status : OrderStatusEnum
+    status : OrderStatusEnum,
+    _id? : string
   ) {
-    this._id = uuid()
+    this._id = _id || uuid()
     this.customerId = customerId
     this.promotionId = promotionId
     this.branchId = branchId

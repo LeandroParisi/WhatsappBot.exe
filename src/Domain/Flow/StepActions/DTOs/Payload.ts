@@ -1,1 +1,3 @@
-export default abstract class Payload {}; 
+export default interface Payload { 
+
+} 

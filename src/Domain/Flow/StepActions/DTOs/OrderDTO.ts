@@ -5,32 +5,15 @@ import Order from '../../../Models/Order';
 import Payload from "./Payload";
 
 // TODO: mudar o payload para inteerface e extender o Order?
-export default class OrderDTO extends Payload implements IOrderInfo  {
-  _id: string;
-  customerId: string;
-  branchId: string;
-  promotionId?: number;
-  status: OrderStatusEnum;
-  createdAt: Date;
-  deliveryTypeId? : number
-  addressId? : number
-  paymentMethodId? : number
-
-  /**
-   *
-   */
-  constructor(
-    order : Order
-  ) {
-    super()
-    this._id = order._id
-    this.customerId = order.customerId
-    this.branchId = order.branchId
-    this.promotionId = order.promotionId
-    this.status = order.status
-    this.createdAt = order.createdAt
+export default class OrderDTO extends Order implements Payload, IOrderInfo  {
+  constructor(order : Order) {
+    super(order.customerId, order.branchId, order.promotionId, order.status, order._id)
+    this.createdAt= order.createdAt;
+    this.promotionId = order.promotionId;
     this.deliveryTypeId = order.deliveryTypeId
     this.addressId = order.addressId
     this.paymentMethodId = order.paymentMethodId
+  
   }
+
 }

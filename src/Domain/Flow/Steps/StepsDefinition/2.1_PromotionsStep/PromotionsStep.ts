@@ -17,6 +17,7 @@ import { RegisterOrderDTO } from "../../../StepActions/ActionDefinitions/Registe
 import IValidatedStep from "../../Interfaces/IValidatedStep";
 import Order from "../../../../Models/Order";
 import { OrderStatusEnum } from "../../../../../../data/Interfaces/IOrderInfo";
+import EnrichOrderStep from "../2.2_EnrichOrderStep/EnrichOrderStep";
 
 enum PossibleAnswers {
   back = "VOLTAR",
@@ -113,22 +114,22 @@ export default class PromotionsStep {
     switch (selectedOption) {
       case SelectedOption.buy:
         const order = new Order(
-          customer.info.id,
+          customer._id,
           branchData.id,
           branchData.avaiablePromotions[formattedAnswer - 1].id,
           OrderStatusEnum.REGISTERED
         )
-        
+
+        const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(order, branchData, customer)
+
         return new StepInfo(
           [
-            'Perfeito! Precisamos confirmar alguns dados antes de finalizar seu pedido:'
+            'Perfeito! Precisamos confirmar alguns dados antes de finalizar seu pedido:',
+            ...nextStep.outboundMessages
           ],
-          StepNumbers.enrichOrderStep,
+          nextStep.nextStep,
           ActionsEnum.REGISTER_ORDER,
-          new RegisterOrderDTO(
-            branchData.avaiablePromotions[formattedAnswer - 1].id,
-            branchData.id
-          )
+          new RegisterOrderDTO(order)
         )
 
       case SelectedOption.invalidPromotionNumber:

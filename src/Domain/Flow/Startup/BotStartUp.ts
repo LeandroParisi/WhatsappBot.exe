@@ -82,6 +82,8 @@ export default class BotStartup {
 
     let stepInfo = null
 
+    console.log("CHamar Step")
+
     stepInfo = stepHandler.Interact(stepPayload)
 
     return {
@@ -92,7 +94,7 @@ export default class BotStartup {
 
   async PayloadFactory(customer : Customer, message : Message) : Promise<StepInteractionPayload> {
     let orderInfo = null
-    
+
     if (BUY_STEPS.has(customer.currentStep)) {
       orderInfo = await this.OrderRepository.GetClientOrders(customer._id)
     }

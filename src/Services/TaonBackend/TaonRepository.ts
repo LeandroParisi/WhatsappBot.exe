@@ -50,14 +50,15 @@ export default class TaonRepository {
   }
 
   async CheckCustomerInfo(customer : Customer, message : any) : Promise<CustomerInfo>{
-    const endpoint = `customers/bot/checkCustomer/${customer._id}`
+    const endpoint = `customers/bot/checkCustomer/${message.from}`
     const method = "POST"
 
     const response = await api({
       endpoint,
       method,
       body: {
-        firstName: message.sender.shortName || message.sender.verifiedName || "Não identificado"  
+        firstName: message.sender.shortName || message.sender.verifiedName || "Não identificado",
+        id: customer._id
       }
     })
 

@@ -18,7 +18,7 @@ export default class SessionHandler {
   }
 
   async CheckIn(message: Message) : Promise<Customer> {
-    const foundCustomer = await this.Repository.GetClientById(message.from);
+    const foundCustomer = await this.Repository.GetClientByNumber(message.from);
 
     if (foundCustomer) return foundCustomer;
 
@@ -26,6 +26,8 @@ export default class SessionHandler {
 
     const customerInfo = await this.TaonRepository.CheckCustomerInfo(customer, message)
 
+    customer._id = customerInfo.id
+    delete customerInfo.id
     customer.info = customerInfo
 
     customer.customerTemplateMessages = this.GenerateTemplateMessages(customer.info)

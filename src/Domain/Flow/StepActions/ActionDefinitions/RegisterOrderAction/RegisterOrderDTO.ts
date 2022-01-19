@@ -1,12 +1,8 @@
+import Order from "../../../../Models/Order"
 import Payload from "../../DTOs/Payload"
 
-export class RegisterOrderDTO extends Payload {
-  promotionId : number
-  branchId : string
-
-  constructor(promotionId : number, branchId : string) {
-    super()
-    this.promotionId = promotionId
-    this.branchId = branchId
+export class RegisterOrderDTO extends Order implements Payload {
+  constructor(order : Order) {
+    super(order.customerId, order.branchId, order.promotionId, order.status)
   }
 }
