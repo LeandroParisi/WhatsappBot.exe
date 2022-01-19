@@ -7,17 +7,10 @@ import CustomerAddress from "../../../../Models/CustomerAddress";
 
 export default class UpdateAddressAction implements IActionHandler<CustomerAddress> {
   actionName = ActionsEnum.UPSERT_ADDRESS;
-  Repository : AddressesRepository
-
-  /**
-   *
-   */
-  constructor() {
-    this.Repository = Container.get(AddressesRepository);
-  }
-
+  
   async DispatchAction(payload: CustomerAddress): Promise<void> {
+    const Repository = Container.get(AddressesRepository);
     console.log("UPDATE ADDRESS")
-    await this.Repository.Upsert(payload)
+    await Repository.Upsert(payload)
   }
 }

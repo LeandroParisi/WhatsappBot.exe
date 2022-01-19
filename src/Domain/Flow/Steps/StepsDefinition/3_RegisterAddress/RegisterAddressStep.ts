@@ -76,7 +76,7 @@ export default class RegisterAddressStep {
 
     } else if (!address.stateName) {
       address.currentlyRegistering = CurrentlyRegistering.STATE_NAME
-
+      console.log({address})
 
       return new StepInfo(
         [

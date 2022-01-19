@@ -14,16 +14,12 @@ export default class AddressesRepository {
     this.addressesDb = SessionDataDbs.addressesDb;
   }
 
-  async Upsert(address: CustomerAddress) : Promise<Number> {
-    const affectedRows = await this.addressesDb.update(
-      { customerId: address.customerId },
-      { $set: address },
-      { upsert: true}
-    )
-    return affectedRows
+  async Upsert(address: CustomerAddress) : Promise<CustomerAddress> {
+    const a = await this.addressesDb.insert(address)
+    return a as CustomerAddress
   }
 
-  async GetClienAddresses(customerId : string) : Promise<CustomerAddress> {
+  async GetClientAddresses(customerId : string) : Promise<CustomerAddress> {
     const address = await this.addressesDb.findOne({ customerId })
     return address as CustomerAddress;
   }

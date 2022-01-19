@@ -59,6 +59,8 @@ export default class BotStartup {
 
         await this.HandleStepAction(stepInfo, customer);
 
+        console.log({stepInfo})
+
         await this.SessionHandler.UpdateClientStep(customer, stepInfo.nextStep)
 
       } else {
@@ -101,7 +103,7 @@ export default class BotStartup {
     }
 
     if (ADDRESS_STEPS.has(customer.currentStep)) {
-      address = await this.AddressesRepository.GetClienAddresses(customer._id)
+      address = await this.AddressesRepository.GetClientAddresses(customer._id)
     }
 
     return {
@@ -151,6 +153,7 @@ export default class BotStartup {
   private async HandleStepAction(stepInfo: StepInfo, client: Customer) {
     if (stepInfo.requiredAction) {
       const actionHandler = ActionsFactory.Create(stepInfo.requiredAction)
+      console.log({actionHandler})
       await actionHandler.DispatchAction(stepInfo.actionPayload, client);
     }
   }
