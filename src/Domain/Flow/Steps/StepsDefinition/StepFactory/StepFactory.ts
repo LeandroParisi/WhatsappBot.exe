@@ -23,7 +23,6 @@ export default class StepFactory {
   }
 
   public static RegisterStep(step : IStep) {
-    console.log(this.StepWarehouse)
     this.StepWarehouse[step.STEP_NUMBER] = step
   }
 }

@@ -24,8 +24,6 @@ export default class SessionHandler {
 
     const customer = new Customer(message);
 
-    console.log({customer})
-
     const customerInfo = await this.TaonRepository.CheckCustomerInfo(customer, message)
 
     customer.info = customerInfo

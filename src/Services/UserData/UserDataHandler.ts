@@ -151,10 +151,6 @@ export default class UserDataHandler {
       .CreateDeliveryTypeText(data.deliveryTypes)
 
     const {paymentMethods, deliveryTypes, } = data
-    console.log({ templates: data.templateMessages })
-    console.log({ paymentMethods })
-    console.log({ deliveryTypes })
-
 
     return data
   }

@@ -33,7 +33,7 @@ export default class SelectPaymentMethodStep {
 
     if (isValidAnswer) {
       orderInfo.paymentMethodId = branchData
-      .paymentMethods[Number(answer) -  1].id
+        .paymentMethods[Number(answer) -  1].id
 
       const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(orderInfo, branchData, customer)
 
@@ -63,7 +63,7 @@ export default class SelectPaymentMethodStep {
     } : ValidateParameters
   ) : boolean {
     const { branchData } = sessionData
-    if (Validations.isInRange(answer, branchData.deliveryTypes)) {
+    if (Validations.IsInRange(answer, branchData.paymentMethods)) {
       return true
     }
     return false

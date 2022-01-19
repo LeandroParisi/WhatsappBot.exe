@@ -6,7 +6,7 @@ export default class Validations {
     return /^[1-9]$/.test(stringToTest.trim())
   }
 
-  public static isInRange(stringToTest : string, aimedArray : Array<any>) {
+  public static IsInRange(stringToTest : string, aimedArray : Array<any>) {
     if (!this.IsNumber(stringToTest)) {
       return false
     } else {

@@ -31,13 +31,11 @@ export default class SelectAddress {
           StepNumbers.selectAddress
         )
       } else {
-        // TODO: Calll to action para iniciar o cadastro antes de entrar no proximo step
         return this.GetRegisterStep()
       }
     }
 
   static GetRegisterStep() : StepInfo {
-    // TODO: Call to action para iniciar o cadastro antes de entrar no proximo step
     return new StepInfo(
       [
         "Você não tem nenhum endereço cadastrado conosco.",

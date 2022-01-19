@@ -92,9 +92,6 @@ export default class ConfirmOrderStep {
     const formattedAnswer = answer.trim()
     const isValid = Object.values(OrderConfirmationOptions).includes(formattedAnswer) && Validations.IsNumber(answer)
 
-    console.log("options", Object.values(OrderConfirmationOptions))
-    console.log("selected", answer.trim())
-
     if (!isValid) {
       return {
         isValid

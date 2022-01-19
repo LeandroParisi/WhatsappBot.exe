@@ -53,8 +53,6 @@ export default class TaonRepository {
     const endpoint = `customers/bot/checkCustomer/${customer._id}`
     const method = "POST"
 
-    console.log({ message })
-
     const response = await api({
       endpoint,
       method,

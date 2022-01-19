@@ -4,6 +4,7 @@ import IOrderInfo, { OrderStatusEnum } from '../../../../../data/Interfaces/IOrd
 import Order from '../../../Models/Order';
 import Payload from "./Payload";
 
+// TODO: mudar o payload para inteerface e extender o Order?
 export default class OrderDTO extends Payload implements IOrderInfo  {
   _id: string;
   customerId: string;

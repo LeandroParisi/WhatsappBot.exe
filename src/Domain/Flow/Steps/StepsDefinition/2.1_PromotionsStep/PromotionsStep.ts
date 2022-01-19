@@ -15,6 +15,8 @@ import DaysUtils from "../../../../../Shared/Utils/DaysUtils";
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
 import { RegisterOrderDTO } from "../../../StepActions/ActionDefinitions/RegisterOrderAction/RegisterOrderDTO";
 import IValidatedStep from "../../Interfaces/IValidatedStep";
+import Order from "../../../../Models/Order";
+import { OrderStatusEnum } from "../../../../../../data/Interfaces/IOrderInfo";
 
 enum PossibleAnswers {
   back = "VOLTAR",
@@ -58,7 +60,8 @@ export default class PromotionsStep {
       return this.AnswerFactory(
         selectedOption,
         branchData,
-        formattedAnswer
+        customer,
+        formattedAnswer,
       )
     } else {
       return PromotionsSelectionStep.GenerateMessage({ 
@@ -103,15 +106,22 @@ export default class PromotionsStep {
   private static AnswerFactory(
     selectedOption: SelectedOption,
     branchData: BranchData,
+    customer : Customer,
     formattedAnswer?: number
   ): StepInfo {
-    console.log({branchData})
 
     switch (selectedOption) {
       case SelectedOption.buy:
+        const order = new Order(
+          customer.info.id,
+          branchData.id,
+          branchData.avaiablePromotions[formattedAnswer - 1].id,
+          OrderStatusEnum.REGISTERED
+        )
+        
         return new StepInfo(
           [
-            'Perfeito! Perfeito, precisamos confirmar alguns dados antes de finalizar seu pedido:'
+            'Perfeito! Precisamos confirmar alguns dados antes de finalizar seu pedido:'
           ],
           StepNumbers.enrichOrderStep,
           ActionsEnum.REGISTER_ORDER,

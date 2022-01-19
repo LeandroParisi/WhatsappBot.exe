@@ -103,7 +103,7 @@ export default class SelectAddressStep {
         selectedOption: SelectedOption.registerAddress
       }
     }
-    else if (Validations.isInRange(answer, customer.info.customerAddresses)) {
+    else if (Validations.IsInRange(answer, customer.info.customerAddresses)) {
       return {
         isValidAnswer: true,
         selectedOption: SelectedOption.selectAddress

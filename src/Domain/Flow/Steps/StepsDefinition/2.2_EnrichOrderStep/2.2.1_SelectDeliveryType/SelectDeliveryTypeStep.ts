@@ -33,7 +33,7 @@ export default class SelectDeliveryTypeStep {
 
       if (isValidAnswer) {
         orderInfo.deliveryTypeId = branchData
-        .deliveryTypes[Number(answer) -  1].id
+          .deliveryTypes[Number(answer) -  1].id
 
         const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(orderInfo, branchData, customer)
 
@@ -63,7 +63,7 @@ export default class SelectDeliveryTypeStep {
     } : ValidateParameters
   ) : boolean {
     const { branchData } = sessionData
-    if (Validations.isInRange(answer, branchData.deliveryTypes)) {
+    if (Validations.IsInRange(answer, branchData.deliveryTypes)) {
       return true
     }
     return false

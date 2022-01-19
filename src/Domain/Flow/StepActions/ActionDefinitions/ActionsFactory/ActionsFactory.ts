@@ -17,7 +17,7 @@ import { Dictionary } from "../../../../../Shared/Utils/SystemUtils";
 @staticImplements()
 export default class ActionsFactory {
 
-  private static ActionWarehouse : Dictionary<IActionHandler<Payload>>
+  private static ActionWarehouse : Dictionary<IActionHandler<Payload>> = {}
 
   static Create(actionName : ActionsEnum) : IActionHandler<Payload> {
     try {

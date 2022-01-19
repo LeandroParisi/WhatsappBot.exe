@@ -34,8 +34,6 @@ const api = async ({
     ...otherOptions,
   }
 
-  console.log({options})
-
   const response = await axios(options)
   return response
 }
@@ -45,7 +43,6 @@ const errorHandler = async (payload : IApi) => {
     return await api(payload)
   } catch (error) {
     const { response } = error
-    console.log({error})
     throw new BackendError(response.status, response.data.error, error)
   }
 }
