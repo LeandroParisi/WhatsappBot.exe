@@ -1,10 +1,11 @@
 import { Message } from "venom-bot";
 import BranchData from "../../../../../../data/Interfaces/BranchData";
-import { CurrentlyRegistering } from "../../../../../../data/Interfaces/ICustomerAddress";
+import { CurrentlyRegisteringAddress } from "../../../../../../data/Interfaces/ICustomerAddress";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
 import Customer from "../../../../Models/Customer";
 import CustomerAddress from "../../../../Models/CustomerAddress";
 import Order from "../../../../Models/Order";
+import MessageUtils from "../../../../Utils/MessageUtils";
 import { SessionData } from "../../../Startup/BotStartUp";
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
 import IStep, { StepInteractionPayload, StepNumbers } from "../../Interfaces/IStep";
@@ -24,35 +25,34 @@ export default class RegisterAddressStep {
     address,
     } : StepInteractionPayload
     ) : StepInfo {
-      console.log({address})
       this.UpdateAddress(address, message.body)
       return this.ExtractMissingAddressInfo(address)
   }
 
   private static UpdateAddress(address: CustomerAddress, answer : string) {
-    if (address.currentlyRegistering === CurrentlyRegistering.COUNTRY_NAME) {
-      address.currentlyRegistering = CurrentlyRegistering.COUNTRY_NAME
+    if (address.currentlyRegistering === CurrentlyRegisteringAddress.COUNTRY_NAME) {
+      address.currentlyRegistering = CurrentlyRegisteringAddress.COUNTRY_NAME
       address.countryName = answer.trim()
-    } else if (address.currentlyRegistering === CurrentlyRegistering.STATE_NAME) {
-      address.currentlyRegistering = CurrentlyRegistering.STATE_NAME
+    } else if (address.currentlyRegistering === CurrentlyRegisteringAddress.STATE_NAME) {
+      address.currentlyRegistering = CurrentlyRegisteringAddress.STATE_NAME
       address.stateName = answer.trim()
-    } else if (address.currentlyRegistering === CurrentlyRegistering.CITY_NAME) {
-      address.currentlyRegistering = CurrentlyRegistering.CITY_NAME
+    } else if (address.currentlyRegistering === CurrentlyRegisteringAddress.CITY_NAME) {
+      address.currentlyRegistering = CurrentlyRegisteringAddress.CITY_NAME
       address.cityName = answer.trim()
-    } else if (address.currentlyRegistering === CurrentlyRegistering.POSTAL_CODE) {
-      address.currentlyRegistering = CurrentlyRegistering.POSTAL_CODE
+    } else if (address.currentlyRegistering === CurrentlyRegisteringAddress.POSTAL_CODE) {
+      address.currentlyRegistering = CurrentlyRegisteringAddress.POSTAL_CODE
       address.postalCode = answer.trim()
-    } else if (address.currentlyRegistering === CurrentlyRegistering.NEIGHBORHOOD) {
-      address.currentlyRegistering = CurrentlyRegistering.NEIGHBORHOOD
+    } else if (address.currentlyRegistering === CurrentlyRegisteringAddress.NEIGHBORHOOD) {
+      address.currentlyRegistering = CurrentlyRegisteringAddress.NEIGHBORHOOD
       address.neighborhood = answer.trim()
-    } else if (address.currentlyRegistering === CurrentlyRegistering.STREET) {
-      address.currentlyRegistering = CurrentlyRegistering.STREET
+    } else if (address.currentlyRegistering === CurrentlyRegisteringAddress.STREET) {
+      address.currentlyRegistering = CurrentlyRegisteringAddress.STREET
       address.street = answer.trim()
-    } else if (address.currentlyRegistering === CurrentlyRegistering.STREET_NUMBER) {
-      address.currentlyRegistering = CurrentlyRegistering.STREET_NUMBER
+    } else if (address.currentlyRegistering === CurrentlyRegisteringAddress.STREET_NUMBER) {
+      address.currentlyRegistering = CurrentlyRegisteringAddress.STREET_NUMBER
       address.streetNumber = answer.trim()
-    } else if (address.currentlyRegistering === CurrentlyRegistering.STREET_COMPLEMENT) {
-      address.currentlyRegistering = CurrentlyRegistering.STREET_COMPLEMENT
+    } else if (address.currentlyRegistering === CurrentlyRegisteringAddress.STREET_COMPLEMENT) {
+      address.currentlyRegistering = CurrentlyRegisteringAddress.STREET_COMPLEMENT
       address.streetComplement = answer.trim()
     }
   }
@@ -61,94 +61,91 @@ export default class RegisterAddressStep {
     address : CustomerAddress
   ) : StepInfo {
     if (!address.countryName) {
-      address.currentlyRegistering = CurrentlyRegistering.COUNTRY_NAME
-
-      console.log({address})
+      address.currentlyRegistering = CurrentlyRegisteringAddress.COUNTRY_NAME
 
       return new StepInfo(
         [
           "Vamos cadastrar seu *país*, favor digitar o nome do país de sua residência."
         ],
         StepNumbers.registerAddress,
-        ActionsEnum.UPSERT_ADDRESS,
-        address
+        [ActionsEnum.UPSERT_ADDRESS],
+        [address]
       )
 
     } else if (!address.stateName) {
-      address.currentlyRegistering = CurrentlyRegistering.STATE_NAME
-      console.log({address})
+      address.currentlyRegistering = CurrentlyRegisteringAddress.STATE_NAME
 
       return new StepInfo(
         [
           "Vamos cadastrar seu *estado*, favor digitar o nome do estado de sua residência."
         ],
         StepNumbers.registerAddress,
-        ActionsEnum.UPSERT_ADDRESS,
-        address
+        [ActionsEnum.UPSERT_ADDRESS],
+        [address]
       )
 
     } else if (!address.cityName) {
-      address.currentlyRegistering = CurrentlyRegistering.CITY_NAME
+      address.currentlyRegistering = CurrentlyRegisteringAddress.CITY_NAME
 
       return new StepInfo(
         [
           "Vamos cadastrar sua *cidade*, favor digitar o nome da cidade de sua residência."
         ],
         StepNumbers.registerAddress,
-        ActionsEnum.UPSERT_ADDRESS,
-        address
+        [ActionsEnum.UPSERT_ADDRESS],
+        [address]
       )
 
     } else if (!address.postalCode) {
-      address.currentlyRegistering = CurrentlyRegistering.POSTAL_CODE
+      address.currentlyRegistering = CurrentlyRegisteringAddress.POSTAL_CODE
 
       return new StepInfo(
         [
           "Vamos cadastrar seu *CEP*, favor digitar o número."
         ],
         StepNumbers.registerAddress,
-        ActionsEnum.UPSERT_ADDRESS,
-        address
+        [ActionsEnum.UPSERT_ADDRESS],
+        [address]
       )
 
     } else if (!address.neighborhood) {
-      address.currentlyRegistering = CurrentlyRegistering.NEIGHBORHOOD
+      address.currentlyRegistering = CurrentlyRegisteringAddress.NEIGHBORHOOD
 
       return new StepInfo(
         [
           "Vamos cadastrar seu *bairro*, favor digitar o nome do bairro de sua residência."
         ],
         StepNumbers.registerAddress,
-        ActionsEnum.UPSERT_ADDRESS,
-        address
+        [ActionsEnum.UPSERT_ADDRESS],
+        [address]
       )
 
     } else if (!address.street) {
-      address.currentlyRegistering = CurrentlyRegistering.STREET
+      address.currentlyRegistering = CurrentlyRegisteringAddress.STREET
 
       return new StepInfo(
         [
           "Vamos cadastrar sua *rua*, favor digitar o nome da rua de sua residência."
         ],
         StepNumbers.registerAddress,
-        ActionsEnum.UPSERT_ADDRESS,
-        address
+        [ActionsEnum.UPSERT_ADDRESS],
+        [address]
       )
 
     } else if (!address.streetNumber) {
-      address.currentlyRegistering = CurrentlyRegistering.STREET_NUMBER
+      address.currentlyRegistering = CurrentlyRegisteringAddress.STREET_NUMBER
 
       return new StepInfo(
         [
           "Vamos cadastrar o *número de sua residência*, favor digitar o número."
         ],
         StepNumbers.registerAddress,
-        ActionsEnum.UPSERT_ADDRESS,
-        address
+        [ActionsEnum.UPSERT_ADDRESS],
+        [address]
       )
 
     } else if (!address.streetComplement) {
-      address.currentlyRegistering = CurrentlyRegistering.STREET_COMPLEMENT
+      address.currentlyRegistering = CurrentlyRegisteringAddress.STREET_COMPLEMENT
 
       return new StepInfo(
         [
@@ -156,18 +153,20 @@ export default class RegisterAddressStep {
           "Ou, caso não tenha digite *0*"
         ],
         StepNumbers.registerAddress,
-        ActionsEnum.UPSERT_ADDRESS,
-        address
+        [ActionsEnum.UPSERT_ADDRESS],
+        [address]
       )
 
     } else {
       return new StepInfo (
         [
           "Vamos confirmar seu endereço para ver se está tudo ok?",
+          "Caso esteja tudo certo digite *OK*, caso algum dado esteja errado digite o número correspondente",
+          MessageUtils.GenerateAddressConfirmationMessage(address)
         ],
         StepNumbers.confirmAddress,
-        ActionsEnum.UPSERT_ADDRESS,
-        address
+        [ActionsEnum.UPSERT_ADDRESS],
+        [address]
       )
     }
   }

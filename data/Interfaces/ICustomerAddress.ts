@@ -3,15 +3,15 @@ export enum AddressStatusEnum {
   FINISHED
 }
 
-export enum CurrentlyRegistering {
-  COUNTRY_NAME,
-  STATE_NAME,
-  CITY_NAME,
-  NEIGHBORHOOD,
-  STREET,
-  STREET_NUMBER,
-  STREET_COMPLEMENT,
-  POSTAL_CODE,
+export enum CurrentlyRegisteringAddress {
+  COUNTRY_NAME = 1,
+  STATE_NAME = 2,
+  CITY_NAME = 3,
+  NEIGHBORHOOD = 4,
+  STREET = 5,
+  STREET_NUMBER = 6,
+  STREET_COMPLEMENT = 7,
+  POSTAL_CODE = 8,
 }
 
 export default interface ICustomerAddress {
@@ -25,5 +25,5 @@ export default interface ICustomerAddress {
   streetComplement : string
   postalCode : string
   isActive : boolean
-  currentlyRegistering : CurrentlyRegistering
+  currentlyRegistering : CurrentlyRegisteringAddress
 }

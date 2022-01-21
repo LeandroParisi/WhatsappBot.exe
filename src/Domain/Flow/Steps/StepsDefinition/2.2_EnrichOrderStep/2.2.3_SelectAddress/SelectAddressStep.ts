@@ -6,6 +6,7 @@ import Customer from "../../../../../Models/Customer"
 import Order from "../../../../../Models/Order"
 import { SessionData } from "../../../../Startup/BotStartUp"
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler"
+import ActionsUtils from "../../../../Utils/ActionsUtils"
 import Validations from "../../../../Utils/Validations"
 import IStep, { StepInteractionPayload, StepNumbers } from "../../../Interfaces/IStep"
 import IValidatedStep, { ValidateParameters } from "../../../Interfaces/IValidatedStep"
@@ -80,8 +81,8 @@ export default class SelectAddressStep {
           return new StepInfo(
             nextStep.outboundMessages,
             nextStep.nextStep,
-            ActionsEnum.UPDATE_ORDER,
-            orderInfo
+            [ActionsEnum.UPDATE_ORDER, ...ActionsUtils.ExtractActions(nextStep)],
+            [orderInfo, ...ActionsUtils.ExtractActionsPayload(nextStep)]
           )
 
         default:

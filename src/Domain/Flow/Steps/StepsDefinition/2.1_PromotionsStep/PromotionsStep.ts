@@ -126,8 +126,8 @@ export default class PromotionsStep {
             ...nextStep.outboundMessages
           ],
           nextStep.nextStep,
-          ActionsEnum.REGISTER_ORDER,
-          order
+          [ActionsEnum.REGISTER_ORDER],
+          [order]
         )
 
       case SelectedOption.invalidPromotionNumber:

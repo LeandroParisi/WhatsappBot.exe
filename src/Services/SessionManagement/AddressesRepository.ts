@@ -14,9 +14,13 @@ export default class AddressesRepository {
     this.addressesDb = SessionDataDbs.addressesDb;
   }
 
-  async Upsert(address: CustomerAddress) : Promise<CustomerAddress> {
-    const a = await this.addressesDb.insert(address)
-    return a as CustomerAddress
+  async Upsert(address: CustomerAddress) : Promise<Number> {
+    const insertedRows = await this.addressesDb.update(
+      { customerId: address.customerId },
+      { $set: address },
+      { upsert: true }
+    )
+    return insertedRows
   }
 
   async GetClientAddresses(customerId : string) : Promise<CustomerAddress> {
@@ -24,5 +28,8 @@ export default class AddressesRepository {
     return address as CustomerAddress;
   }
 
+  async CleanUp() : Promise<void> {
+    await this.addressesDb.remove({}, { multi: true })
+  }
 }
 

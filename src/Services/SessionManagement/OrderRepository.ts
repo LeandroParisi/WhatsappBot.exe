@@ -27,5 +27,9 @@ export default class OrderRepository {
     const affectedRows = await this.orderDb.update({ _id: order._id }, { $set: order })
     return affectedRows
   }
+
+  async CleanUp() : Promise<void> {
+    await this.orderDb.remove({}, { multi: true })
+  }
 }
 

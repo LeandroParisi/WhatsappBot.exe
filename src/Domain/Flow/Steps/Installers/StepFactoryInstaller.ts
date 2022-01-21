@@ -7,6 +7,7 @@ import SelectDeliveryTypeStep from "../StepsDefinition/2.2_EnrichOrderStep/2.2.1
 import SelectPaymentMethodStep from "../StepsDefinition/2.2_EnrichOrderStep/2.2.2_SelectPaymentMethod/SelectPaymentMethodStep";
 import SelectAddressStep from "../StepsDefinition/2.2_EnrichOrderStep/2.2.3_SelectAddress/SelectAddressStep";
 import EnrichOrderStep from "../StepsDefinition/2.2_EnrichOrderStep/EnrichOrderStep";
+import ConfirmAddressStep from "../StepsDefinition/3_RegisterAddress/3.1_ConfirmAddressStep/ConfirmAddressStep";
 import RegisterAddressStep from "../StepsDefinition/3_RegisterAddress/RegisterAddressStep";
 import ConfirmOrderStep from "../StepsDefinition/8_ConfirmOrder/ConfirmOrder";
 import ClosingStep from "../StepsDefinition/9_ClosingStep/ClosingStep";
@@ -26,6 +27,7 @@ export default class StepFactoryInstaller {
     StepFactory.RegisterStep(MainMenu)
     StepFactory.RegisterStep(RegisterAddressStep)
     StepFactory.RegisterStep(ConfirmOrderStep)
+    StepFactory.RegisterStep(ConfirmAddressStep)
   }
 
   // TODO

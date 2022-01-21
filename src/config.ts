@@ -6,10 +6,16 @@ export default class Config {
   static onlineMenuUrl = "URL_CARDAPIO.com"
   static backendUrl = "http://localhost:3030/"
   static sessionResetRules = {
-    currenStep: [
+    currentStep: [
       StepNumbers.promotionStep,
       StepNumbers.closingStep,
-      // StepNumbers.registerAddress
+      StepNumbers.registerAddress,
+      StepNumbers.confirmAddress,
+      StepNumbers.confirmOrder,
+      StepNumbers.enrichOrderStep,
+      StepNumbers.selectAddress,
+      StepNumbers.selectDeliveryType,
+      StepNumbers.selectPaymentMethod,
     ],
     lastMessageInHours: 24
   }

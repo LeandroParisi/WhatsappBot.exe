@@ -1,4 +1,4 @@
-import ICustomerAddress, { AddressStatusEnum, CurrentlyRegistering } from "../../../data/Interfaces/ICustomerAddress";
+import ICustomerAddress, { AddressStatusEnum, CurrentlyRegisteringAddress } from "../../../data/Interfaces/ICustomerAddress";
 import Payload from "../Flow/StepActions/DTOs/Payload";
 
 export default class CustomerAddress implements ICustomerAddress, Payload {
@@ -15,7 +15,7 @@ export default class CustomerAddress implements ICustomerAddress, Payload {
   postalCode : string;
   isActive : boolean;
   status : AddressStatusEnum
-  currentlyRegistering: CurrentlyRegistering
+  currentlyRegistering: CurrentlyRegisteringAddress
 
   constructor(
     status : AddressStatusEnum,

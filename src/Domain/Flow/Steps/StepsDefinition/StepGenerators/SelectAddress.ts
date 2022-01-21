@@ -42,8 +42,6 @@ export default class SelectAddress {
     const address = new CustomerAddress(AddressStatusEnum.REGISTERING, customer._id)
     const nextStep = RegisterAddressStep.ExtractMissingAddressInfo(address)
 
-    console.log({nextStep})
-
     return new StepInfo(
       [
         "Você não tem nenhum endereço cadastrado conosco.",

@@ -6,16 +6,16 @@ import IStepInfo from "./IStepInfo";
 export default class StepInfo implements IStepInfo {
   outboundMessages: string[];
   nextStep: number;
-  requiredAction: ActionsEnum
-  actionPayload: Payload
+  requiredAction: ActionsEnum[]
+  actionPayload: Payload[]
   /**
    *
    */
   constructor(
     outboundMessages : string[],
     nextStep : number,
-    requiredAction? : ActionsEnum,
-    actionPayload? : Payload
+    requiredAction? : ActionsEnum[],
+    actionPayload? : Payload[]
   ) {
     this.outboundMessages = outboundMessages
     this.nextStep = nextStep

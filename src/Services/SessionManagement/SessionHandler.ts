@@ -8,12 +8,16 @@ import CustomerTemplateMessagesFactory from "../../Domain/Utils/CustomerTemplate
 import DaysUtils from "../../Shared/Utils/DaysUtils";
 import TaonRepository from "../TaonBackend/TaonRepository";
 import CustomerRepository from './CustomerRepository';
+import OrderRepository from "./OrderRepository";
+import AddressesRepository from "./AddressesRepository";
 
 @Service()
 export default class SessionHandler {
   constructor(
     private readonly CustomerRepository : CustomerRepository,
-    private readonly TaonRepository : TaonRepository
+    private readonly TaonRepository : TaonRepository,
+    private readonly OrderRepository : OrderRepository,
+    private readonly AddressesRepository : AddressesRepository
   ) {
   }
 
@@ -64,7 +68,7 @@ export default class SessionHandler {
 
     const findQuery = {
       $or: [
-        { currentStep: { $in: sessionResetRules.currenStep } },
+        { currentStep: { $in: sessionResetRules.currentStep } },
         { lastMessage: { $lte: lastMessageLimit } }
       ]
     }
@@ -75,6 +79,8 @@ export default class SessionHandler {
       _id: { $in: invalidSessions.map((client : Customer) => client._id)}
     }
 
+    await this.OrderRepository.CleanUp();
+    await this.AddressesRepository.CleanUp();
     await this.CustomerRepository.DeleteClient(deleteQuery)
   }
 

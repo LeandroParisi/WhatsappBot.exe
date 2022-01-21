@@ -16,6 +16,7 @@ import StepInfo from '../Steps/Messages/StepInfo';
 import Order from '../../Models/Order';
 import OrderRepository from '../../../Services/SessionManagement/OrderRepository';
 import AddressesRepository from '../../../Services/SessionManagement/AddressesRepository';
+import { ActionsEnum } from '../StepActions/Interfaces/IActionHandler';
 
 interface SetupInfo {
   customer : Customer
@@ -55,21 +56,19 @@ export default class BotStartup {
       if (this.IsValidMessage(inboundMessage)) {
         const { stepInfo, customer } = await this.HandleMessage(inboundMessage)
 
-        await this.SendMessages(stepInfo.outboundMessages, customer)
-
         await this.HandleStepAction(stepInfo, customer);
-
-        console.log({stepInfo})
-
+        
         await this.SessionHandler.UpdateClientStep(customer, stepInfo.nextStep)
-
+        
+        await this.SendMessages(stepInfo.outboundMessages, customer)
+        
       } else {
         // No actions for messages received from groups
       }
     });
   }
 
-  // TODO: TIrar daqui?
+  // TODO: Tirar daqui?
   public async ValidateUser(startupDate : Date) : Promise<void> {
     const userId = await this.UserDataHandler.ValidateUser();
     this.sessionData.startupDate = startupDate
@@ -151,10 +150,16 @@ export default class BotStartup {
   }
 
   private async HandleStepAction(stepInfo: StepInfo, client: Customer) {
-    if (stepInfo.requiredAction) {
-      const actionHandler = ActionsFactory.Create(stepInfo.requiredAction)
-      console.log({actionHandler})
-      await actionHandler.DispatchAction(stepInfo.actionPayload, client);
+    console.log({ actions: stepInfo.requiredAction })
+    
+    if (stepInfo.requiredAction && !!stepInfo.requiredAction.length) {
+      stepInfo.requiredAction.forEach(
+        async (action : ActionsEnum, index : number) => {
+          console.log({ action })
+          const actionHandler = ActionsFactory.Create(action)
+          await actionHandler
+            .DispatchAction(stepInfo.actionPayload[index], client);
+      })
     }
   }
 

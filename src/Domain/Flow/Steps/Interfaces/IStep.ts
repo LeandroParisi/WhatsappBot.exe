@@ -45,5 +45,5 @@ export interface StepInteractionPayload {
 export default interface IStep {
   STEP_NUMBER : StepNumbers
 
-  Interact(paylod : StepInteractionPayload) : StepInfo
+  Interact(payload : StepInteractionPayload) : StepInfo
 }
