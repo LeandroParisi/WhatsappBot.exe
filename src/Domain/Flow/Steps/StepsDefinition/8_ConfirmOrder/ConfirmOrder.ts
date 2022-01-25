@@ -5,6 +5,7 @@ import staticImplements from "../../../../../Shared/Anotations/staticImplements"
 import AddressUtils from "../../../../../Shared/Utils/AddressUtils"
 import PromotionsUtils from "../../../../../Shared/Utils/PromotionsUtils"
 import Customer from "../../../../Models/Customer"
+import CustomerAddress from "../../../../Models/CustomerAddress"
 import Order from "../../../../Models/Order"
 import { SessionData } from "../../../Startup/BotStartUp"
 import Validations from "../../../Utils/Validations"
@@ -69,7 +70,7 @@ export default class ConfirmOrderStep {
 
     const address = AddressUtils.ParseAddressToText(
       customer.info.customerAddresses
-        .find((a : ICustomerAddress) => a.id === orderInfo.addressId)
+        .find((a : CustomerAddress) => a._id === orderInfo.addressId)
     )
 
     const paymentMethod = branchData.paymentMethods

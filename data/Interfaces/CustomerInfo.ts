@@ -1,3 +1,4 @@
+import CustomerAddress from "../../src/Domain/Models/CustomerAddress";
 import ICustomerAddress from "./ICustomerAddress";
 
 export default interface CustomerInfo {
@@ -10,5 +11,5 @@ export default interface CustomerInfo {
   lastName? : string
   cpf? : string
   isActive : boolean
-  customerAddresses : Array<ICustomerAddress>
+  customerAddresses : Array<CustomerAddress>
 }

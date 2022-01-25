@@ -8,6 +8,8 @@ import StepInfo from "../../../Messages/StepInfo";
 import MessageUtils from "../../../../../Utils/MessageUtils";
 import CustomerAddress from "../../../../../Models/CustomerAddress";
 import RegisterAddressStep from "../RegisterAddressStep";
+import Order from "../../../../../Models/Order";
+import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler";
 
 interface ValidationPayload {
   isValid : boolean,
@@ -42,7 +44,7 @@ export default class ConfirmAddressStep {
       } = this.ValidateAnswer({ answer: message.body })
 
       if (isValid) {
-        return this.GenerateStepInfo(action, invalidData, address)
+        return this.GenerateStepInfo(action, invalidData, address, orderInfo)
       } else {
         return new StepInfo(
           [
@@ -75,7 +77,8 @@ export default class ConfirmAddressStep {
   private static GenerateStepInfo(
       action: PossibleActions,
       invalidData: CurrentlyRegisteringAddress,
-      address : CustomerAddress
+      address : CustomerAddress,
+      orderInfo : Order
     ) : StepInfo {
     if (action === PossibleActions.CHANGE_ADDRESS) {
       this.EditAddress(address, invalidData)
@@ -90,12 +93,15 @@ export default class ConfirmAddressStep {
         nextStep.actionPayload
       )
     } else {
+      orderInfo.addressId = address._id
       return new StepInfo(
         [
           "Perfeito!",
           "Vamos dar sequência à finalização do seu pedido"
         ],
-        StepNumbers.confirmOrder
+        StepNumbers.confirmOrder,
+        [ActionsEnum.UPDATE_ORDER, ActionsEnum.SAVE_ADDRESS],
+        [orderInfo, address]
       )
     }
   }

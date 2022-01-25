@@ -1,6 +1,5 @@
 import { CurrentlyRegisteringAddress } from "../../../data/Interfaces/ICustomerAddress";
 import staticImplements from "../../Shared/Anotations/staticImplements";
-import ConfirmAddressStep from "../Flow/Steps/StepsDefinition/3_RegisterAddress/3.1_ConfirmAddressStep/ConfirmAddressStep";
 import CustomerAddress from "../Models/CustomerAddress";
 
 @staticImplements()

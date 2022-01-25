@@ -15,7 +15,6 @@ export enum CurrentlyRegisteringAddress {
 }
 
 export default interface ICustomerAddress {
-  id : number
   countryName : string
   stateName : string
   cityName : string
@@ -25,5 +24,4 @@ export default interface ICustomerAddress {
   streetComplement : string
   postalCode : string
   isActive : boolean
-  currentlyRegistering : CurrentlyRegisteringAddress
 }

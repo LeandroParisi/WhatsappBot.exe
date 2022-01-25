@@ -11,6 +11,6 @@ export default interface IOrderInfo {
   status: OrderStatusEnum;
   createdAt: Date;
   deliveryTypeId? : number
-  addressId? : number
+  addressId? : string
   paymentMethodId? : number
 }

@@ -11,7 +11,7 @@ export default class Order implements IOrderInfo, Payload {
   createdAt: Date;
   promotionId?: number;
   deliveryTypeId? : number
-  addressId? : number
+  addressId? : string
   paymentMethodId? : number
 
   /**

@@ -15,11 +15,19 @@ export default class AddressesRepository {
   }
 
   async Upsert(address: CustomerAddress) : Promise<Number> {
-    const insertedRows = await this.addressesDb.update(
-      { customerId: address.customerId },
-      { $set: address },
-      { upsert: true }
-    )
+    const registeredAddress = await this.addressesDb.findOne({ _id: address._id })
+    let insertedRows = 1
+    if (registeredAddress) {
+      delete address._id
+      insertedRows = await this.addressesDb.update(
+        { customerId: address.customerId },
+        { $set: address },
+        { upsert: true }
+      )
+    } else {
+      await this.addressesDb.insert(address)
+    }
+
     return insertedRows
   }
 

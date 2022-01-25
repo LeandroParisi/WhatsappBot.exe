@@ -14,7 +14,10 @@ export enum StepNumbers {
   selectPaymentMethod = 2.22,
   selectAddress = 2.23,
   registerAddress = 3,
-  confirmAddress = 3.1,
+  registerCountry = 3.1,
+  registerState = 3.2,
+  registerCity = 3.3,
+  confirmAddress = 3.4,
   confirmOrder = 8,
   closingStep = 9,
   mainMenu = 10,
@@ -27,11 +30,15 @@ export const BUY_STEPS = new Set([
   StepNumbers.selectAddress,
   StepNumbers.registerAddress,
   StepNumbers.confirmOrder,
+  StepNumbers.confirmAddress
 ])
 
 export const ADDRESS_STEPS = new Set([
   StepNumbers.registerAddress,
-  StepNumbers.confirmAddress
+  StepNumbers.confirmAddress,
+  StepNumbers.registerCountry,
+  StepNumbers.registerState,
+  StepNumbers.registerCity,
 ])
 
 export interface StepInteractionPayload {

@@ -6,6 +6,7 @@ import CustomerInfo from "../../../data/Interfaces/CustomerInfo";
 import LoginData from "../../../data/Interfaces/LoginData";
 import { CustomMessage } from "../../../node_modules_extensions/MessageExtension";
 import Customer from "../../Domain/Models/Customer";
+import CustomerAddress, { CustomerAddressSQL } from "../../Domain/Models/CustomerAddress";
 import { api } from "./services/api"
 
 @Service()
@@ -60,6 +61,19 @@ export default class TaonRepository {
         firstName: message.sender.shortName || message.sender.verifiedName || "Não identificado",
         id: customer._id
       }
+    })
+
+    return response.data.data
+  }
+
+  async SaveAddress(body : CustomerAddressSQL) : Promise<CustomerAddress> {
+    const endpoint = `addresses`
+    const method = "POST"
+
+    const response = await api({
+      endpoint,
+      method,
+      body
     })
 
     return response.data.data

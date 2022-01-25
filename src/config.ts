@@ -1,5 +1,5 @@
 import staticImplements from "./Shared/Anotations/staticImplements";
-import { StepNumbers } from './Domain/Flow/Steps/Interfaces/IStep';
+import { ADDRESS_STEPS, BUY_STEPS, StepNumbers } from './Domain/Flow/Steps/Interfaces/IStep';
 
 @staticImplements()
 export default class Config {
@@ -9,13 +9,8 @@ export default class Config {
     currentStep: [
       StepNumbers.promotionStep,
       StepNumbers.closingStep,
-      StepNumbers.registerAddress,
-      StepNumbers.confirmAddress,
-      StepNumbers.confirmOrder,
-      StepNumbers.enrichOrderStep,
-      StepNumbers.selectAddress,
-      StepNumbers.selectDeliveryType,
-      StepNumbers.selectPaymentMethod,
+      ...Array.from(BUY_STEPS),
+      ...Array.from(ADDRESS_STEPS)
     ],
     lastMessageInHours: 24
   }

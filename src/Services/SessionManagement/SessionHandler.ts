@@ -61,6 +61,7 @@ export default class SessionHandler {
 
   async ValidateCurrentSessions(startupDate : Date) : Promise<void> {
     const { sessionResetRules } = Config
+    console.log({sessionResetRules})
 
     const lastMessageLimit = DaysUtils.SubtractTimeFromDate(
       startupDate, sessionResetRules.lastMessageInHours

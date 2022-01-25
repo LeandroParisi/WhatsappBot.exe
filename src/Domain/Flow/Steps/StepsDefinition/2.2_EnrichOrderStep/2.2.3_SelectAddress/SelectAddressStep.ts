@@ -74,7 +74,7 @@ export default class SelectAddressStep {
         case SelectedOption.registerAddress:
           return SelectAddress.GetRegisterStep(customer)
         case SelectedOption.selectAddress:
-          orderInfo.addressId = customer.info.customerAddresses[formattedAnswer - 1].id
+          orderInfo.addressId = customer.info.customerAddresses[formattedAnswer - 1]._id
           
           const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(orderInfo, branchData, customer)
 

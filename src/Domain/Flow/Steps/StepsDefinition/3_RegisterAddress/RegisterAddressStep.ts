@@ -57,6 +57,7 @@ export default class RegisterAddressStep {
     }
   }
 
+  // TODO: Dar opções de estados e cidades (já registrar o ID -> validação)
   static ExtractMissingAddressInfo (
     address : CustomerAddress
   ) : StepInfo {
