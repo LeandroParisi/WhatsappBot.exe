@@ -22,7 +22,28 @@ export default interface BranchData {
   promotions : Array<Promotion>,
   avaiablePromotions : Array<Promotion>,
   botName : string,
-  templateMessages : TemplateMessages
+  templateMessages : TemplateMessages,
+  locations : Array<Country>
+}
+
+export interface Country {
+  id : number,
+  countryName : string,
+  countryStates: Array<State>
+}
+
+export interface State {
+  id : number,
+  stateName : string,
+  stateCode : string,
+  countryId : number,
+  stateCities : Array<City>
+}
+
+export interface City {
+  id : number,
+  cityName : string,
+  stateId : number
 }
 
 export interface DeliveryFees {
