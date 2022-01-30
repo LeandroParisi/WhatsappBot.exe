@@ -4,14 +4,16 @@ import CustomerAddress from "../../../../Models/CustomerAddress";
 import MessageUtils from "../../../../MessageFactories/AddressMessageFactory";
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
 import IStep, { StepNumbers } from "../../Interfaces/IStep";
-import StepDefinition from "../../Interfaces/StepDefinition";
+import StepDefinition, { StepDefinitionArgs } from "../../Interfaces/StepDefinition";
 import StepInfo from "../../Messages/StepInfo";
+import { Service } from "typedi";
+import AddressMessageFactory from "../../../../MessageFactories/AddressMessageFactory";
 
 
 @staticImplements<IStep>()
 export default class RegisterAddressStep extends StepDefinition {
   static STEP_NUMBER = StepNumbers.registerAddress
-  
+
   public Interact() : StepInfo {
       this.UpdateAddress()
       return RegisterAddressStep.ExtractMissingAddressInfo(this.Address)
@@ -45,7 +47,6 @@ export default class RegisterAddressStep extends StepDefinition {
     }
   }
 
-  // TODO: Dar opções de estados e cidades (já registrar o ID -> validação)
   static ExtractMissingAddressInfo (
     address : CustomerAddress
   ) : StepInfo {
@@ -63,10 +64,9 @@ export default class RegisterAddressStep extends StepDefinition {
 
     } else if (!address.stateName) {
       address.currentlyRegistering = CurrentlyRegisteringAddress.STATE_NAME
-
       return new StepInfo(
         [
-          "Vamos cadastrar seu *estado*, favor digitar *número* do seu estado de residência da lista abaixo:"
+          "Vamos cadastrar seu *estado*, favor digitar *número* do seu estado de residência da lista abaixo:",
         ],
         StepNumbers.registerState,
         [ActionsEnum.UPSERT_ADDRESS],

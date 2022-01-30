@@ -26,11 +26,10 @@ interface HandledMessage {
 export interface SessionData {
   branchData : BranchData
   startupDate : Date
-  locations : Array<Country>
 }
 
 @Service()
-export default class BotStartup {
+export default class BotCore {
   private bot: any;
   private sessionData : SessionData
 
@@ -44,7 +43,6 @@ export default class BotStartup {
       this.sessionData = {
         branchData: null,
         startupDate: null,
-        locations: null
       }
     }
 
@@ -65,13 +63,6 @@ export default class BotStartup {
     });
   }
 
-  // TODO: Tirar daqui?
-  public async ValidateUser(startupDate : Date) : Promise<void> {
-    const userId = await this.UserDataHandler.ValidateUser();
-    this.sessionData.startupDate = startupDate
-    await this.UserDataHandler.SetStartupTime(userId, startupDate)
-  }
-
   private async HandleMessage(inboundMessage: Message) : Promise<HandledMessage> {
     const { 
       customer, 
@@ -83,7 +74,7 @@ export default class BotStartup {
 
     let stepInfo = null
 
-    stepInfo = stepHandler.Interact()
+    stepInfo = await stepHandler.Interact()
 
     return {
       stepInfo,
@@ -124,21 +115,6 @@ export default class BotStartup {
     }
   }
 
-  public async LoadUserInfo() {
-    // TODO: tratamento erro
-    const botInfo = await this.bot.getHostDevice(); 
-    const { id: { user : deviceNumber } } = botInfo
-    
-    const { branchData, locations} = await this.UserDataHandler.LoadInitialData(deviceNumber);
-
-    this.sessionData.branchData = branchData
-    this.sessionData.locations = locations
-  }
-
-  public SetBot(bot: any) {
-    this.bot = bot
-  }
-
   private async SendMessages(outboundMessages : string[], customer : Customer) {
     for (let outboundMessage of outboundMessages) {
       await this.bot.sendText(customer.info.whatsappId, outboundMessage)
@@ -163,7 +139,15 @@ export default class BotStartup {
     return !inboundMessage.isGroupMsg && inboundMessage.from === "553182630325@c.us"
   }
 
-  private SetBranchData(branchData: BranchData) {
+  public SetBot(bot: any) {
+    this.bot = bot
+  }
+
+  public SetBranchData(branchData: BranchData) {
     this.sessionData.branchData = branchData
+  }
+
+  public SetStartupDate(startupDate: Date) {
+    this.sessionData.startupDate = startupDate
   }
 }

@@ -7,9 +7,9 @@ class SessionDataDbs {
   addressesDb : Datastore
 
   constructor() {
-    this.customerDb = Datastore.create('./data/dbs/sessionManagement/customers.db');
-    this.orderDb = Datastore.create('./data/dbs/sessionManagement/orders.db');
-    this.addressesDb = Datastore.create('./data/dbs/sessionManagement/addressesDb.db');
+    this.customerDb = Datastore.create('./data/dbs/sessionManagement/customersData.db');
+    this.orderDb = Datastore.create('./data/dbs/sessionManagement/ordersData.db');
+    this.addressesDb = Datastore.create('./data/dbs/sessionManagement/addressesData.db');
 
 
     this.customerDb.on('__error__', (datastore, event, error) => {

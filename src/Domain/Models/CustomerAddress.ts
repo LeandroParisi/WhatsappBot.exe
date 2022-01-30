@@ -5,9 +5,12 @@ import { v4 as uuid } from "uuid";
 
 export default class CustomerAddress implements ICustomerAddress, Payload {
   _id : string;
-  customerId : string; 
+  customerId : string;
+  countryId : number 
   countryName : string;
+  stateId : number
   stateName : string;
+  cityId : number
   cityName : string;
   neighborhood : string;
   street : string;
@@ -34,6 +37,7 @@ export default class CustomerAddress implements ICustomerAddress, Payload {
     this.status = status
     this.customerId = customerId    
     this.countryName = "Brazil"
+    this.countryId = 1
     this.stateName = stateName
     this.cityName = cityName
     this.neighborhood = neighborhood

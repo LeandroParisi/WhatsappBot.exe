@@ -3,12 +3,13 @@ import { Service } from "typedi";
 import Customer from "../../Domain/Models/Customer";
 import { api } from "../TaonBackend/services/api";
 import LoginData from "../../../data/Interfaces/LoginData";
-import BranchData from "../../../data/Interfaces/BranchData";
+import BranchData, { Country } from "../../../data/Interfaces/BranchData";
 import BranchDataDb from './config'
 
 @Service()
 export default class UserDataRepository {
   sessionData : Datastore
+
 
   constructor() {
     this.sessionData = BranchDataDb.sessionData;

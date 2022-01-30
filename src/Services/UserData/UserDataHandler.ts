@@ -8,10 +8,7 @@ import BranchTemplateMessagesFactory from '../../Domain/MessageFactories/BranchT
 import DaysUtils from '../../Shared/Utils/DaysUtils';
 import PromotionsUtils from '../../Shared/Utils/PromotionsUtils';
 
-export interface locations {
-  branchData : BranchData,
-  locations : Array<Country>
-}
+
 
 @Service()
 export default class UserDataHandler {
@@ -19,7 +16,7 @@ export default class UserDataHandler {
 
   constructor(
     private readonly repository : UserDataRepository,
-    private readonly TaonRepository : TaonRepository
+    private readonly TaonRepository : TaonRepository,
   ) {
     this.loginRetries = 0
   }
@@ -61,7 +58,7 @@ export default class UserDataHandler {
     )
   }
 
-  async LoadInitialData(deviceNumber : string) : Promise<locations> {
+  async LoadInitialData(deviceNumber : string) : Promise<BranchData> {
     const userData = await this.repository.GetLoginData();
 
     // TODO: Tentar tratar este erro, o catch não funcionou aqui para jogar para o handler global do index    
@@ -71,7 +68,7 @@ export default class UserDataHandler {
 
     const branchData = await this.EnrichBranchData(data)
 
-    return { branchData, locations }
+    return branchData
   }
 
   public async UpdateTemplateMessages(

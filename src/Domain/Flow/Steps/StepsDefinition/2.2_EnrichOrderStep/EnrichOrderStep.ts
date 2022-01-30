@@ -5,7 +5,7 @@ import Customer from "../../../../Models/Customer";
 import IStep, { StepNumbers } from "../../Interfaces/IStep";
 import MainMenu from "../10_MainMenu/MainMenu";
 import StepInfo from "../../Messages/StepInfo";
-import { SessionData } from "../../../Startup/BotStartUp";
+import { SessionData } from "../../../Startup/BotCore";
 import Order from "../../../../Models/Order";
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
 import SelectAddress from "../StepGenerators/SelectAddress";

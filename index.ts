@@ -1,44 +1,32 @@
 import 'reflect-metadata';
 import Container from 'typedi';
-import Config from './src/config';
-import BotStartup from './src/Domain/Flow/Startup/BotStartUp'
-import UserDataHandler from './src/Services/UserData/UserDataHandler';
-import SessionHandler from './src/Services/SessionManagement/SessionHandler'
+import BotCore from './src/Domain/Flow/Startup/BotCore'
 import DaysUtils from './src/Shared/Utils/DaysUtils';
 import Installer from './src/Domain/Flow/Startup/Installer';
+import BotStartup from './src/Domain/Flow/Startup/BotStartup';
 
 const venom = require('venom-bot')
 
 class Main {
+  BotCore : BotCore
   BotStartup : BotStartup
-  SessionHandler : SessionHandler
 
   constructor() {
-    this.BotStartup = Container.get(BotStartup);
-    this.SessionHandler = Container.get(SessionHandler)
-  }
-
-  async TESTE() {
-    try {
-      await this.Startup()
-
-      await this.BotStartup.LoadUserInfo();
-
-    } catch (error) {
-      // Trace
-      console.log(error);
-    }
+    this.BotCore = Container.get(BotCore);
+    this.BotStartup = Container.get(BotStartup)
   }
 
   async Run() {
     try {
-      await this.Startup()
+      await this.BotStartup.Startup(this.BotCore)
 
       const bot = await this.CreateBot()
 
-      await this.InitialLoad(bot)
+      this.BotCore.SetBot(bot);
 
-      this.BotStartup.Start();
+      await this.BotStartup.LoadUserInfo(bot, this.BotCore)
+
+      this.BotCore.Start();
     } catch (error) {
       // Trace
       console.log(error);
@@ -53,20 +41,6 @@ class Main {
 
     return bot
   }
-
-  private async Startup() {
-    Installer.InstallServices()
-    const startupDate = DaysUtils.GetDateFromTimestamp(Date.now() / 1000)
-    await this.BotStartup.ValidateUser(startupDate);
-    await this.SessionHandler.ValidateCurrentSessions(startupDate);
-  }
-
-  private async InitialLoad(bot : any) : Promise<void> {
-    this.BotStartup.SetBot(bot);
-
-    await this.BotStartup.LoadUserInfo();
-  }
-  
 }
 
 new Main().Run();

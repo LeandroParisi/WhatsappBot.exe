@@ -10,7 +10,7 @@ import MessageUtils from "../../../../MessageFactories/AddressMessageFactory";
 import PromotionsSelectionStep from "../StepGenerators/PromotionsSelectionStep";
 import ReturnToMenu from "../StepGenerators/ReturnToMenu";
 import StepError from "../../../../Abstractions/Errors/StepError";
-import { SessionData } from "../../../Startup/BotStartUp";
+import { SessionData } from "../../../Startup/BotCore";
 import DaysUtils from "../../../../../Shared/Utils/DaysUtils";
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
 import IValidatedStep from "../../Interfaces/IValidatedStep";
