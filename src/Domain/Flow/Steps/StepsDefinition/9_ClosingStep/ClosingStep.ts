@@ -1,43 +1,33 @@
-import { Message } from "venom-bot"
-import BranchData from "../../../../../../data/Interfaces/BranchData"
-import staticImplements from "../../../../../Shared/Anotations/staticImplements"
-import Customer from "../../../../Models/Customer"
 import MessageUtils from "../../../../Utils/MessageUtils"
-import { SessionData } from "../../../Startup/BotStartUp"
-import IStep, { StepInteractionPayload, StepNumbers } from "../../Interfaces/IStep"
-import IValidatedStep, { ValidateParameters } from "../../Interfaces/IValidatedStep"
+import { StepNumbers } from "../../Interfaces/IStep"
+import { ValidateParameters } from "../../Interfaces/IValidatedStep"
+import StepDefinition from "../../Interfaces/StepDefinition"
 import StepInfo from "../../Messages/StepInfo"
 import ReturnToMenu from "../StepGenerators/ReturnToMenu"
 
-@staticImplements<IStep>()
-@staticImplements<IValidatedStep<boolean>>()
-export default class ClosingStep {
+export default class ClosingStep extends StepDefinition{
   static STEP_NUMBER = StepNumbers.closingStep
-  static STEP_NAME = "Fechamento"
   
   static INTRO_MESSAGE = "Posso lhe ajudar em mais alguma coisa?\n1. Sim\n2. Não"
 
-  static Interact({
-    message,
-    } : StepInteractionPayload 
-    ) : StepInfo {
-    const clientAnswer = message.body
+  public Interact() : StepInfo {
+    const clientAnswer = this.Message.body
 
-    if (this.ValidateAnswer({answer: clientAnswer.trim()})) {
+    if (ClosingStep.ValidateAnswer({answer: clientAnswer.trim()})) {
       return this.AnswerFactory(MessageUtils.FormatNumberOption(clientAnswer))
     } else {
       return new StepInfo(
         [
           'Desculpe, não entendi qual opção deseja.\nFavor tentar novamente.',
           'Digite só o número da opção para darmos continuidade.',
-          this.INTRO_MESSAGE,
+          ClosingStep.INTRO_MESSAGE,
         ], 
         StepNumbers.closingStep
       )
     }
   }
 
-  private static AnswerFactory(selectedOption: number): StepInfo {
+  private AnswerFactory(selectedOption: number): StepInfo {
     switch (selectedOption) {
       case 1:
         return ReturnToMenu.GenerateMessage({})
@@ -53,7 +43,7 @@ export default class ClosingStep {
         return new StepInfo(
           [
             "Desculpe, não consegui interpretar sua última mensagem, poderia tentar novamente?",
-            this.INTRO_MESSAGE
+            ClosingStep.INTRO_MESSAGE
           ],
           StepNumbers.closingStep
         )

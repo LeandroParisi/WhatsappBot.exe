@@ -2,14 +2,12 @@ import { CurrentlyRegisteringAddress } from "../../../../../../../data/Interface
 import ParserUtils from "../../../../../../Shared/Utils/ParserUtils";
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements";
 import Validations from "../../../../Utils/Validations";
-import IStep, { StepInteractionPayload, StepNumbers } from "../../../Interfaces/IStep";
-import IValidatedStep, { ValidateParameters } from "../../../Interfaces/IValidatedStep";
+import IStep, {  StepNumbers } from "../../../Interfaces/IStep";
 import StepInfo from "../../../Messages/StepInfo";
 import MessageUtils from "../../../../../Utils/MessageUtils";
-import CustomerAddress from "../../../../../Models/CustomerAddress";
 import RegisterAddressStep from "../RegisterAddressStep";
-import Order from "../../../../../Models/Order";
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler";
+import StepDefinition from "../../../Interfaces/StepDefinition";
 
 interface ValidationPayload {
   isValid : boolean,
@@ -25,45 +23,37 @@ enum PossibleActions {
 const possibleAnswers = new Set([...Object.values(CurrentlyRegisteringAddress), 'OK'])
 
 @staticImplements<IStep>()
-@staticImplements<IValidatedStep<ValidationPayload>>()
-export default class ConfirmAddressStep {
+export default class ConfirmAddressStep extends StepDefinition {
   static STEP_NUMBER = StepNumbers.confirmAddress
   
-  static Interact({
-    customer,
-    message,
-    sessionData, 
-    orderInfo,
-    address,
-    } : StepInteractionPayload
-    ) : StepInfo {
+  public Interact() : StepInfo {
       const {
         isValid,
         action,
         invalidData
-      } = this.ValidateAnswer({ answer: message.body })
+      } = this.ValidateAnswer()
 
       if (isValid) {
-        return this.GenerateStepInfo(action, invalidData, address, orderInfo)
+        return this.GenerateStepInfo(action, invalidData)
       } else {
         return new StepInfo(
           [
             "Desculpe, não entendi sua resposta, vamos tentar de novo?",
-            MessageUtils.GenerateAddressConfirmationMessage(address)
+            MessageUtils.GenerateAddressConfirmationMessage(this.Address)
           ],
           StepNumbers.confirmAddress,
         )
       }
   }
 
-  static ValidateAnswer({ answer } : ValidateParameters) : ValidationPayload {
-    if (Validations.IsNumber(answer) && possibleAnswers.has(ParserUtils.ToNumber(answer))) {
+  private ValidateAnswer() : ValidationPayload {
+    if (Validations.IsNumber(this.Answer) && possibleAnswers.has(ParserUtils.ToNumber(this.Answer))) {
       return {
         isValid: true,
         action: PossibleActions.CHANGE_ADDRESS,
-        invalidData: ParserUtils.ToNumber(answer)
+        invalidData: ParserUtils.ToNumber(this.Answer)
       }
-    } else if (!Validations.IsNumber(answer) && possibleAnswers.has(ParserUtils.ToUpperTrim(answer))) {
+    } else if (!Validations.IsNumber(this.Answer) && possibleAnswers.has(ParserUtils.ToUpperTrim(this.Answer))) {
       return {
         isValid: true,
         action: PossibleActions.CONFIRM
@@ -74,15 +64,14 @@ export default class ConfirmAddressStep {
       }
     }
   }
-  private static GenerateStepInfo(
+
+  private GenerateStepInfo(
       action: PossibleActions,
       invalidData: CurrentlyRegisteringAddress,
-      address : CustomerAddress,
-      orderInfo : Order
     ) : StepInfo {
     if (action === PossibleActions.CHANGE_ADDRESS) {
-      this.EditAddress(address, invalidData)
-      const nextStep = RegisterAddressStep.ExtractMissingAddressInfo(address)
+      this.EditAddress(invalidData)
+      const nextStep = RegisterAddressStep.ExtractMissingAddressInfo(this.Address)
       return new StepInfo(
         [
           "Perfeito",
@@ -93,7 +82,7 @@ export default class ConfirmAddressStep {
         nextStep.actionPayload
       )
     } else {
-      orderInfo.addressId = address._id
+      this.OrderInfo.addressId = this.Address._id
       return new StepInfo(
         [
           "Perfeito!",
@@ -101,27 +90,28 @@ export default class ConfirmAddressStep {
         ],
         StepNumbers.confirmOrder,
         [ActionsEnum.UPDATE_ORDER, ActionsEnum.SAVE_ADDRESS],
-        [orderInfo, address]
+        [this.OrderInfo, this.Address]
       )
     }
   }
-  private static EditAddress(address: CustomerAddress, invalidData: CurrentlyRegisteringAddress) : void {
+
+  private EditAddress(invalidData: CurrentlyRegisteringAddress) : void {
     if (invalidData === CurrentlyRegisteringAddress.CITY_NAME) {
-      delete address.cityName
+      delete this.Address.cityName
     } else if (invalidData === CurrentlyRegisteringAddress.COUNTRY_NAME) {
-      delete address.countryName
+      delete this.Address.countryName
     } else if (invalidData === CurrentlyRegisteringAddress.NEIGHBORHOOD) {
-      delete address.neighborhood
+      delete this.Address.neighborhood
     } else if (invalidData === CurrentlyRegisteringAddress.POSTAL_CODE) {
-      delete address.postalCode
+      delete this.Address.postalCode
     } else if (invalidData === CurrentlyRegisteringAddress.STATE_NAME) {
-      delete address.stateName
+      delete this.Address.stateName
     } else if (invalidData === CurrentlyRegisteringAddress.STREET) {
-      delete address.street
+      delete this.Address.street
     } else if (invalidData === CurrentlyRegisteringAddress.STREET_COMPLEMENT) {
-      delete address.street
+      delete this.Address.street
     } else if (invalidData === CurrentlyRegisteringAddress.STREET_NUMBER) {
-      delete address.street
+      delete this.Address.street
     }
   }
 }

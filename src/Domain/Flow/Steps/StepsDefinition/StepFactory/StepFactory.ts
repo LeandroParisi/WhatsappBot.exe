@@ -1,22 +1,18 @@
 import { Message } from "venom-bot";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
-import Customer from "../../../../Models/Customer";
-import IStep, {StepInteractionPayload, StepNumbers} from "../../Interfaces/IStep";
-import MainMenu from "../10_MainMenu/MainMenu";
+import IStep, { StepNumbers} from "../../Interfaces/IStep";
 import StepInfo from "../../Messages/StepInfo";
-import WelcomeStep from "../1_WelcomeStep/WelcomeStep";
-import ClosingStep from "../9_ClosingStep/ClosingStep";
-import PromotionsStep from "../2.1_PromotionsStep/PromotionsStep";
 import { Dictionary } from "../../../../../Shared/Utils/SystemUtils";
+import StepDefinition, { StepDefinitionArgs } from "../../Interfaces/StepDefinition";
 
 @staticImplements()
 export default class StepFactory {
 
-  private static StepWarehouse : Dictionary<IStep> = {}
+  private static StepWarehouse : Dictionary<any> = {}
 
-  static Create(currentStep : number) : IStep {
+  static Create(currentStep : number, stepPayload : StepDefinitionArgs) : StepDefinition {
     try {
-      return this.StepWarehouse[currentStep]
+      return new this.StepWarehouse[currentStep](stepPayload)
     } catch {
       throw new Error("Unregistered Step type and number")
     }
@@ -27,12 +23,11 @@ export default class StepFactory {
   }
 }
 
-@staticImplements<IStep>()
 export class UnidentifiedStep {
   static STEP_NUMBER: -1;
   static STEP_NAME: "Unidentified Step";
 
-  static Interact({} : StepInteractionPayload) : StepInfo {
+  static Interact({} : StepDefinitionArgs) : StepInfo {
     return new StepInfo(
       ["Desculpe, não consegui interpretar sua última mensagem, poderia tentar novamente?"],
       StepNumbers.welcomeStep

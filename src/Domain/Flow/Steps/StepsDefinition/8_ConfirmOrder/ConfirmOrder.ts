@@ -1,16 +1,14 @@
-import { Message } from "venom-bot"
 import BranchData, { DeliveryType, PaymentMethod, Promotion } from "../../../../../../data/Interfaces/BranchData"
-import ICustomerAddress from "../../../../../../data/Interfaces/ICustomerAddress"
 import staticImplements from "../../../../../Shared/Anotations/staticImplements"
 import AddressUtils from "../../../../../Shared/Utils/AddressUtils"
 import PromotionsUtils from "../../../../../Shared/Utils/PromotionsUtils"
 import Customer from "../../../../Models/Customer"
 import CustomerAddress from "../../../../Models/CustomerAddress"
 import Order from "../../../../Models/Order"
-import { SessionData } from "../../../Startup/BotStartUp"
 import Validations from "../../../Utils/Validations"
-import IStep, { StepInteractionPayload, StepNumbers } from "../../Interfaces/IStep"
+import IStep, { StepNumbers } from "../../Interfaces/IStep"
 import IValidatedStep, { ValidateParameters } from "../../Interfaces/IValidatedStep"
+import StepDefinition from "../../Interfaces/StepDefinition"
 import StepInfo from "../../Messages/StepInfo"
 
 export enum OrderConfirmationAnswers {
@@ -37,17 +35,10 @@ export enum OrderConfirmationOptions {
 }
 
 @staticImplements<IStep>()
-@staticImplements<IValidatedStep<ValidationPayload>>()
-export default class ConfirmOrderStep {
+export default class ConfirmOrderStep extends StepDefinition {
   static STEP_NUMBER = StepNumbers.confirmOrder
   
-  static Interact({
-    customer,
-    message,
-    sessionData,
-    orderInfo,
-    } : StepInteractionPayload
-    ) : StepInfo {
+  public Interact() : StepInfo {
       throw new Error()
   }
 
@@ -84,14 +75,9 @@ export default class ConfirmOrderStep {
     ]
   }
 
-  static ValidateAnswer(
-    {
-      answer,
-      sessionData,
-    } : ValidateParameters
-  ) : ValidationPayload {
-    const formattedAnswer = answer.trim()
-    const isValid = Object.values(OrderConfirmationOptions).includes(formattedAnswer) && Validations.IsNumber(answer)
+  private ValidateAnswer() : ValidationPayload {
+    const formattedAnswer = this.Answer.trim()
+    const isValid = Object.values(OrderConfirmationOptions).includes(formattedAnswer) && Validations.IsNumber(this.Answer)
 
     if (!isValid) {
       return {

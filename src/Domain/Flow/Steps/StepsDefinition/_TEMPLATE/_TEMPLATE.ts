@@ -3,7 +3,7 @@ import staticImplements from "../../../../../Shared/Anotations/staticImplements"
 import Customer from "../../../../Models/Customer"
 import Order from "../../../../Models/Order"
 import { SessionData } from "../../../Startup/BotStartUp"
-import IStep, { StepInteractionPayload, StepNumbers } from "../../Interfaces/IStep"
+import IStep, { StepDefinitionArgs, StepNumbers } from "../../Interfaces/IStep"
 import IValidatedStep, { ValidateParameters } from "../../Interfaces/IValidatedStep"
 import StepInfo from "../../Messages/StepInfo"
 
@@ -19,7 +19,7 @@ export default class _TEMPLATE {
     message,
     sessionData,
     orderInfo
-    } : StepInteractionPayload
+    } : StepDefinitionArgs
     ) : StepInfo {
       throw new Error()
   }

@@ -1,47 +1,33 @@
-import { Message } from "venom-bot"
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements"
-import Customer from "../../../../../Models/Customer"
-import Order from "../../../../../Models/Order"
-import { SessionData } from "../../../../Startup/BotStartUp"
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler"
 import ActionsUtils from "../../../../Utils/ActionsUtils"
 import Validations from "../../../../Utils/Validations"
-import IStep, { StepInteractionPayload, StepNumbers } from "../../../Interfaces/IStep"
-import IValidatedStep, { ValidateParameters } from "../../../Interfaces/IValidatedStep"
+import IStep, { StepNumbers } from "../../../Interfaces/IStep"
+import StepDefinition from "../../../Interfaces/StepDefinition"
 import StepInfo from "../../../Messages/StepInfo"
 import EnrichOrderStep from "../EnrichOrderStep"
 
 
 @staticImplements<IStep>()
-@staticImplements<IValidatedStep<boolean>>()
-export default class SelectPaymentMethodStep {
+export default class SelectPaymentMethodStep extends StepDefinition{
   static STEP_NUMBER = StepNumbers.selectPaymentMethod
   
-  static Interact({
-    customer,
-    message,
-    sessionData,
-    orderInfo,
-    } : StepInteractionPayload
-    ) : StepInfo {
-    const { branchData } = sessionData
-    const answer = message.body
+  public Interact() : StepInfo {
+    const { branchData } = this.SessionData
 
-    const isValidAnswer = this.ValidateAnswer(
-      { answer, sessionData }
-    )
+    const isValidAnswer = this.ValidateAnswer()
 
     if (isValidAnswer) {
-      orderInfo.paymentMethodId = branchData
-        .paymentMethods[Number(answer) -  1].id
+      this.OrderInfo.paymentMethodId = branchData
+        .paymentMethods[Number(this.Answer) -  1].id
 
-      const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(orderInfo, branchData, customer)
+      const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, branchData, this.Customer)
 
       return new StepInfo(
         nextStep.outboundMessages,
         nextStep.nextStep,
         [ActionsEnum.UPDATE_ORDER, ...ActionsUtils.ExtractActions(nextStep)],
-        [orderInfo, ...ActionsUtils.ExtractActionsPayload(nextStep)]
+        [this.OrderInfo, ...ActionsUtils.ExtractActionsPayload(nextStep)]
       )
     } else {
       return new StepInfo(
@@ -56,14 +42,9 @@ export default class SelectPaymentMethodStep {
     }
   }
 
-  static ValidateAnswer(
-    {
-      answer,
-      sessionData,
-    } : ValidateParameters
-  ) : boolean {
-    const { branchData } = sessionData
-    if (Validations.IsInRange(answer, branchData.paymentMethods)) {
+  private ValidateAnswer() : boolean {
+    const { branchData } = this.SessionData
+    if (Validations.IsInRange(this.Answer, branchData.paymentMethods)) {
       return true
     }
     return false

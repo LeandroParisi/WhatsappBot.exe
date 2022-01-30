@@ -1,15 +1,14 @@
-import { Message } from "venom-bot"
 import BranchData from "../../../../../../../data/Interfaces/BranchData"
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements"
 import StepError from "../../../../../Abstractions/Errors/StepError"
 import Customer from "../../../../../Models/Customer"
 import Order from "../../../../../Models/Order"
-import { SessionData } from "../../../../Startup/BotStartUp"
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler"
 import ActionsUtils from "../../../../Utils/ActionsUtils"
 import Validations from "../../../../Utils/Validations"
-import IStep, { StepInteractionPayload, StepNumbers } from "../../../Interfaces/IStep"
-import IValidatedStep, { ValidateParameters } from "../../../Interfaces/IValidatedStep"
+import IStep, { StepNumbers } from "../../../Interfaces/IStep"
+import { ValidateParameters } from "../../../Interfaces/IValidatedStep"
+import StepDefinition from "../../../Interfaces/StepDefinition"
 import StepInfo from "../../../Messages/StepInfo"
 import SelectAddress from "../../StepGenerators/SelectAddress"
 import EnrichOrderStep from "../EnrichOrderStep"
@@ -29,22 +28,13 @@ interface ValidationPayload {
 }
 
 @staticImplements<IStep>()
-export default class SelectAddressStep {
+export default class SelectAddressStep extends StepDefinition {
   static STEP_NUMBER = StepNumbers.selectAddress
   
-  static Interact({
-    customer,
-    message ,
-    sessionData,
-    orderInfo,
-    } : StepInteractionPayload
-    ) : StepInfo {
-    const { branchData } = sessionData
-    const answer = message.body
+  public Interact() : StepInfo {
+    const { branchData } = this.SessionData
 
-    const { isValidAnswer, selectedOption } = this.ValidateAnswer(
-      { answer, sessionData, customer }
-    )
+    const { isValidAnswer, selectedOption } = this.ValidateAnswer()
 
     if (!isValidAnswer) {
       return new StepInfo(
@@ -52,58 +42,47 @@ export default class SelectAddressStep {
           "Desculpe, esta opção não é válida.",
           "Vamos tentar novamente?",
           "Favor digitar o número do endereço de entrega:",
-          customer.customerTemplateMessages.addresses,
+          this.Customer.customerTemplateMessages.addresses,
           `Ou, se quiser a entrega em outro endereço digite *${AddressPossibleAnswers.CADASTRAR}*.`
         ],
         StepNumbers.selectAddress
       )
     } else {
-      return this.AnswerFactory(orderInfo, customer, answer, selectedOption, branchData)
+      return this.AnswerFactory(selectedOption)
     }
   }
-  static AnswerFactory(
-    orderInfo: Order,
-    customer: Customer,
-    answer: string,
-    selectedOption: SelectedOption,
-    branchData : BranchData
-    ): StepInfo {
-      const formattedAnswer = Number(answer.trim())
+
+  private AnswerFactory(selectedOption: SelectedOption): StepInfo {
+      const formattedAnswer = Number(this.Answer.trim())
     
       switch(selectedOption) {
         case SelectedOption.registerAddress:
-          return SelectAddress.GetRegisterStep(customer)
+          return SelectAddress.GetRegisterStep(this.Customer)
         case SelectedOption.selectAddress:
-          orderInfo.addressId = customer.info.customerAddresses[formattedAnswer - 1]._id
+          this.OrderInfo.addressId = this.Customer.info.customerAddresses[formattedAnswer - 1]._id
           
-          const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(orderInfo, branchData, customer)
+          const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, this.SessionData.branchData, this.Customer)
 
           return new StepInfo(
             nextStep.outboundMessages,
             nextStep.nextStep,
             [ActionsEnum.UPDATE_ORDER, ...ActionsUtils.ExtractActions(nextStep)],
-            [orderInfo, ...ActionsUtils.ExtractActionsPayload(nextStep)]
+            [this.OrderInfo, ...ActionsUtils.ExtractActionsPayload(nextStep)]
           )
 
         default:
-          throw new StepError(this.STEP_NUMBER, "Answers was validated, but it wasn't possible to determine which Step to send user based on his answer")
+          throw new StepError(SelectAddressStep.STEP_NUMBER, "Answers was validated, but it wasn't possible to determine which Step to send user based on his answer")
       }
   }
 
-  static ValidateAnswer(
-    {
-      answer,
-      sessionData,
-      customer
-    } : ValidateParameters
-  ) : ValidationPayload {
-    if (answer.trim().toUpperCase() === AddressPossibleAnswers.CADASTRAR) {
+  private ValidateAnswer() : ValidationPayload {
+    if (this.Answer.trim().toUpperCase() === AddressPossibleAnswers.CADASTRAR) {
       return {
         isValidAnswer: true,
         selectedOption: SelectedOption.registerAddress
       }
     }
-    else if (Validations.IsInRange(answer, customer.info.customerAddresses)) {
+    else if (Validations.IsInRange(this.Answer, this.Customer.info.customerAddresses)) {
       return {
         isValidAnswer: true,
         selectedOption: SelectedOption.selectAddress

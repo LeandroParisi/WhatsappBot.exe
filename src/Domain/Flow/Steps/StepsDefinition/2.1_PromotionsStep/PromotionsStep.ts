@@ -3,7 +3,7 @@ import BranchData, { Promotion, PromotionsInformation } from "../../../../../../
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
 import { ValidateParameters } from '../../Interfaces/IValidatedStep'
 import Customer from "../../../../Models/Customer";
-import IStep, { StepInteractionPayload, StepNumbers } from "../../Interfaces/IStep";
+import IStep, { StepNumbers } from "../../Interfaces/IStep";
 import StepInfo from "../../Messages/StepInfo";
 import Validations from "../../../Utils/Validations";
 import MessageUtils from "../../../../Utils/MessageUtils";
@@ -16,6 +16,7 @@ import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
 import IValidatedStep from "../../Interfaces/IValidatedStep";
 import Order from "../../../../Models/Order";
 import { OrderStatusEnum } from "../../../../../../data/Interfaces/IOrderInfo";
+import StepDefinition from "../../Interfaces/StepDefinition";
 import EnrichOrderStep from "../2.2_EnrichOrderStep/EnrichOrderStep";
 
 enum PossibleAnswers {
@@ -25,7 +26,6 @@ enum PossibleAnswers {
 interface ValidationPayload {
   isValid : boolean,
   selectedOption? : SelectedOption
-  formattedAnswer? : number
 }
 
 enum SelectedOption {
@@ -36,33 +36,16 @@ enum SelectedOption {
 }
 
 @staticImplements<IStep>()
-@staticImplements<IValidatedStep<ValidationPayload>>()
-export default class PromotionsStep {
+export default class PromotionsStep extends StepDefinition {
   static STEP_NUMBER = StepNumbers.promotionStep
-  static STEP_NAME = "Selecionar promoção"
   
-  static Interact({
-    customer,
-    message,
-    sessionData
-    } : StepInteractionPayload
-    ) : StepInfo {
-    const answer = message.body
-    const { branchData, startupDate } = sessionData
+  public Interact() : StepInfo {
+    const { branchData } = this.SessionData
     
-    const { isValid, selectedOption, formattedAnswer } = this.ValidateAnswer({
-      answer,
-      sessionData,
-      customer
-    })
+    const { isValid, selectedOption } = this.ValidateAnswer()
 
     if (isValid) {
-      return this.AnswerFactory(
-        selectedOption,
-        branchData,
-        customer,
-        formattedAnswer,
-      )
+      return this.AnswerFactory(selectedOption)
     } else {
       return PromotionsSelectionStep.GenerateMessage({ 
         prefixMessages: ['Desculpe, não entendi qual opção deseja.\nFavor tentar novamente.'],
@@ -71,55 +54,46 @@ export default class PromotionsStep {
     }
   }
 
-  static ValidateAnswer({
-    answer,
-    sessionData,
-    customer
-    } : ValidateParameters
-  ) : ValidationPayload {
-    const { branchData, startupDate } = sessionData
+  private ValidateAnswer() : ValidationPayload {
+    const { branchData, startupDate } = this.SessionData
     const numberOfOptions = branchData.avaiablePromotions.length
-    const daysDifference = DaysUtils.GetDatesDifferenceInDays(customer.lastMessage, startupDate)
+    const daysDifference = DaysUtils.GetDatesDifferenceInDays(this.Customer.lastMessage, startupDate)
 
     if (daysDifference) {
       return {
         isValid: true,
         selectedOption: SelectedOption.outdatedOptions,
       }
-    } else if (Validations.IsNumber(answer)) {
-        const formattedAnswer = MessageUtils.FormatNumberOption(answer)
+    } else if (Validations.IsNumber(this.Answer)) {
+        const formattedAnswer = MessageUtils.FormatNumberOption(this.Answer)
         const isValidNumber = formattedAnswer >= numberOfOptions && formattedAnswer <= numberOfOptions
         return { 
           isValid: true,
           selectedOption: isValidNumber 
             ? SelectedOption.buy 
             : SelectedOption.invalidPromotionNumber,
-          formattedAnswer
         }
-    } else if (answer.toUpperCase().trim() === PossibleAnswers.back) {
+    } else if (this.Answer.toUpperCase().trim() === PossibleAnswers.back) {
         return { isValid: true, selectedOption: SelectedOption.back }
     } else {
         return { isValid: false }
     }
   }
 
-  private static AnswerFactory(
-    selectedOption: SelectedOption,
-    branchData: BranchData,
-    customer : Customer,
-    formattedAnswer?: number
-  ): StepInfo {
+  private AnswerFactory(selectedOption: SelectedOption): StepInfo {
+    const formattedAnswer = MessageUtils.FormatNumberOption(this.Answer)
+    const { branchData } = this.SessionData
 
     switch (selectedOption) {
       case SelectedOption.buy:
         const order = new Order(
-          customer._id,
+          this.Customer._id,
           branchData.id,
           branchData.avaiablePromotions[formattedAnswer - 1].id,
           OrderStatusEnum.REGISTERING
         )
 
-        const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(order, branchData, customer)
+        const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(order, branchData, this.Customer)
 
         return new StepInfo(
           [
@@ -146,7 +120,7 @@ export default class PromotionsStep {
         })
 
       default:
-        throw new StepError(this.STEP_NUMBER, "Answers was validated, but it wasn't possible to determine which Step to send user based on his answer")
+        throw new StepError(PromotionsStep.STEP_NUMBER, "Answers was validated, but it wasn't possible to determine which Step to send user based on his answer")
     }
   }
 }

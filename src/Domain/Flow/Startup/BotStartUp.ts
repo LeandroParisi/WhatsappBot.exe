@@ -2,25 +2,20 @@ import { Service } from 'typedi';
 import { Message } from 'venom-bot';
 import BranchData from '../../../../data/Interfaces/BranchData';
 import SessionHandler from '../../../Services/SessionManagement/SessionHandler';
-import TaonRepository from '../../../Services/TaonBackend/TaonRepository';
 import UserDataHandler from '../../../Services/UserData/UserDataHandler';
-import DaysUtils from '../../../Shared/Utils/DaysUtils';
 import Customer from '../../Models/Customer';
-import MessageUtils from '../../Utils/MessageUtils';
-import IStep, { ADDRESS_STEPS, BUY_STEPS, StepInteractionPayload } from '../Steps/Interfaces/IStep';
+import IStep, { ADDRESS_STEPS, BUY_STEPS } from '../Steps/Interfaces/IStep';
 import StepFactory from '../Steps/StepsDefinition/StepFactory/StepFactory';
-import BranchDataDb from "../../../Services/UserData/config"
 import ActionsFactory from '../StepActions/ActionDefinitions/ActionsFactory/ActionsFactory';
 import TaonHandler from '../../../Services/TaonBackend/TaonHandler';
 import StepInfo from '../Steps/Messages/StepInfo';
-import Order from '../../Models/Order';
 import OrderRepository from '../../../Services/SessionManagement/OrderRepository';
 import AddressesRepository from '../../../Services/SessionManagement/AddressesRepository';
 import { ActionsEnum } from '../StepActions/Interfaces/IActionHandler';
+import { StepDefinitionArgs } from '../Steps/Interfaces/StepDefinition';
 
 interface SetupInfo {
   customer : Customer
-  stepHandler : IStep
 }
 
 interface HandledMessage {
@@ -78,14 +73,15 @@ export default class BotStartup {
   private async HandleMessage(inboundMessage: Message) : Promise<HandledMessage> {
     const { 
       customer, 
-      stepHandler, 
     } = await this.MessageSetup(inboundMessage)
 
     const stepPayload = await this.PayloadFactory(customer, inboundMessage)
 
+    const stepHandler = StepFactory.Create(customer.currentStep, stepPayload)
+
     let stepInfo = null
 
-    stepInfo = stepHandler.Interact(stepPayload)
+    stepInfo = stepHandler.Interact()
 
     return {
       stepInfo,
@@ -93,7 +89,7 @@ export default class BotStartup {
     }
   }
 
-  async PayloadFactory(customer : Customer, message : Message) : Promise<StepInteractionPayload> {
+  async PayloadFactory(customer : Customer, message : Message) : Promise<StepDefinitionArgs> {
     let orderInfo = null
     let address = null
 
@@ -120,12 +116,9 @@ export default class BotStartup {
     const branchData = await this.UserDataHandler.UpdateTemplateMessages(customer.lastMessage, this.sessionData.branchData)   
     
     this.SetBranchData(branchData)
-  
-    const stepHandler = StepFactory.Create(customer.currentStep)
 
     return {
       customer,
-      stepHandler,
     }
   }
 

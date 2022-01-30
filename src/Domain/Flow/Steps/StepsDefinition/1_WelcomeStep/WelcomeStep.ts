@@ -2,23 +2,21 @@ import { Message } from "venom-bot";
 import BranchData from "../../../../../../data/Interfaces/BranchData";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
 import Customer from "../../../../Models/Customer";
-import IStep, { StepInteractionPayload, StepNumbers } from "../../Interfaces/IStep";
+import IStep, { StepNumbers } from "../../Interfaces/IStep";
 import MainMenu from "../10_MainMenu/MainMenu";
 import StepInfo from "../../Messages/StepInfo";
 import { SessionData } from "../../../Startup/BotStartUp";
+import StepDefinition from "../../Interfaces/StepDefinition";
+import Order from "../../../../Models/Order";
+import CustomerAddress from "../../../../Models/CustomerAddress";
 
 @staticImplements<IStep>()
-export default class WelcomeStep {
+export default class WelcomeStep extends StepDefinition {
   static STEP_NUMBER = StepNumbers.welcomeStep
-  static STEP_NAME = "Boas Vindas"
-  
-  static Interact({
-    customer,
-    sessionData: { branchData }
-    } : StepInteractionPayload
-    ) : StepInfo {
+
+  public Interact() : StepInfo {
     const messages = [
-      `Olá ${customer.info.firstName},\nMeu nome é ${branchData.botName} e irei lhe auxiliar durante sua experiência de compra conosco, então, vamos lá?`, 
+      `Olá ${this.Customer.info.firstName},\nMeu nome é ${this.SessionData.branchData.botName} e irei lhe auxiliar durante sua experiência de compra conosco, então, vamos lá?`, 
       MainMenu.INTRO_MESSAGE,
       MainMenu.MENU_OPTIONS,
     ]

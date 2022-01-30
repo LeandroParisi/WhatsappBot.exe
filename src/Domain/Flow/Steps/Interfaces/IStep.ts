@@ -41,16 +41,7 @@ export const ADDRESS_STEPS = new Set([
   StepNumbers.registerCity,
 ])
 
-export interface StepInteractionPayload {
-  customer: Customer, 
-  message : Message, 
-  sessionData : SessionData,
-  orderInfo? : Order
-  address? : CustomerAddress
-}
 
 export default interface IStep {
   STEP_NUMBER : StepNumbers
-
-  Interact(payload : StepInteractionPayload) : StepInfo
 }

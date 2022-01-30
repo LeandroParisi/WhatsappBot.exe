@@ -1,59 +1,47 @@
-import { Message } from "venom-bot";
-import BranchData from "../../../../../../data/Interfaces/BranchData";
 import { CurrentlyRegisteringAddress } from "../../../../../../data/Interfaces/ICustomerAddress";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
-import Customer from "../../../../Models/Customer";
 import CustomerAddress from "../../../../Models/CustomerAddress";
-import Order from "../../../../Models/Order";
 import MessageUtils from "../../../../Utils/MessageUtils";
-import { SessionData } from "../../../Startup/BotStartUp";
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
-import IStep, { StepInteractionPayload, StepNumbers } from "../../Interfaces/IStep";
-import IValidatedStep, { ValidateParameters } from "../../Interfaces/IValidatedStep";
+import IStep, { StepNumbers } from "../../Interfaces/IStep";
+import StepDefinition from "../../Interfaces/StepDefinition";
 import StepInfo from "../../Messages/StepInfo";
 
 
 @staticImplements<IStep>()
-export default class RegisterAddressStep {
+export default class RegisterAddressStep extends StepDefinition {
   static STEP_NUMBER = StepNumbers.registerAddress
   
-  static Interact({
-    customer,
-    message,
-    sessionData, 
-    orderInfo,
-    address,
-    } : StepInteractionPayload
-    ) : StepInfo {
-      this.UpdateAddress(address, message.body)
-      return this.ExtractMissingAddressInfo(address)
+  public Interact() : StepInfo {
+      this.UpdateAddress()
+      return RegisterAddressStep.ExtractMissingAddressInfo(this.Address)
   }
 
-  private static UpdateAddress(address: CustomerAddress, answer : string) {
-    if (address.currentlyRegistering === CurrentlyRegisteringAddress.COUNTRY_NAME) {
-      address.currentlyRegistering = CurrentlyRegisteringAddress.COUNTRY_NAME
-      address.countryName = answer.trim()
-    } else if (address.currentlyRegistering === CurrentlyRegisteringAddress.STATE_NAME) {
-      address.currentlyRegistering = CurrentlyRegisteringAddress.STATE_NAME
-      address.stateName = answer.trim()
-    } else if (address.currentlyRegistering === CurrentlyRegisteringAddress.CITY_NAME) {
-      address.currentlyRegistering = CurrentlyRegisteringAddress.CITY_NAME
-      address.cityName = answer.trim()
-    } else if (address.currentlyRegistering === CurrentlyRegisteringAddress.POSTAL_CODE) {
-      address.currentlyRegistering = CurrentlyRegisteringAddress.POSTAL_CODE
-      address.postalCode = answer.trim()
-    } else if (address.currentlyRegistering === CurrentlyRegisteringAddress.NEIGHBORHOOD) {
-      address.currentlyRegistering = CurrentlyRegisteringAddress.NEIGHBORHOOD
-      address.neighborhood = answer.trim()
-    } else if (address.currentlyRegistering === CurrentlyRegisteringAddress.STREET) {
-      address.currentlyRegistering = CurrentlyRegisteringAddress.STREET
-      address.street = answer.trim()
-    } else if (address.currentlyRegistering === CurrentlyRegisteringAddress.STREET_NUMBER) {
-      address.currentlyRegistering = CurrentlyRegisteringAddress.STREET_NUMBER
-      address.streetNumber = answer.trim()
-    } else if (address.currentlyRegistering === CurrentlyRegisteringAddress.STREET_COMPLEMENT) {
-      address.currentlyRegistering = CurrentlyRegisteringAddress.STREET_COMPLEMENT
-      address.streetComplement = answer.trim()
+  private UpdateAddress() {
+    if (this.Address.currentlyRegistering === CurrentlyRegisteringAddress.COUNTRY_NAME) {
+      this.Address.currentlyRegistering = CurrentlyRegisteringAddress.COUNTRY_NAME
+      this.Address.countryName = this.Answer.trim()
+    } else if (this.Address.currentlyRegistering === CurrentlyRegisteringAddress.STATE_NAME) {
+      this.Address.currentlyRegistering = CurrentlyRegisteringAddress.STATE_NAME
+      this.Address.stateName = this.Answer.trim()
+    } else if (this.Address.currentlyRegistering === CurrentlyRegisteringAddress.CITY_NAME) {
+      this.Address.currentlyRegistering = CurrentlyRegisteringAddress.CITY_NAME
+      this.Address.cityName = this.Answer.trim()
+    } else if (this.Address.currentlyRegistering === CurrentlyRegisteringAddress.POSTAL_CODE) {
+      this.Address.currentlyRegistering = CurrentlyRegisteringAddress.POSTAL_CODE
+      this.Address.postalCode = this.Answer.trim()
+    } else if (this.Address.currentlyRegistering === CurrentlyRegisteringAddress.NEIGHBORHOOD) {
+      this.Address.currentlyRegistering = CurrentlyRegisteringAddress.NEIGHBORHOOD
+      this.Address.neighborhood = this.Answer.trim()
+    } else if (this.Address.currentlyRegistering === CurrentlyRegisteringAddress.STREET) {
+      this.Address.currentlyRegistering = CurrentlyRegisteringAddress.STREET
+      this.Address.street = this.Answer.trim()
+    } else if (this.Address.currentlyRegistering === CurrentlyRegisteringAddress.STREET_NUMBER) {
+      this.Address.currentlyRegistering = CurrentlyRegisteringAddress.STREET_NUMBER
+      this.Address.streetNumber = this.Answer.trim()
+    } else if (this.Address.currentlyRegistering === CurrentlyRegisteringAddress.STREET_COMPLEMENT) {
+      this.Address.currentlyRegistering = CurrentlyRegisteringAddress.STREET_COMPLEMENT
+      this.Address.streetComplement = this.Answer.trim()
     }
   }
 

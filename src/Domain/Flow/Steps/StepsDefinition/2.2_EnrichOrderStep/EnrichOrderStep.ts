@@ -2,29 +2,22 @@ import { Message } from "venom-bot";
 import BranchData from "../../../../../../data/Interfaces/BranchData";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
 import Customer from "../../../../Models/Customer";
-import IStep, { StepInteractionPayload, StepNumbers } from "../../Interfaces/IStep";
+import IStep, { StepNumbers } from "../../Interfaces/IStep";
 import MainMenu from "../10_MainMenu/MainMenu";
 import StepInfo from "../../Messages/StepInfo";
 import { SessionData } from "../../../Startup/BotStartUp";
 import Order from "../../../../Models/Order";
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
-import { AddressPossibleAnswers } from "./2.2.3_SelectAddress/SelectAddressStep";
 import SelectAddress from "../StepGenerators/SelectAddress";
-import ConfirmOrder, { OrderConfirmationAnswers } from "../8_ConfirmOrder/ConfirmOrder";
-import ConfirmOrderStep from "../8_ConfirmOrder/ConfirmOrder";
+import StepDefinition from "../../Interfaces/StepDefinition";
+import ConfirmOrderStep, { OrderConfirmationAnswers } from "../8_ConfirmOrder/ConfirmOrder";
 
 @staticImplements<IStep>()
-export default class EnrichOrderStep {
+export default class EnrichOrderStep extends StepDefinition {
   static STEP_NUMBER = StepNumbers.enrichOrderStep
-  static STEP_NAME = "Verificar dados do usuário"
   
-  static Interact({
-    customer,
-    sessionData: { branchData },
-    orderInfo,
-  } : StepInteractionPayload
-  ) : StepInfo {
-    return this.ExtractMissingOrderInfo(orderInfo, branchData, customer)
+  public Interact() : StepInfo {
+    return EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, this.SessionData.branchData, this.Customer)
   }
   
   public static ExtractMissingOrderInfo(
