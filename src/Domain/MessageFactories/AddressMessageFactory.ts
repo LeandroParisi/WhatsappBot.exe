@@ -3,7 +3,7 @@ import staticImplements from "../../Shared/Anotations/staticImplements";
 import CustomerAddress from "../Models/CustomerAddress";
 
 @staticImplements()
-export default class MessageUtils {
+export default class AddressMessageFactory {
   static FormatNumberOption(answer : string) {
     return Number(answer.trim())
   }

@@ -1,6 +1,6 @@
 import { Service } from 'typedi';
 import { Message } from 'venom-bot';
-import BranchData from '../../../../data/Interfaces/BranchData';
+import BranchData, { Country } from '../../../../data/Interfaces/BranchData';
 import SessionHandler from '../../../Services/SessionManagement/SessionHandler';
 import UserDataHandler from '../../../Services/UserData/UserDataHandler';
 import Customer from '../../Models/Customer';
@@ -26,6 +26,7 @@ interface HandledMessage {
 export interface SessionData {
   branchData : BranchData
   startupDate : Date
+  locations : Array<Country>
 }
 
 @Service()
@@ -42,7 +43,8 @@ export default class BotStartup {
     ) {
       this.sessionData = {
         branchData: null,
-        startupDate: null
+        startupDate: null,
+        locations: null
       }
     }
 
@@ -127,9 +129,10 @@ export default class BotStartup {
     const botInfo = await this.bot.getHostDevice(); 
     const { id: { user : deviceNumber } } = botInfo
     
-    const branchData = await this.UserDataHandler.LoadInitialData(deviceNumber);
+    const { branchData, locations} = await this.UserDataHandler.LoadInitialData(deviceNumber);
 
-    this.SetBranchData(branchData)
+    this.sessionData.branchData = branchData
+    this.sessionData.locations = locations
   }
 
   public SetBot(bot: any) {

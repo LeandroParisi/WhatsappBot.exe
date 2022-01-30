@@ -1,7 +1,7 @@
 import Config from "../../../../../config";
 import { PromotionsInformation } from "../../../../../../data/Interfaces/BranchData";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
-import MessageUtils from "../../../../Utils/MessageUtils";
+import MessageUtils from "../../../../MessageFactories/AddressMessageFactory";
 import IStep, { StepNumbers } from "../../Interfaces/IStep";
 import StepInfo from "../../Messages/StepInfo";
 import ClosingStep from "../9_ClosingStep/ClosingStep";

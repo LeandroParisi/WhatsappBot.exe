@@ -3,10 +3,15 @@ import MaxLoginReached from '../Abstractions/Errors/MaxLoginReached';
 import BackendError from '../Abstractions/Errors/BackendError';
 import TaonRepository from '../TaonBackend/TaonRepository';
 import UserDataRepository from "./UserDataRepository";
-import BranchData, { Promotion } from '../../../data/Interfaces/BranchData';
-import BranchTemplateMessagesFactory from '../../Domain/Utils/BranchTemplateMessagesFactory';
+import BranchData, { Country, Promotion } from '../../../data/Interfaces/BranchData';
+import BranchTemplateMessagesFactory from '../../Domain/MessageFactories/BranchTemplateMessagesFactory';
 import DaysUtils from '../../Shared/Utils/DaysUtils';
 import PromotionsUtils from '../../Shared/Utils/PromotionsUtils';
+
+export interface locations {
+  branchData : BranchData,
+  locations : Array<Country>
+}
 
 @Service()
 export default class UserDataHandler {
@@ -56,16 +61,17 @@ export default class UserDataHandler {
     )
   }
 
-  async LoadInitialData(deviceNumber : string) : Promise<BranchData> {
+  async LoadInitialData(deviceNumber : string) : Promise<locations> {
     const userData = await this.repository.GetLoginData();
 
     // TODO: Tentar tratar este erro, o catch não funcionou aqui para jogar para o handler global do index    
     const data = await this.TaonRepository.GetInitialData(userData.token, deviceNumber)
-    
+
+    const locations = await this.TaonRepository.GetLocationsByCountry()
 
     const branchData = await this.EnrichBranchData(data)
 
-    return branchData
+    return { branchData, locations }
   }
 
   public async UpdateTemplateMessages(

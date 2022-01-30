@@ -1,4 +1,4 @@
-import MessageUtils from "../../../../Utils/MessageUtils"
+import MessageUtils from "../../../../MessageFactories/AddressMessageFactory"
 import { StepNumbers } from "../../Interfaces/IStep"
 import { ValidateParameters } from "../../Interfaces/IValidatedStep"
 import StepDefinition from "../../Interfaces/StepDefinition"

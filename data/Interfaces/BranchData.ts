@@ -23,7 +23,6 @@ export default interface BranchData {
   avaiablePromotions : Array<Promotion>,
   botName : string,
   templateMessages : TemplateMessages,
-  locations : Array<Country>
 }
 
 export interface Country {

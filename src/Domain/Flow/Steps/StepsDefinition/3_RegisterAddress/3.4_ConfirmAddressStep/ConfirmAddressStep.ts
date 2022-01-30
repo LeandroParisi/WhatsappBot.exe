@@ -4,7 +4,7 @@ import staticImplements from "../../../../../../Shared/Anotations/staticImplemen
 import Validations from "../../../../Utils/Validations";
 import IStep, {  StepNumbers } from "../../../Interfaces/IStep";
 import StepInfo from "../../../Messages/StepInfo";
-import MessageUtils from "../../../../../Utils/MessageUtils";
+import MessageUtils from "../../../../../MessageFactories/AddressMessageFactory";
 import RegisterAddressStep from "../RegisterAddressStep";
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler";
 import StepDefinition from "../../../Interfaces/StepDefinition";

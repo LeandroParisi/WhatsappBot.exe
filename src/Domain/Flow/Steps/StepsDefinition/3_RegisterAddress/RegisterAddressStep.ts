@@ -1,7 +1,7 @@
 import { CurrentlyRegisteringAddress } from "../../../../../../data/Interfaces/ICustomerAddress";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
 import CustomerAddress from "../../../../Models/CustomerAddress";
-import MessageUtils from "../../../../Utils/MessageUtils";
+import MessageUtils from "../../../../MessageFactories/AddressMessageFactory";
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
 import IStep, { StepNumbers } from "../../Interfaces/IStep";
 import StepDefinition from "../../Interfaces/StepDefinition";
@@ -66,9 +66,9 @@ export default class RegisterAddressStep extends StepDefinition {
 
       return new StepInfo(
         [
-          "Vamos cadastrar seu *estado*, favor digitar o nome do estado de sua residência."
+          "Vamos cadastrar seu *estado*, favor digitar *número* do seu estado de residência da lista abaixo:"
         ],
-        StepNumbers.registerAddress,
+        StepNumbers.registerState,
         [ActionsEnum.UPSERT_ADDRESS],
         [address]
       )

@@ -1,7 +1,7 @@
 import { Service } from "typedi"
 import { Message } from "venom-bot";
 // import { Message } from "venom-bot";
-import BranchData from "../../../data/Interfaces/BranchData";
+import BranchData, { Country } from "../../../data/Interfaces/BranchData";
 import CustomerInfo from "../../../data/Interfaces/CustomerInfo";
 import LoginData from "../../../data/Interfaces/LoginData";
 import { CustomMessage } from "../../../node_modules_extensions/MessageExtension";
@@ -45,6 +45,18 @@ export default class TaonRepository {
       method,
       body: { whatsappNumber },
       headers: { auth: token }
+    })
+
+    return response.data.data
+  }
+
+  async GetLocationsByCountry() : Promise<Array<Country>> {
+    const endpoint = "countries/getLocationsByCountry"
+    const method = "GET"
+
+    const response = await api({
+      endpoint, 
+      method,
     })
 
     return response.data.data

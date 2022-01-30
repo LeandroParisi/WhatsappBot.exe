@@ -4,7 +4,7 @@ import Config from "../../config";
 import CustomerInfo from "../../../data/Interfaces/CustomerInfo";
 import CustomerTemplateMessages from "../../../data/Interfaces/CustomerTemplateMessages";
 import Customer from "../../Domain/Models/Customer";
-import CustomerTemplateMessagesFactory from "../../Domain/Utils/CustomerTemplateMessagesFactory";
+import CustomerTemplateMessagesFactory from "../../Domain/MessageFactories/CustomerTemplateMessagesFactory";
 import DaysUtils from "../../Shared/Utils/DaysUtils";
 import TaonRepository from "../TaonBackend/TaonRepository";
 import CustomerRepository from './CustomerRepository';

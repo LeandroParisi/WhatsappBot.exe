@@ -6,7 +6,7 @@ import Customer from "../../../../Models/Customer";
 import IStep, { StepNumbers } from "../../Interfaces/IStep";
 import StepInfo from "../../Messages/StepInfo";
 import Validations from "../../../Utils/Validations";
-import MessageUtils from "../../../../Utils/MessageUtils";
+import MessageUtils from "../../../../MessageFactories/AddressMessageFactory";
 import PromotionsSelectionStep from "../StepGenerators/PromotionsSelectionStep";
 import ReturnToMenu from "../StepGenerators/ReturnToMenu";
 import StepError from "../../../../Abstractions/Errors/StepError";
