@@ -82,7 +82,19 @@ export default class BotCore {
     }
   }
 
-  async PayloadFactory(customer : Customer, message : Message) : Promise<StepDefinitionArgs> {
+  private async MessageSetup(inboundMessage: Message) : Promise<SetupInfo> {
+    const customer = await this.SessionHandler.CheckIn(inboundMessage);
+
+    const branchData = await this.UserDataHandler.UpdateTemplateMessages(customer.lastMessage, this.sessionData.branchData)   
+    
+    this.SetBranchData(branchData)
+
+    return {
+      customer,
+    }
+  }
+
+  private async PayloadFactory(customer : Customer, message : Message) : Promise<StepDefinitionArgs> {
     let orderInfo = null
     let address = null
 
@@ -102,18 +114,6 @@ export default class BotCore {
       address
     }
   }
-  
-  private async MessageSetup(inboundMessage: Message) : Promise<SetupInfo> {
-    const customer = await this.SessionHandler.CheckIn(inboundMessage);
-
-    const branchData = await this.UserDataHandler.UpdateTemplateMessages(customer.lastMessage, this.sessionData.branchData)   
-    
-    this.SetBranchData(branchData)
-
-    return {
-      customer,
-    }
-  }
 
   private async SendMessages(outboundMessages : string[], customer : Customer) {
     for (let outboundMessage of outboundMessages) {
@@ -122,12 +122,9 @@ export default class BotCore {
   }
 
   private async HandleStepAction(stepInfo: StepInfo, client: Customer) {
-    console.log({ actions: stepInfo.requiredAction })
-    
     if (stepInfo.requiredAction && !!stepInfo.requiredAction.length) {
       stepInfo.requiredAction.forEach(
         async (action : ActionsEnum, index : number) => {
-          console.log({ action })
           const actionHandler = ActionsFactory.Create(action)
           await actionHandler
             .DispatchAction(stepInfo.actionPayload[index], client);

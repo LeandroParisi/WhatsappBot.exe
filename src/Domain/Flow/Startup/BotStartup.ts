@@ -18,7 +18,7 @@ export default class BotStartup {
   public async Startup(bot : BotCore) {
     Installer.InstallServices()
     const startupDate = DaysUtils.GetDateFromTimestamp(Date.now() / 1000)
-    this.ValidateUser(startupDate);
+    await this.ValidateUser(startupDate);
     bot.SetStartupDate(startupDate)
     await this.SessionHandler.ValidateCurrentSessions(startupDate);
   }
