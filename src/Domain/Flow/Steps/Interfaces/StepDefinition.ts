@@ -30,5 +30,7 @@ export default abstract class StepDefinition {
     this.Address = address
   }
 
-  abstract Interact() : StepInfo
+  async Interact() : Promise<StepInfo> {
+    throw new Error("Mot implemented")
+  }
 }

@@ -10,7 +10,7 @@ export default class ClosingStep extends StepDefinition{
   
   static INTRO_MESSAGE = "Posso lhe ajudar em mais alguma coisa?\n1. Sim\n2. Não"
 
-  public Interact() : StepInfo {
+  public async Interact() : Promise<StepInfo> {
     const clientAnswer = this.Message.body
 
     if (ClosingStep.ValidateAnswer({answer: clientAnswer.trim()})) {

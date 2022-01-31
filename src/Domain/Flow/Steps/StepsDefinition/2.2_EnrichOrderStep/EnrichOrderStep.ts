@@ -16,7 +16,7 @@ import ConfirmOrderStep, { OrderConfirmationAnswers } from "../8_ConfirmOrder/Co
 export default class EnrichOrderStep extends StepDefinition {
   static STEP_NUMBER = StepNumbers.enrichOrderStep
   
-  public Interact() : StepInfo {
+  public async Interact() : Promise<StepInfo> {
     return EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, this.SessionData.branchData, this.Customer)
   }
   

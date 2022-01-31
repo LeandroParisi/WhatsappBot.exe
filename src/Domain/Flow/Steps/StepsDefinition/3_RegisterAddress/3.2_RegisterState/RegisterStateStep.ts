@@ -7,7 +7,7 @@ import StepInfo from "../../../Messages/StepInfo";
 export default class RegisterStateStep extends StepDefinition {
   static STEP_NUMBER = StepNumbers.registerState
   
-  Interact(): StepInfo {
+  public async Interact(): Promise<StepInfo> {
     throw new Error("Method not implemented.");
   }
 }

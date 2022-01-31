@@ -39,7 +39,7 @@ enum SelectedOption {
 export default class PromotionsStep extends StepDefinition {
   static STEP_NUMBER = StepNumbers.promotionStep
   
-  public Interact() : StepInfo {
+  public async Interact() : Promise<StepInfo> {
     const { branchData } = this.SessionData
     
     const { isValid, selectedOption } = this.ValidateAnswer()

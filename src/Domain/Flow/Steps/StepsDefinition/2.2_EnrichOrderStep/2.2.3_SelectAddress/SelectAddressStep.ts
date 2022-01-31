@@ -31,7 +31,7 @@ interface ValidationPayload {
 export default class SelectAddressStep extends StepDefinition {
   static STEP_NUMBER = StepNumbers.selectAddress
   
-  public Interact() : StepInfo {
+  public async Interact() : Promise<StepInfo> {
     const { branchData } = this.SessionData
 
     const { isValidAnswer, selectedOption } = this.ValidateAnswer()

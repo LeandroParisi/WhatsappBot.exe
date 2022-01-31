@@ -12,7 +12,7 @@ import EnrichOrderStep from "../EnrichOrderStep"
 export default class SelectPaymentMethodStep extends StepDefinition{
   static STEP_NUMBER = StepNumbers.selectPaymentMethod
   
-  public Interact() : StepInfo {
+  public async Interact() : Promise<StepInfo> {
     const { branchData } = this.SessionData
 
     const isValidAnswer = this.ValidateAnswer()

@@ -26,7 +26,7 @@ const possibleAnswers = new Set([...Object.values(CurrentlyRegisteringAddress), 
 export default class ConfirmAddressStep extends StepDefinition {
   static STEP_NUMBER = StepNumbers.confirmAddress
   
-  public Interact() : StepInfo {
+  public async Interact() : Promise<StepInfo> {
       const {
         isValid,
         action,

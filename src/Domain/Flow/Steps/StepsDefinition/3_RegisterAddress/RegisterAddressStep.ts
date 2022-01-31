@@ -14,7 +14,7 @@ import AddressMessageFactory from "../../../../MessageFactories/AddressMessageFa
 export default class RegisterAddressStep extends StepDefinition {
   static STEP_NUMBER = StepNumbers.registerAddress
 
-  public Interact() : StepInfo {
+  public async Interact() : Promise<StepInfo> {
       this.UpdateAddress()
       return RegisterAddressStep.ExtractMissingAddressInfo(this.Address)
   }

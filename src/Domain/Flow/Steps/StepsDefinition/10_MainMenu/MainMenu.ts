@@ -24,7 +24,7 @@ export default class MainMenu extends StepDefinition {
   static INTRO_MESSAGE = "Em que posso te ajudar hoje?\n(Digite o número da opção para darmos continuidade)"
   static MENU_OPTIONS = options.join("\n")
 
-  public Interact() : StepInfo {
+  public async Interact() : Promise<StepInfo> {
     const clientAnswer = this.Message.body
     if (this.ValidateAnswer()) {
       return this.AnswerFactory(MessageUtils.FormatNumberOption(clientAnswer))

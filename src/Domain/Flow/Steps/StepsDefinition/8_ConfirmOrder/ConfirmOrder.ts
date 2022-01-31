@@ -1,6 +1,6 @@
 import BranchData, { DeliveryType, PaymentMethod, Promotion } from "../../../../../../data/Interfaces/BranchData"
 import staticImplements from "../../../../../Shared/Anotations/staticImplements"
-import AddressUtils from "../../../../../Shared/Utils/AddressUtils"
+import AddressParser from "../../../../../Shared/Parsers/AddressParser"
 import PromotionsUtils from "../../../../../Shared/Utils/PromotionsUtils"
 import Customer from "../../../../Models/Customer"
 import CustomerAddress from "../../../../Models/CustomerAddress"
@@ -38,7 +38,7 @@ export enum OrderConfirmationOptions {
 export default class ConfirmOrderStep extends StepDefinition {
   static STEP_NUMBER = StepNumbers.confirmOrder
   
-  public Interact() : StepInfo {
+  public async Interact() : Promise<StepInfo> {
       throw new Error()
   }
 
@@ -59,7 +59,7 @@ export default class ConfirmOrderStep extends StepDefinition {
     const deliveryType = branchData.deliveryTypes
       .find((d : DeliveryType) => d.id === orderInfo.deliveryTypeId)
 
-    const address = AddressUtils.ParseAddressToText(
+    const address = AddressParser.ParseAddressToText(
       customer.info.customerAddresses
         .find((a : CustomerAddress) => a._id === orderInfo.addressId)
     )
