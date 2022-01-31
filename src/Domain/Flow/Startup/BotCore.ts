@@ -1,16 +1,16 @@
 import { Service } from 'typedi';
 import { Message } from 'venom-bot';
 import BranchData, { Country } from '../../../../data/Interfaces/BranchData';
-import SessionHandler from '../../../Services/SessionManagement/SessionHandler';
-import UserDataHandler from '../../../Services/UserData/UserDataHandler';
+import SessionHandler from '../../../Services/SessionManagement/Handlers/SessionHandler';
+import UserDataHandler from '../../../Services/UserData/Handlers/UserDataHandler';
 import Customer from '../../Models/Customer';
 import IStep, { ADDRESS_STEPS, BUY_STEPS } from '../Steps/Interfaces/IStep';
 import StepFactory from '../Steps/StepsDefinition/StepFactory/StepFactory';
 import ActionsFactory from '../StepActions/ActionDefinitions/ActionsFactory/ActionsFactory';
 import TaonHandler from '../../../Services/TaonBackend/TaonHandler';
 import StepInfo from '../Steps/Messages/StepInfo';
-import OrderRepository from '../../../Services/SessionManagement/OrderRepository';
-import AddressesRepository from '../../../Services/SessionManagement/AddressesRepository';
+import OrderRepository from '../../../Services/SessionManagement/Repositories/OrderRepository';
+import AddressesRepository from '../../../Services/SessionManagement/Repositories/AddressesRepository';
 import { ActionsEnum } from '../StepActions/Interfaces/IActionHandler';
 import { StepDefinitionArgs } from '../Steps/Interfaces/StepDefinition';
 

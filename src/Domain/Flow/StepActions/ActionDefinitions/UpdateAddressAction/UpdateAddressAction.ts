@@ -1,8 +1,8 @@
 import Container, { Service } from "typedi";
 import Customer from "../../../../Models/Customer";
 import IActionHandler, { ActionsEnum } from "../../Interfaces/IActionHandler";
-import OrderRepository from "../../../../../Services/SessionManagement/OrderRepository";
-import AddressesRepository from "../../../../../Services/SessionManagement/AddressesRepository";
+import OrderRepository from "../../../../../Services/SessionManagement/Repositories/OrderRepository";
+import AddressesRepository from "../../../../../Services/SessionManagement/Repositories/AddressesRepository";
 import CustomerAddress from "../../../../Models/CustomerAddress";
 
 export default class UpdateAddressAction implements IActionHandler<CustomerAddress> {

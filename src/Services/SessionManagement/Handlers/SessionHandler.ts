@@ -1,15 +1,15 @@
 import { Service } from "typedi";
 import { Message } from "venom-bot";
-import Config from "../../config";
-import CustomerInfo from "../../../data/Interfaces/CustomerInfo";
-import CustomerTemplateMessages from "../../../data/Interfaces/CustomerTemplateMessages";
-import Customer from "../../Domain/Models/Customer";
-import CustomerTemplateMessagesFactory from "../../Domain/MessageFactories/CustomerTemplateMessagesFactory";
-import DaysUtils from "../../Shared/Utils/DaysUtils";
-import TaonRepository from "../TaonBackend/TaonRepository";
-import CustomerRepository from './CustomerRepository';
-import OrderRepository from "./OrderRepository";
-import AddressesRepository from "./AddressesRepository";
+import Config from "../../../config";
+import CustomerInfo from "../../../../data/Interfaces/CustomerInfo";
+import CustomerTemplateMessages from "../../../../data/Interfaces/CustomerTemplateMessages";
+import Customer from "../../../Domain/Models/Customer";
+import CustomerTemplateMessagesFactory from "../../../Domain/MessageFactories/CustomerTemplateMessagesFactory";
+import DaysUtils from "../../../Shared/Utils/DaysUtils";
+import TaonRepository from "../../TaonBackend/TaonRepository";
+import CustomerRepository from '../Repositories/CustomerRepository';
+import OrderRepository from "../Repositories/OrderRepository";
+import AddressesRepository from "../Repositories/AddressesRepository";
 
 @Service()
 export default class SessionHandler {
@@ -61,7 +61,6 @@ export default class SessionHandler {
 
   async ValidateCurrentSessions(startupDate : Date) : Promise<void> {
     const { sessionResetRules } = Config
-    console.log({sessionResetRules})
 
     const lastMessageLimit = DaysUtils.SubtractTimeFromDate(
       startupDate, sessionResetRules.lastMessageInHours

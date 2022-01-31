@@ -1,13 +1,19 @@
 import { Service } from "typedi"
 import { Message } from "venom-bot";
 // import { Message } from "venom-bot";
-import BranchData, { Country } from "../../../data/Interfaces/BranchData";
+import BranchData, { City, Country, State } from "../../../data/Interfaces/BranchData";
 import CustomerInfo from "../../../data/Interfaces/CustomerInfo";
 import LoginData from "../../../data/Interfaces/LoginData";
 import { CustomMessage } from "../../../node_modules_extensions/MessageExtension";
 import Customer from "../../Domain/Models/Customer";
 import CustomerAddress, { CustomerAddressSQL } from "../../Domain/Models/CustomerAddress";
 import { api } from "./services/api"
+
+export interface LocationsPayload {
+  countries: Array<Country>
+  states: Array<State>
+  cities: Array<City>
+}
 
 @Service()
 export default class TaonRepository {
@@ -50,8 +56,8 @@ export default class TaonRepository {
     return response.data.data
   }
 
-  async GetLocationsByCountry() : Promise<Array<Country>> {
-    const endpoint = "countries/getLocationsByCountry"
+  async GetLocations() : Promise<LocationsPayload> {
+    const endpoint = "locations"
     const method = "GET"
 
     const response = await api({

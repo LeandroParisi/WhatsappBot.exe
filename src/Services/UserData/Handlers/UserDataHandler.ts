@@ -1,13 +1,13 @@
 import { Service } from "typedi";
-import MaxLoginReached from '../Abstractions/Errors/MaxLoginReached';
-import BackendError from '../Abstractions/Errors/BackendError';
-import TaonRepository from '../TaonBackend/TaonRepository';
-import UserDataRepository from "./UserDataRepository";
-import BranchData, { Country, Promotion } from '../../../data/Interfaces/BranchData';
-import BranchTemplateMessagesFactory from '../../Domain/MessageFactories/BranchTemplateMessagesFactory';
-import DaysUtils from '../../Shared/Utils/DaysUtils';
-import PromotionsUtils from '../../Shared/Utils/PromotionsUtils';
-
+import MaxLoginReached from '../../Abstractions/Errors/MaxLoginReached';
+import BackendError from '../../Abstractions/Errors/BackendError';
+import TaonRepository from '../../TaonBackend/TaonRepository';
+import UserDataRepository from "../Repositories/UserDataRepository";
+import LocationsRepository from "../Repositories/LocationsRepository";
+import BranchData, { City, Country, Promotion, State } from '../../../../data/Interfaces/BranchData';
+import BranchTemplateMessagesFactory from '../../../Domain/MessageFactories/BranchTemplateMessagesFactory';
+import DaysUtils from '../../../Shared/Utils/DaysUtils';
+import PromotionsUtils from '../../../Shared/Utils/PromotionsUtils';
 
 
 @Service()
@@ -17,6 +17,7 @@ export default class UserDataHandler {
   constructor(
     private readonly repository : UserDataRepository,
     private readonly TaonRepository : TaonRepository,
+    private readonly LocationsRepository : LocationsRepository,
   ) {
     this.loginRetries = 0
   }
@@ -64,8 +65,10 @@ export default class UserDataHandler {
     // TODO: Tentar tratar este erro, o catch não funcionou aqui para jogar para o handler global do index    
     const data = await this.TaonRepository.GetInitialData(userData.token, deviceNumber)
 
-    const locations = await this.TaonRepository.GetLocationsByCountry()
+    const locations = await this.TaonRepository.GetLocations()
 
+    await this.LocationsRepository.InsertLocations(locations)
+    
     const branchData = await this.EnrichBranchData(data)
 
     return branchData
