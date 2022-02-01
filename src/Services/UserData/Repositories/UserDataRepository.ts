@@ -3,7 +3,7 @@ import { Service } from "typedi";
 import Customer from "../../../Domain/Models/Customer";
 import { api } from "../../TaonBackend/services/api";
 import LoginData from "../../../../data/Interfaces/LoginData";
-import BranchData, { Country } from "../../../../data/Interfaces/BranchData";
+import BranchData, { Country } from "../../../../data/DTOs/BranchData";
 import BranchDataDb from '../branchDataConfig'
 
 @Service()

@@ -1,4 +1,4 @@
-import { State } from "../../../data/Interfaces/BranchData";
+import { State } from "../../../data/DTOs/BranchData";
 import { CurrentlyRegisteringAddress } from "../../../data/Interfaces/ICustomerAddress";
 import staticImplements from "../../Shared/Anotations/staticImplements";
 import CustomerAddress from "../Models/CustomerAddress";

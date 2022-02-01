@@ -1,4 +1,4 @@
-import BranchData, { DeliveryType, PaymentMethod, Promotion } from "../../../../../../data/Interfaces/BranchData"
+import BranchData, { DeliveryType, PaymentMethod, Promotion } from "../../../../../../data/DTOs/BranchData"
 import staticImplements from "../../../../../Shared/Anotations/staticImplements"
 import AddressParser from "../../../../../Shared/Parsers/AddressParser"
 import PromotionsUtils from "../../../../../Shared/Utils/PromotionsUtils"

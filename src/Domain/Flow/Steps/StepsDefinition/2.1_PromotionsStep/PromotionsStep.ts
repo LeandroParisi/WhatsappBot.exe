@@ -1,5 +1,5 @@
 import { Message } from "venom-bot";
-import BranchData, { Promotion, PromotionsInformation } from "../../../../../../data/Interfaces/BranchData";
+import BranchData, { Promotion, PromotionsInformation } from "../../../../../../data/DTOs/BranchData";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
 import { ValidateParameters } from '../../Interfaces/IValidatedStep'
 import Customer from "../../../../Models/Customer";

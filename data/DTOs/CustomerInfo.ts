@@ -1,5 +1,4 @@
 import CustomerAddress from "../../src/Domain/Models/CustomerAddress";
-import ICustomerAddress from "./ICustomerAddress";
 
 export default interface CustomerInfo {
   id : string

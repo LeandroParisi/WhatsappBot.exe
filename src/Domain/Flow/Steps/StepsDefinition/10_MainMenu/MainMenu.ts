@@ -1,5 +1,5 @@
 import Config from "../../../../../config";
-import { PromotionsInformation } from "../../../../../../data/Interfaces/BranchData";
+import { PromotionsInformation } from "../../../../../../data/DTOs/BranchData";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
 import MessageUtils from "../../../../MessageFactories/AddressMessageFactory";
 import IStep, { StepNumbers } from "../../Interfaces/IStep";

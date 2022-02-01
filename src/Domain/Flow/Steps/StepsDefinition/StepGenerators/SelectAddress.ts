@@ -1,4 +1,4 @@
-import CustomerInfo from "../../../../../../data/Interfaces/CustomerInfo";
+import CustomerInfo from "../../../../../../data/DTOs/CustomerInfo";
 import { AddressStatusEnum } from "../../../../../../data/Interfaces/ICustomerAddress";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
 import Customer from "../../../../Models/Customer";

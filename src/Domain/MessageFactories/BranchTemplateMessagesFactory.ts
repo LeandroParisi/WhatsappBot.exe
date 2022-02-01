@@ -1,4 +1,4 @@
-import { Promotion, Product, Attribute, AttributeTypes, OpeningHours, DayInfo, DeliveryType, DeliveryFees, DeliveryFeeTypesEnum, DeliveryFeeType, PaymentMethod, PromotionsInformation } from "../../../data/Interfaces/BranchData";
+import { Promotion, Product, Attribute, AttributeTypes, OpeningHours, DayInfo, DeliveryType, DeliveryFees, DeliveryFeeTypesEnum, DeliveryFeeType, PaymentMethod, PromotionsInformation } from "../../../data/DTOs/BranchData";
 import staticImplements from "../../Shared/Anotations/staticImplements";
 import DaysUtils from "../../Shared/Utils/DaysUtils";
 import DeliveryTypeUtils from "../../Shared/Utils/DeliveryTypeUtils";

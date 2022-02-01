@@ -1,8 +1,8 @@
 import { Service } from "typedi"
 import { Message } from "venom-bot";
 // import { Message } from "venom-bot";
-import BranchData, { City, Country, State } from "../../../data/Interfaces/BranchData";
-import CustomerInfo from "../../../data/Interfaces/CustomerInfo";
+import BranchData, { City, Country, State } from "../../../data/DTOs/BranchData";
+import CustomerInfo from "../../../data/DTOs/CustomerInfo";
 import LoginData from "../../../data/Interfaces/LoginData";
 import { CustomMessage } from "../../../node_modules_extensions/MessageExtension";
 import Customer from "../../Domain/Models/Customer";

@@ -1,4 +1,4 @@
-import { City, Country, State } from "../../../data/Interfaces/BranchData";
+import { City, Country, State } from "../../../data/DTOs/BranchData";
 import staticImplements from "../../Shared/Anotations/staticImplements"
 
 @staticImplements()

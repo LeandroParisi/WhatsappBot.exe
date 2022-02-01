@@ -1,6 +1,6 @@
 import { Message } from "venom-bot"
-import CustomerInfo from "../../../data/Interfaces/CustomerInfo"
-import CustomerTemplateMessages from "../../../data/Interfaces/CustomerTemplateMessages"
+import CustomerInfo from "../../../data/DTOs/CustomerInfo"
+import CustomerTemplateMessages from "../../../data/DTOs/CustomerTemplateMessages"
 import DaysUtils from "../../Shared/Utils/DaysUtils"
 import { v4 as uuid } from "uuid";
 

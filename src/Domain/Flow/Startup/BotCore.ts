@@ -1,6 +1,6 @@
 import { Service } from 'typedi';
 import { Message } from 'venom-bot';
-import BranchData, { Country } from '../../../../data/Interfaces/BranchData';
+import BranchData, { Country } from '../../../../data/DTOs/BranchData';
 import SessionHandler from '../../../Services/SessionManagement/Handlers/SessionHandler';
 import UserDataHandler from '../../../Services/UserData/Handlers/UserDataHandler';
 import Customer from '../../Models/Customer';
