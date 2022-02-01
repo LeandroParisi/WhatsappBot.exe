@@ -3,7 +3,7 @@ import { Message } from "venom-bot";
 import Config from "../../../config";
 import CustomerInfo from "../../../../data/DTOs/CustomerInfo";
 import CustomerTemplateMessages from "../../../../data/DTOs/CustomerTemplateMessages";
-import Customer from "../../../Domain/Models/Customer";
+import Customer from "../../../../data/Models/Customer";
 import CustomerTemplateMessagesFactory from "../../../Domain/MessageFactories/CustomerTemplateMessagesFactory";
 import DaysUtils from "../../../Shared/Utils/DaysUtils";
 import TaonRepository from "../../TaonBackend/TaonRepository";

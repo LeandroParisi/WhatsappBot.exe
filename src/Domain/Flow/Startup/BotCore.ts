@@ -3,7 +3,7 @@ import { Message } from 'venom-bot';
 import BranchData, { Country } from '../../../../data/DTOs/BranchData';
 import SessionHandler from '../../../Services/SessionManagement/Handlers/SessionHandler';
 import UserDataHandler from '../../../Services/UserData/Handlers/UserDataHandler';
-import Customer from '../../Models/Customer';
+import Customer from '../../../../data/Models/Customer';
 import IStep, { ADDRESS_STEPS, BUY_STEPS } from '../Steps/Interfaces/IStep';
 import StepFactory from '../Steps/StepsDefinition/StepFactory/StepFactory';
 import ActionsFactory from '../StepActions/ActionDefinitions/ActionsFactory/ActionsFactory';

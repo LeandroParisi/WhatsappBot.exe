@@ -1,12 +1,12 @@
 import { Message } from "venom-bot";
 import BranchData from "../../../../../../data/DTOs/BranchData";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
-import Customer from "../../../../Models/Customer";
+import Customer from "../../../../../../data/Models/Customer";
 import IStep, { StepNumbers } from "../../Interfaces/IStep";
 import MainMenu from "../10_MainMenu/MainMenu";
 import StepInfo from "../../Messages/StepInfo";
 import { SessionData } from "../../../Startup/BotCore";
-import Order from "../../../../Models/Order";
+import Order from "../../../../../../data/Models/Order";
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
 import SelectAddress from "../StepGenerators/SelectAddress";
 import StepDefinition from "../../Interfaces/StepDefinition";

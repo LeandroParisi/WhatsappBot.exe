@@ -1,6 +1,6 @@
 import { Message } from "venom-bot";
-import Customer from "../../../Models/Customer"
-import Order from "../../../Models/Order";
+import Customer from "../../../../../data/Models/Customer"
+import Order from "../../../../../data/Models/Order";
 import { SessionData } from "../../Startup/BotCore";
 import StepInfo from "../Messages/StepInfo";
 

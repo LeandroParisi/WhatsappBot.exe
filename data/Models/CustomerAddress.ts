@@ -1,5 +1,5 @@
-import ICustomerAddress, { AddressStatusEnum, CurrentlyRegisteringAddress } from "../../../data/Interfaces/ICustomerAddress";
-import Payload from "../Flow/StepActions/DTOs/Payload";
+import ICustomerAddress, { AddressStatusEnum, CurrentlyRegisteringAddress } from "../Interfaces/ICustomerAddress";
+import Payload from "../../src/Domain/Flow/StepActions/DTOs/Payload";
 import { v4 as uuid } from "uuid";
 
 

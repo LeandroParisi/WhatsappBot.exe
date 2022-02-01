@@ -1,8 +1,8 @@
 import Container, { Service } from "typedi";
-import Customer from "../../../../Models/Customer";
+import Customer from "../../../../../../data/Models/Customer";
 import IActionHandler, { ActionsEnum } from "../../Interfaces/IActionHandler";
 import OrderRepository from "../../../../../Services/SessionManagement/Repositories/OrderRepository";
-import Order from "../../../../Models/Order";
+import Order from "../../../../../../data/Models/Order";
 
 export default class UpdateOrderAction implements IActionHandler<Order> {
   actionName = ActionsEnum.UPDATE_ORDER;

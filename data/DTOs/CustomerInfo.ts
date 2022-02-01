@@ -1,4 +1,4 @@
-import CustomerAddress from "../../src/Domain/Models/CustomerAddress";
+import CustomerAddress from "../Models/CustomerAddress";
 
 export default interface CustomerInfo {
   id : string

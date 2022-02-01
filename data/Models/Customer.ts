@@ -1,7 +1,7 @@
 import { Message } from "venom-bot"
-import CustomerInfo from "../../../data/DTOs/CustomerInfo"
-import CustomerTemplateMessages from "../../../data/DTOs/CustomerTemplateMessages"
-import DaysUtils from "../../Shared/Utils/DaysUtils"
+import CustomerInfo from "../DTOs/CustomerInfo"
+import CustomerTemplateMessages from "../DTOs/CustomerTemplateMessages"
+import DaysUtils from "../../src/Shared/Utils/DaysUtils"
 import { v4 as uuid } from "uuid";
 
 export default class Customer {

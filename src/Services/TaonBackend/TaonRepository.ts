@@ -5,8 +5,8 @@ import BranchData, { City, Country, State } from "../../../data/DTOs/BranchData"
 import CustomerInfo from "../../../data/DTOs/CustomerInfo";
 import LoginData from "../../../data/Interfaces/LoginData";
 import { CustomMessage } from "../../../node_modules_extensions/MessageExtension";
-import Customer from "../../Domain/Models/Customer";
-import CustomerAddress, { CustomerAddressSQL } from "../../Domain/Models/CustomerAddress";
+import Customer from "../../../data/Models/Customer";
+import CustomerAddress, { CustomerAddressSQL } from "../../../data/Models/CustomerAddress";
 import { api } from "./services/api"
 
 export interface LocationsPayload {

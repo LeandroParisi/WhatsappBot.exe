@@ -1,8 +1,8 @@
 import Container, { Service } from "typedi";
 import { OrderStatusEnum } from "../../../../../../data/Interfaces/IOrderInfo";
 import OrderRepository from "../../../../../Services/SessionManagement/Repositories/OrderRepository";
-import Customer from "../../../../Models/Customer";
-import Order from "../../../../Models/Order";
+import Customer from "../../../../../../data/Models/Customer";
+import Order from "../../../../../../data/Models/Order";
 import IActionHandler, { ActionsEnum } from "../../Interfaces/IActionHandler";
 
 

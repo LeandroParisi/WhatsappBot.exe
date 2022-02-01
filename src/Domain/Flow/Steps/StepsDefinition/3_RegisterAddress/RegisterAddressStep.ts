@@ -1,6 +1,6 @@
 import { CurrentlyRegisteringAddress } from "../../../../../../data/Interfaces/ICustomerAddress";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
-import CustomerAddress from "../../../../Models/CustomerAddress";
+import CustomerAddress from "../../../../../../data/Models/CustomerAddress";
 import MessageUtils from "../../../../MessageFactories/AddressMessageFactory";
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
 import IStep, { StepNumbers } from "../../Interfaces/IStep";

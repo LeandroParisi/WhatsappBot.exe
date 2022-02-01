@@ -2,7 +2,7 @@ import { Message } from "venom-bot";
 import BranchData, { Promotion, PromotionsInformation } from "../../../../../../data/DTOs/BranchData";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
 import { ValidateParameters } from '../../Interfaces/IValidatedStep'
-import Customer from "../../../../Models/Customer";
+import Customer from "../../../../../../data/Models/Customer";
 import IStep, { StepNumbers } from "../../Interfaces/IStep";
 import StepInfo from "../../Messages/StepInfo";
 import Validations from "../../../Utils/Validations";
@@ -14,7 +14,7 @@ import { SessionData } from "../../../Startup/BotCore";
 import DaysUtils from "../../../../../Shared/Utils/DaysUtils";
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
 import IValidatedStep from "../../Interfaces/IValidatedStep";
-import Order from "../../../../Models/Order";
+import Order from "../../../../../../data/Models/Order";
 import { OrderStatusEnum } from "../../../../../../data/Interfaces/IOrderInfo";
 import StepDefinition from "../../Interfaces/StepDefinition";
 import EnrichOrderStep from "../2.2_EnrichOrderStep/EnrichOrderStep";
