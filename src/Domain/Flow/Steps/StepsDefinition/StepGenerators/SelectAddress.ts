@@ -51,7 +51,7 @@ export default class SelectAddress {
         "Que tal cadastrarmos um?",
         ...nextStep.outboundMessages
       ],
-      StepNumbers.registerAddress,
+      nextStep.nextStep,
       nextStep.requiredAction,
       nextStep.actionPayload
     )

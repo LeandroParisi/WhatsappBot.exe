@@ -14,14 +14,28 @@ export default class RegisterStateStep extends StepDefinition implements IOption
   public async Interact(): Promise<StepInfo> {
     const isValid = this.ValidateAnswer()
 
+    console.log({ isValid })
+
     if (isValid) {
       const { stateName, id} = this.SessionData.inMemoryData.locations.GetStateByIndex(
         this.Address.countryId, this.formattedAnswer - 1
       )
       this.Address.stateId = id
       this.Address.stateName = stateName
+    } else {
+      const nextStep = RegisterAddressStep.ExtractMissingAddressInfo(this.Address, this.SessionData.inMemoryData)
+
+      return new StepInfo(
+        [
+          "Desculpe, a opção que você escolheu é inválida, vamos tentar novamente?",
+          ...nextStep.outboundMessages
+        ],
+        nextStep.nextStep,
+        nextStep.requiredAction,
+        nextStep.actionPayload
+      )
     }
-    
+
     return RegisterAddressStep.ExtractMissingAddressInfo(this.Address, this.SessionData.inMemoryData)
   }
 
