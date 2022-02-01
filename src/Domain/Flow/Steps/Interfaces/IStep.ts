@@ -45,3 +45,7 @@ export const ADDRESS_STEPS = new Set([
 export default interface IStep {
   STEP_NUMBER : StepNumbers
 }
+
+export interface IOptionsAnswer {
+  formattedAnswer : number
+}

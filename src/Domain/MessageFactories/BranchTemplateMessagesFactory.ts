@@ -2,7 +2,7 @@ import { Promotion, Product, Attribute, AttributeTypes, OpeningHours, DayInfo, D
 import staticImplements from "../../Shared/Anotations/staticImplements";
 import DaysUtils from "../../Shared/Utils/DaysUtils";
 import DeliveryTypeUtils from "../../Shared/Utils/DeliveryTypeUtils";
-import GenericParser from "../../Shared/Utils/GenericParser";
+import GenericParser from "../../Shared/Parsers/GenericParser";
 import PaymentMethodsUtils from "../../Shared/Utils/PaymentMethodsUtils";
 import PromotionsUtils from "../../Shared/Utils/PromotionsUtils";
 import SystemUtils from "../../Shared/Utils/SystemUtils";

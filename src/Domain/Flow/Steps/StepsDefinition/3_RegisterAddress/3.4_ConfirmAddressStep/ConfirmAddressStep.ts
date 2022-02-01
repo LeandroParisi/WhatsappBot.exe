@@ -1,5 +1,4 @@
 import { CurrentlyRegisteringAddress } from "../../../../../../../data/Interfaces/ICustomerAddress";
-import ParserUtils from "../../../../../../Shared/Utils/ParserUtils";
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements";
 import Validations from "../../../../Utils/Validations";
 import IStep, {  StepNumbers } from "../../../Interfaces/IStep";
@@ -8,6 +7,7 @@ import MessageUtils from "../../../../../MessageFactories/AddressMessageFactory"
 import RegisterAddressStep from "../RegisterAddressStep";
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler";
 import StepDefinition from "../../../Interfaces/StepDefinition";
+import GenericParser from "../../../../../../Shared/Parsers/GenericParser";
 
 interface ValidationPayload {
   isValid : boolean,
@@ -47,13 +47,13 @@ export default class ConfirmAddressStep extends StepDefinition {
   }
 
   private ValidateAnswer() : ValidationPayload {
-    if (Validations.IsNumber(this.Answer) && possibleAnswers.has(ParserUtils.ToNumber(this.Answer))) {
+    if (Validations.IsNumber(this.Answer) && possibleAnswers.has(GenericParser.ToNumber(this.Answer))) {
       return {
         isValid: true,
         action: PossibleActions.CHANGE_ADDRESS,
-        invalidData: ParserUtils.ToNumber(this.Answer)
+        invalidData: GenericParser.ToNumber(this.Answer)
       }
-    } else if (!Validations.IsNumber(this.Answer) && possibleAnswers.has(ParserUtils.ToUpperTrim(this.Answer))) {
+    } else if (!Validations.IsNumber(this.Answer) && possibleAnswers.has(GenericParser.ToUpperTrim(this.Answer))) {
       return {
         isValid: true,
         action: PossibleActions.CONFIRM
@@ -71,7 +71,7 @@ export default class ConfirmAddressStep extends StepDefinition {
     ) : StepInfo {
     if (action === PossibleActions.CHANGE_ADDRESS) {
       this.EditAddress(invalidData)
-      const nextStep = RegisterAddressStep.ExtractMissingAddressInfo(this.Address)
+      const nextStep = RegisterAddressStep.ExtractMissingAddressInfo(this.Address, this.SessionData.inMemoryData)
       return new StepInfo(
         [
           "Perfeito",

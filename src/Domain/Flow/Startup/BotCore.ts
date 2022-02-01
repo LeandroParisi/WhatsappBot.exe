@@ -27,7 +27,7 @@ interface HandledMessage {
 export interface SessionData {
   branchData : BranchData
   startupDate : Date
-  data : MemoryData
+  inMemoryData : MemoryData
 }
 
 @Service()
@@ -45,7 +45,7 @@ export default class BotCore {
       this.sessionData = {
         branchData: null,
         startupDate: null,
-        data: null,
+        inMemoryData: null,
       }
     }
 
@@ -152,6 +152,6 @@ export default class BotCore {
   }
 
   public SetMemoryData(data: MemoryData) {
-    this.sessionData.data = data
+    this.sessionData.inMemoryData = data
   }
 }

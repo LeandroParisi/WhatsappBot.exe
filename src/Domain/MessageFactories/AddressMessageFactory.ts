@@ -5,9 +5,7 @@ import CustomerAddress from "../../../data/Models/CustomerAddress";
 
 @staticImplements()
 export default class AddressMessageFactory {
-  static FormatNumberOption(answer : string) {
-    return Number(answer.trim())
-  }
+
 
   static GenerateAddressConfirmationMessage(address : CustomerAddress) {
     return `
@@ -20,9 +18,5 @@ export default class AddressMessageFactory {
       ${CurrentlyRegisteringAddress.STREET_COMPLEMENT}. *Complemento*: ${address.streetComplement}\n
       ${CurrentlyRegisteringAddress.POSTAL_CODE}. *CEP*: ${address.postalCode}
     `
-  }
-
-  static GenerateStatesList(states : Array<State>) {
-    
   }
 }

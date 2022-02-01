@@ -8,6 +8,7 @@ import ClosingStep from "../9_ClosingStep/ClosingStep";
 import PromotionsSelectionStep from "../StepGenerators/PromotionsSelectionStep";
 import StepError from "../../../../Abstractions/Errors/StepError";
 import StepDefinition from "../../Interfaces/StepDefinition";
+import GenericParser from "../../../../../Shared/Parsers/GenericParser";
 
 const options = [
   '1. Fazer pedido',
@@ -27,7 +28,7 @@ export default class MainMenu extends StepDefinition {
   public async Interact() : Promise<StepInfo> {
     const clientAnswer = this.Message.body
     if (this.ValidateAnswer()) {
-      return this.AnswerFactory(MessageUtils.FormatNumberOption(clientAnswer))
+      return this.AnswerFactory(GenericParser.ToNumber(clientAnswer))
     } else {
       return new StepInfo(
         [

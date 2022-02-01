@@ -57,11 +57,11 @@ export default class SelectAddressStep extends StepDefinition {
     
       switch(selectedOption) {
         case SelectedOption.registerAddress:
-          return SelectAddress.GetRegisterStep(this.Customer)
+          return SelectAddress.GetRegisterStep(this.Customer, this.SessionData.inMemoryData)
         case SelectedOption.selectAddress:
           this.OrderInfo.addressId = this.Customer.info.customerAddresses[formattedAnswer - 1]._id
           
-          const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, this.SessionData.branchData, this.Customer)
+          const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, this.SessionData, this.Customer)
 
           return new StepInfo(
             nextStep.outboundMessages,

@@ -14,6 +14,12 @@ export default class GenericParser {
     if (decimal) return `R$ ${Number(price).toFixed(2)}`
     return `R$ ${Number(price)}`
   }
-  
-  
+
+  public static ToNumber(string : string) {
+    return Number(string.trim())
+  }
+
+  public static ToUpperTrim(string : string) {
+    return string.trim().toUpperCase()
+  }
 }

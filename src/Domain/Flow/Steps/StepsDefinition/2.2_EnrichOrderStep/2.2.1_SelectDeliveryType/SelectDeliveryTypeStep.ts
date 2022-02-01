@@ -21,7 +21,7 @@ export default class SelectDeliveryTypeStep extends StepDefinition {
         this.OrderInfo.deliveryTypeId = branchData
           .deliveryTypes[Number(this.Answer) -  1].id
 
-        const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, branchData, this.Customer)
+        const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, this.SessionData, this.Customer)
 
         return new StepInfo(
           nextStep.outboundMessages,

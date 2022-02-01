@@ -8,6 +8,7 @@ import StepDefinition, { StepDefinitionArgs } from "../../Interfaces/StepDefinit
 import StepInfo from "../../Messages/StepInfo";
 import { Service } from "typedi";
 import AddressMessageFactory from "../../../../MessageFactories/AddressMessageFactory";
+import MemoryData from "../../../../../../data/DTOs/MemoryData/MemoryData";
 
 
 @staticImplements<IStep>()
@@ -16,7 +17,7 @@ export default class RegisterAddressStep extends StepDefinition {
 
   public async Interact() : Promise<StepInfo> {
       this.UpdateAddress()
-      return RegisterAddressStep.ExtractMissingAddressInfo(this.Address)
+      return RegisterAddressStep.ExtractMissingAddressInfo(this.Address, this.SessionData.inMemoryData)
   }
 
   private UpdateAddress() {
@@ -48,7 +49,8 @@ export default class RegisterAddressStep extends StepDefinition {
   }
 
   static ExtractMissingAddressInfo (
-    address : CustomerAddress
+    address : CustomerAddress,
+    memoryData : MemoryData
   ) : StepInfo {
     if (!address.countryName) {
       address.currentlyRegistering = CurrentlyRegisteringAddress.COUNTRY_NAME
@@ -67,6 +69,7 @@ export default class RegisterAddressStep extends StepDefinition {
       return new StepInfo(
         [
           "Vamos cadastrar seu *estado*, favor digitar *número* do seu estado de residência da lista abaixo:",
+          memoryData.locations.ParseStatesByCountryId(address.countryId)
         ],
         StepNumbers.registerState,
         [ActionsEnum.UPSERT_ADDRESS],

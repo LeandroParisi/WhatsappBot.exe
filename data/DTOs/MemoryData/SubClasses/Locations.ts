@@ -25,15 +25,27 @@ export default class Locations {
     return this.cities.filter((c : City) => c.stateId === stateId)
   }
 
-  public GetCountryList() {
+  public ParseCountries() : string {
     return AddressParser.ParseCountriesToList(this.countries)
   }
 
-  public GetStatesListByCountryId(countryId : number) {
+  public ParseStatesByCountryId(countryId : number) : string {
     return AddressParser.ParseStatesToList(this.GetStatesByCountryId(countryId))
   }
 
-  public GetCitieslistByStateId(stateId : number) {
+  public ParseCitiesByStateId(stateId : number) : string {
     return AddressParser.ParseCitiesToList(this.GetCitiesByStateId(stateId))
+  }
+
+  public GetCountryByIndex(selectedIndex : number) : Country {
+    return this.countries[selectedIndex]
+  }
+
+  public GetStateByIndex(countryId : number, selectedIndex : number) : State {
+    return this.GetStatesByCountryId(countryId)[selectedIndex]
+  }
+
+  public GetCityByIndex(stateId : number, selectedIndex : number) : City {
+    return this.GetCitiesByStateId(stateId)[selectedIndex]
   }
 }

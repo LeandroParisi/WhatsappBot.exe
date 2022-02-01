@@ -9,6 +9,8 @@ import StepInfo from "../../Messages/StepInfo";
 import MainMenu from "../10_MainMenu/MainMenu";
 import { AddressPossibleAnswers } from "../2.2_EnrichOrderStep/2.2.3_SelectAddress/SelectAddressStep";
 import RegisterAddressStep from "../3_RegisterAddress/RegisterAddressStep";
+import { SessionData } from "../../../Startup/BotCore";
+import MemoryData from "../../../../../../data/DTOs/MemoryData/MemoryData";
 
 interface options {
   prefixMessages? : string[],
@@ -20,7 +22,8 @@ export default class SelectAddress {
       prefixMessages = [],
       sufixMessages = [] 
     } : options,
-    customer : Customer
+    customer : Customer,
+    sessionData : SessionData
     ) : StepInfo {
 
       if (customer.info.customerAddresses.length) {
@@ -34,13 +37,13 @@ export default class SelectAddress {
           StepNumbers.selectAddress
         )
       } else {
-        return this.GetRegisterStep(customer)
+        return this.GetRegisterStep(customer, sessionData.inMemoryData)
       }
     }
 
-  static GetRegisterStep(customer : Customer) : StepInfo {
+  static GetRegisterStep(customer : Customer, memoryData : MemoryData) : StepInfo {
     const address = new CustomerAddress(AddressStatusEnum.REGISTERING, customer._id)
-    const nextStep = RegisterAddressStep.ExtractMissingAddressInfo(address)
+    const nextStep = RegisterAddressStep.ExtractMissingAddressInfo(address, memoryData)
 
     return new StepInfo(
       [

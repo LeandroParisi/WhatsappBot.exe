@@ -9,7 +9,7 @@ import BranchTemplateMessagesFactory from '../../../Domain/MessageFactories/Bran
 import DaysUtils from '../../../Shared/Utils/DaysUtils';
 import PromotionsUtils from '../../../Shared/Utils/PromotionsUtils';
 import { LocationsPayload } from "../../../../data/DTOs/LocationsPayload";
-import MemoryData from "../../../../data/DTOs/MemoryData";
+import MemoryData from "../../../../data/DTOs/MemoryData/MemoryData";
 
 export interface InitialData {
   branchData : BranchData

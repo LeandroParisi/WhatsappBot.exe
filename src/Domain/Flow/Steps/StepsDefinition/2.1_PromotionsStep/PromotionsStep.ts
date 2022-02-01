@@ -18,6 +18,7 @@ import Order from "../../../../../../data/Models/Order";
 import { OrderStatusEnum } from "../../../../../../data/Interfaces/IOrderInfo";
 import StepDefinition from "../../Interfaces/StepDefinition";
 import EnrichOrderStep from "../2.2_EnrichOrderStep/EnrichOrderStep";
+import GenericParser from "../../../../../Shared/Parsers/GenericParser";
 
 enum PossibleAnswers {
   back = "VOLTAR",
@@ -65,7 +66,7 @@ export default class PromotionsStep extends StepDefinition {
         selectedOption: SelectedOption.outdatedOptions,
       }
     } else if (Validations.IsNumber(this.Answer)) {
-        const formattedAnswer = MessageUtils.FormatNumberOption(this.Answer)
+        const formattedAnswer = GenericParser.ToNumber(this.Answer)
         const isValidNumber = formattedAnswer >= numberOfOptions && formattedAnswer <= numberOfOptions
         return { 
           isValid: true,
@@ -81,7 +82,7 @@ export default class PromotionsStep extends StepDefinition {
   }
 
   private AnswerFactory(selectedOption: SelectedOption): StepInfo {
-    const formattedAnswer = MessageUtils.FormatNumberOption(this.Answer)
+    const formattedAnswer = GenericParser.ToNumber(this.Answer)
     const { branchData } = this.SessionData
 
     switch (selectedOption) {
@@ -93,7 +94,7 @@ export default class PromotionsStep extends StepDefinition {
           OrderStatusEnum.REGISTERING
         )
 
-        const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(order, branchData, this.Customer)
+        const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(order, this.SessionData, this.Customer)
 
         return new StepInfo(
           [

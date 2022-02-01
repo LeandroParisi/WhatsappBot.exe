@@ -1,3 +1,4 @@
+import GenericParser from "../../../../../Shared/Parsers/GenericParser"
 import MessageUtils from "../../../../MessageFactories/AddressMessageFactory"
 import { StepNumbers } from "../../Interfaces/IStep"
 import { ValidateParameters } from "../../Interfaces/IValidatedStep"
@@ -14,7 +15,7 @@ export default class ClosingStep extends StepDefinition{
     const clientAnswer = this.Message.body
 
     if (ClosingStep.ValidateAnswer({answer: clientAnswer.trim()})) {
-      return this.AnswerFactory(MessageUtils.FormatNumberOption(clientAnswer))
+      return this.AnswerFactory(GenericParser.ToNumber(clientAnswer))
     } else {
       return new StepInfo(
         [

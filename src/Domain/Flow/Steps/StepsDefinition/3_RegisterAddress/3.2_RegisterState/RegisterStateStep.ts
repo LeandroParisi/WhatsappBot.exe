@@ -1,13 +1,38 @@
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements";
-import IStep, { StepNumbers } from "../../../Interfaces/IStep";
+import GenericParser from "../../../../../../Shared/Parsers/GenericParser";
+import Validations from "../../../../Utils/Validations";
+import IStep, { IOptionsAnswer, StepNumbers } from "../../../Interfaces/IStep";
 import StepDefinition from "../../../Interfaces/StepDefinition";
 import StepInfo from "../../../Messages/StepInfo";
+import RegisterAddressStep from "../RegisterAddressStep";
 
 @staticImplements<IStep>()
-export default class RegisterStateStep extends StepDefinition {
+export default class RegisterStateStep extends StepDefinition implements IOptionsAnswer {
   static STEP_NUMBER = StepNumbers.registerState
+  formattedAnswer : number;
   
   public async Interact(): Promise<StepInfo> {
-    throw new Error("Method not implemented.");
+    const isValid = this.ValidateAnswer()
+
+    if (isValid) {
+      const { stateName, id} = this.SessionData.inMemoryData.locations.GetStateByIndex(
+        this.Address.countryId, this.formattedAnswer - 1
+      )
+      this.Address.stateId = id
+      this.Address.stateName = stateName
+    }
+    
+    return RegisterAddressStep.ExtractMissingAddressInfo(this.Address, this.SessionData.inMemoryData)
+  }
+
+  private ValidateAnswer() : boolean {
+    const isValid = Validations.IsInRange(
+      this.Answer, 
+      this.SessionData.inMemoryData.locations.GetStatesByCountryId(this.Address.countryId)
+    )
+
+    if (isValid) this.formattedAnswer = GenericParser.ToNumber(this.Answer)
+
+    return isValid
   }
 }
