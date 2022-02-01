@@ -28,7 +28,7 @@ export default interface BranchData {
 export interface Country {
   id : number,
   countryName : string,
-  countryStates: Array<State>
+  countryStates?: Array<State>
 }
 
 export interface State {
@@ -36,7 +36,7 @@ export interface State {
   stateName : string,
   stateCode : string,
   countryId : number,
-  stateCities : Array<City>
+  stateCities? : Array<City>
 }
 
 export interface City {

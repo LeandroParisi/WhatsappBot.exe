@@ -47,10 +47,6 @@ export default class CustomerAddress implements ICustomerAddress, Payload {
     this.postalCode = postalCode
     this.isActive = isActive
   }
-
-  public MapToSql() : CustomerAddressSQL {
-    return new CustomerAddressSQL(this)
-  }
 }
 
 export class CustomerAddressSQL implements ICustomerAddress {
@@ -80,21 +76,5 @@ export class CustomerAddressSQL implements ICustomerAddress {
     this.streetComplement = address.streetComplement
     this.postalCode = address.postalCode
     this.isActive = address.isActive
-  }
-
-  public MapToMongo() : CustomerAddress {
-    const customer = new CustomerAddress(AddressStatusEnum.FINISHED, this.customerId)
-    customer._id = this.id
-    customer.customerId = this.customerId
-    customer.countryName = this.countryName
-    customer.stateName = this.stateName
-    customer.cityName = this.cityName
-    customer.neighborhood = this.neighborhood
-    customer.street = this.street
-    customer.streetNumber = this.streetNumber
-    customer.streetComplement = this.streetComplement
-    customer.postalCode = this.postalCode
-    customer.isActive = this.isActive
-    return customer
   }
 }

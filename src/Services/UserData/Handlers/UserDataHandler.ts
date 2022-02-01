@@ -8,7 +8,13 @@ import BranchData, { City, Country, Promotion, State } from '../../../../data/DT
 import BranchTemplateMessagesFactory from '../../../Domain/MessageFactories/BranchTemplateMessagesFactory';
 import DaysUtils from '../../../Shared/Utils/DaysUtils';
 import PromotionsUtils from '../../../Shared/Utils/PromotionsUtils';
+import { LocationsPayload } from "../../../../data/DTOs/LocationsPayload";
+import MemoryData from "../../../../data/DTOs/MemoryData";
 
+export interface InitialData {
+  branchData : BranchData
+  memoryData : MemoryData
+}
 
 @Service()
 export default class UserDataHandler {
@@ -59,7 +65,7 @@ export default class UserDataHandler {
     )
   }
 
-  async LoadInitialData(deviceNumber : string) : Promise<BranchData> {
+  async LoadInitialData(deviceNumber : string) : Promise<InitialData> {
     const userData = await this.repository.GetLoginData();
 
     // TODO: Tentar tratar este erro, o catch não funcionou aqui para jogar para o handler global do index    
@@ -67,11 +73,11 @@ export default class UserDataHandler {
 
     const locations = await this.TaonRepository.GetLocations()
 
-    await this.LocationsRepository.InsertLocations(locations)
-    
+    const memoryData = new MemoryData(locations);
+
     const branchData = await this.EnrichBranchData(data)
 
-    return branchData
+    return { branchData, memoryData }
   }
 
   public async UpdateTemplateMessages(

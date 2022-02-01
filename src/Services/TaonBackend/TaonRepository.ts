@@ -8,12 +8,7 @@ import { CustomMessage } from "../../../node_modules_extensions/MessageExtension
 import Customer from "../../../data/Models/Customer";
 import CustomerAddress, { CustomerAddressSQL } from "../../../data/Models/CustomerAddress";
 import { api } from "./services/api"
-
-export interface LocationsPayload {
-  countries: Array<Country>
-  states: Array<State>
-  cities: Array<City>
-}
+import { LocationsPayload } from "../../../data/DTOs/LocationsPayload";
 
 @Service()
 export default class TaonRepository {

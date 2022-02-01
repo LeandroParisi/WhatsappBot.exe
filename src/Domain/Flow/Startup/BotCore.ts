@@ -13,6 +13,7 @@ import OrderRepository from '../../../Services/SessionManagement/Repositories/Or
 import AddressesRepository from '../../../Services/SessionManagement/Repositories/AddressesRepository';
 import { ActionsEnum } from '../StepActions/Interfaces/IActionHandler';
 import { StepDefinitionArgs } from '../Steps/Interfaces/StepDefinition';
+import MemoryData from '../../../../data/DTOs/MemoryData/MemoryData';
 
 interface SetupInfo {
   customer : Customer
@@ -26,6 +27,7 @@ interface HandledMessage {
 export interface SessionData {
   branchData : BranchData
   startupDate : Date
+  data : MemoryData
 }
 
 @Service()
@@ -43,6 +45,7 @@ export default class BotCore {
       this.sessionData = {
         branchData: null,
         startupDate: null,
+        data: null,
       }
     }
 
@@ -146,5 +149,9 @@ export default class BotCore {
 
   public SetStartupDate(startupDate: Date) {
     this.sessionData.startupDate = startupDate
+  }
+
+  public SetMemoryData(data: MemoryData) {
+    this.sessionData.data = data
   }
 }

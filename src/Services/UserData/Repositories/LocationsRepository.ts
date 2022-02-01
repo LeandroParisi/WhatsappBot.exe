@@ -3,9 +3,9 @@ import { Service } from "typedi";
 import Customer from "../../../../data/Models/Customer";
 import { api } from "../../TaonBackend/services/api";
 import LoginData from "../../../../data/Interfaces/LoginData";
-import BranchData, { Country, State } from "../../../../data/DTOs/BranchData";
+import BranchData, { City, Country, State } from "../../../../data/DTOs/BranchData";
 import LocationsDb from '../locationsDataConfig'
-import { LocationsPayload } from "../../TaonBackend/TaonRepository";
+import { LocationsPayload } from "../../../../data/DTOs/LocationsPayload";
 
 @Service()
 export default class LocationsRepository {
@@ -37,7 +37,7 @@ export default class LocationsRepository {
 
   }
   
-  async GetCityByStateId(stateId : number) : Promise<Array<State>> {
+  async GetCityByStateId(stateId : number) : Promise<Array<City>> {
     return await this.LocationsDb.citiesDb.find({ stateId })
   }
   // async GetCityById(countryId : number, stateId : number, id : number)

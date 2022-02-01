@@ -8,6 +8,7 @@ import Installer from "./Installer";
 
 @Service()
 export default class BotStartup {
+
   SessionHandler : SessionHandler
   UserDataHandler: UserDataHandler;
   LocationsRepository : LocationsRepository
@@ -18,13 +19,18 @@ export default class BotStartup {
     this.LocationsRepository = Container.get(LocationsRepository)
   }
 
-  public async Startup(bot : BotCore) {
+  public InstallServices() {
     Installer.InstallServices()
+  }
+
+  public async Startup(bot : BotCore) {
     const startupDate = DaysUtils.GetDateFromTimestamp(Date.now() / 1000)
+
     await this.CleanUp()
     await this.ValidateUser(startupDate);
-    bot.SetStartupDate(startupDate)
     await this.SessionHandler.ValidateCurrentSessions(startupDate);
+
+    bot.SetStartupDate(startupDate)
   }
 
   private async ValidateUser(startupDate : Date) : Promise<void> {
@@ -36,9 +42,10 @@ export default class BotStartup {
     const botInfo = await venomBot.getHostDevice(); 
     const { id: { user : deviceNumber } } = botInfo
     
-    const branchData = await this.UserDataHandler.LoadInitialData(deviceNumber);
+    const { branchData, memoryData } = await this.UserDataHandler.LoadInitialData(deviceNumber);
 
     bot.SetBranchData(branchData)
+    bot.SetMemoryData(memoryData)
   }
 
   private async CleanUp() {

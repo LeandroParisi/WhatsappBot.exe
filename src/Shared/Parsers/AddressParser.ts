@@ -6,7 +6,15 @@ export default class AddressParser {
     return `${a.street}, ${a.streetNumber || "N/A"} - ${a.streetComplement || "N/A"} | ${a.neighborhood}, ${a.cityName}, ${a.stateName} - ${a.countryName}`
   }
 
-  public static GetStatesList(states : Array<State>) {
+  public static ParseCountriesToList(countries : Array<Country>) {
+    return countries.map((country : Country, index : number) => `${index + 1}. ${country.countryName}`).join('\n')
+  }
+
+  public static ParseStatesToList(states : Array<State>) {
     return states.map((state : State, index : number) => `${index + 1}. ${state.stateName}`).join('\n')
+  }
+
+  public static ParseCitiesToList(cities : Array<City>) {
+    return cities.map((city : City, index : number) => `${index + 1}. ${city.cityName}`).join('\n')
   }
 }

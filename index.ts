@@ -18,6 +18,8 @@ class Main {
 
   async Run() {
     try {
+      this.BotStartup.InstallServices()
+      
       await this.BotStartup.Startup(this.BotCore)
 
       const bot = await this.CreateBot()
