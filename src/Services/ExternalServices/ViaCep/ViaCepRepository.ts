@@ -16,6 +16,6 @@ export default class ViaCepRepository {
   }
 
   public async ValidateCep(CEP : string) : Promise<ViaCepPayload>{
-    return await this.Api.Request({ method: METHODS.GET, endpoint: `${this.URL}${CEP}/json/` })
+    return await this.Api.Request({ method: METHODS.GET, endpoint: `${CEP}/json/` })
   }
 }

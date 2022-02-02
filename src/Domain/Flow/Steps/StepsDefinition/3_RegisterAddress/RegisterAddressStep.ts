@@ -94,7 +94,7 @@ export default class RegisterAddressStep extends StepDefinition {
 
       return new StepInfo(
         [
-          "Vamos cadastrar seu *CEP*, favor digitar o número."
+          "Vamos cadastrar seu *CEP*, favor digitar *somente* os números."
         ],
         StepNumbers.registerCEP,
         [ActionsEnum.UPSERT_ADDRESS],

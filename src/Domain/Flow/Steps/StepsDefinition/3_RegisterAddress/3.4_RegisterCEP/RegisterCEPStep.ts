@@ -20,10 +20,15 @@ export default class RegisterCEPStep extends StepDefinition implements IOptionsA
   }
 
   private async ValidateAnswer() : Promise<boolean> {
+    // Limpar a resposta para tirar caracteres especiais *regex
+    // mudar esse step para antes do estado e cidade
+    // pegar o estado e cidade e já jogar para o address em caso de sucesso
+
     const viaCepApi = Container.get(ViaCepRepository)
 
     try {
-      await viaCepApi.ValidateCep(this.Answer)
+      const cepAddress = await viaCepApi.ValidateCep(this.Answer)
+      console.log({ cepAddress })
     } catch(error) {
       console.log("Ainda no step")
       console.log(error)
