@@ -1,13 +1,17 @@
 import { Service } from "typedi"
 // import { Message } from "venom-bot";
 import BranchData, { City, Country, State } from "../../../data/DTOs/BranchData";
-import CustomerInfo from "../../../data/DTOs/CustomerInfo";
+import CustomerInfo, { CustomerInfoSql } from "../../../data/DTOs/CustomerInfo";
 import LoginData from "../../../data/Interfaces/LoginData";
 import Customer from "../../../data/Models/Customer";
 import CustomerAddress, { CustomerAddressSQL } from "../../../data/Models/CustomerAddress";
-import { LocationsPayload } from "../../../data/DTOs/LocationsPayload";
 import Api from "../Shared/api";
 import Config from "../../config";
+import { LoginDataPayload } from "./Payloads/LoginDataPayload";
+import BotInitialLoadPayload from "./Payloads/BotInitialLoadPayload";
+import Locations from "../../../data/DTOs/MemoryData/SubClasses/Locations";
+import LocationsPayload from "./Payloads/LocationsPayload";
+import CheckCustomerPayload from "./Payloads/CheckCustomerPayload";
 
 @Service()
 export default class TaonRepository {
@@ -21,13 +25,13 @@ export default class TaonRepository {
     const endpoint = "users/bot/login"
     const method = "POST"
 
-    const response = await this.Api.Request({
+    const response = await this.Api.Request<LoginDataPayload>({
       endpoint, 
       method,
       body: { email, password },
     })
 
-    return response.data.data
+    return response.data
   }
 
   async ValidateSession(token : string) : Promise<void> {
@@ -45,33 +49,33 @@ export default class TaonRepository {
     const endpoint = "branches/bot/initialLoad"
     const method = "GET"
 
-    const response = await this.Api.Request({
+    const response = await this.Api.Request<BotInitialLoadPayload>({
       endpoint, 
       method,
       body: { whatsappNumber },
       headers: { auth: token }
     })
 
-    return response.data.data
+    return response.data
   }
 
-  async GetLocations() : Promise<LocationsPayload> {
+  async GetLocations() : Promise<Locations> {
     const endpoint = "locations"
     const method = "GET"
 
-    const response = await this.Api.Request({
+    const response = await this.Api.Request<LocationsPayload>({
       endpoint, 
       method,
     })
 
-    return response.data.data
+    return response.data
   }
 
-  async CheckCustomerInfo(customer : Customer, message : any) : Promise<CustomerInfo>{
+  async CheckCustomerInfo(customer : Customer, message : any) : Promise<CustomerInfoSql>{
     const endpoint = `customers/bot/checkCustomer/${message.from}`
     const method = "POST"
 
-    const response = await this.Api.Request({
+    const response = await this.Api.Request<CheckCustomerPayload>({
       endpoint,
       method,
       body: {
@@ -80,10 +84,10 @@ export default class TaonRepository {
       }
     })
 
-    return response.data.data
+    return new CustomerInfoSql(response.data)
   }
 
-  async SaveAddress(body : CustomerAddressSQL) : Promise<CustomerAddress> {
+  async SaveAddress(body : CustomerAddressSQL) : Promise<void> {
     const endpoint = `addresses`
     const method = "POST"
 
@@ -92,8 +96,5 @@ export default class TaonRepository {
       method,
       body
     })
-
-    return response.data.data
   }
-
 }

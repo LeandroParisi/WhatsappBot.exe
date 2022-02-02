@@ -1,8 +1,8 @@
 import { City, Country, State } from "../../../data/DTOs/BranchData";
-import ICustomerAddress from "../../../data/Interfaces/ICustomerAddress";
+import CustomerAddress from "../../../data/Models/CustomerAddress";
 
 export default class AddressParser {
-  public static ParseAddressToText(a : ICustomerAddress) {
+  public static ParseAddressToText(a : CustomerAddress) {
     return `${a.street}, ${a.streetNumber || "N/A"} - ${a.streetComplement || "N/A"} | ${a.neighborhood}, ${a.cityName}, ${a.stateName} - ${a.countryName}`
   }
 

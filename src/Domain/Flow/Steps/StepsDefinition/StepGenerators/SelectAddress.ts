@@ -1,8 +1,7 @@
 import CustomerInfo from "../../../../../../data/DTOs/CustomerInfo";
-import { AddressStatusEnum } from "../../../../../../data/Interfaces/ICustomerAddress";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
 import Customer from "../../../../../../data/Models/Customer";
-import CustomerAddress from "../../../../../../data/Models/CustomerAddress";
+import CustomerAddress, { AddressStatusEnum } from "../../../../../../data/Models/CustomerAddress";
 import IStep, { StepNumbers } from "../../Interfaces/IStep";
 import IStepInfo from "../../Messages/IStepInfo";
 import StepInfo from "../../Messages/StepInfo";

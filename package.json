@@ -21,6 +21,7 @@
   "homepage": "https://github.com/LeandroParisi/bot.ext_taon#readme",
   "dependencies": {
     "axios": "^0.24.0",
+    "cep-promise": "^4.1.2",
     "nedb": "^1.8.0",
     "nedb-promises": "^5.0.2",
     "node-fetch": "^3.1.0",

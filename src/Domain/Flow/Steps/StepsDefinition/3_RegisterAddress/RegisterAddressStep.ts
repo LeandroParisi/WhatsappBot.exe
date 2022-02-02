@@ -1,6 +1,5 @@
-import { CurrentlyRegisteringAddress } from "../../../../../../data/Interfaces/ICustomerAddress";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
-import CustomerAddress from "../../../../../../data/Models/CustomerAddress";
+import CustomerAddress, { CurrentlyRegisteringAddress } from "../../../../../../data/Models/CustomerAddress";
 import MessageUtils from "../../../../MessageFactories/AddressMessageFactory";
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
 import IStep, { StepNumbers } from "../../Interfaces/IStep";
@@ -64,6 +63,18 @@ export default class RegisterAddressStep extends StepDefinition {
         [address]
       )
 
+    } else if (!address.postalCode) {
+      address.currentlyRegistering = CurrentlyRegisteringAddress.POSTAL_CODE
+
+      return new StepInfo(
+        [
+          "Vamos cadastrar seu *CEP*, favor digitar *somente* os números."
+        ],
+        StepNumbers.registerPostalCode,
+        [ActionsEnum.UPSERT_ADDRESS],
+        [address]
+      )
+
     } else if (!address.stateName) {
       address.currentlyRegistering = CurrentlyRegisteringAddress.STATE_NAME
       return new StepInfo(
@@ -89,19 +100,7 @@ export default class RegisterAddressStep extends StepDefinition {
         [address]
       )
 
-    } else if (!address.postalCode) {
-      address.currentlyRegistering = CurrentlyRegisteringAddress.POSTAL_CODE
-
-      return new StepInfo(
-        [
-          "Vamos cadastrar seu *CEP*, favor digitar *somente* os números."
-        ],
-        StepNumbers.registerCEP,
-        [ActionsEnum.UPSERT_ADDRESS],
-        [address]
-      )
-
-    } else if (!address.neighborhood) {
+    }  else if (!address.neighborhood) {
       address.currentlyRegistering = CurrentlyRegisteringAddress.NEIGHBORHOOD
 
       return new StepInfo(

@@ -1,7 +1,6 @@
 import { State } from "../../../data/DTOs/BranchData";
-import { CurrentlyRegisteringAddress } from "../../../data/Interfaces/ICustomerAddress";
 import staticImplements from "../../Shared/Anotations/staticImplements";
-import CustomerAddress from "../../../data/Models/CustomerAddress";
+import CustomerAddress, { CurrentlyRegisteringAddress } from "../../../data/Models/CustomerAddress";
 
 @staticImplements()
 export default class AddressMessageFactory {

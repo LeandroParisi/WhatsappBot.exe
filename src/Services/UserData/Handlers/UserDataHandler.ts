@@ -4,11 +4,10 @@ import BackendError from '../../Abstractions/Errors/BackendError';
 import TaonRepository from '../../TaonBackend/TaonRepository';
 import UserDataRepository from "../Repositories/UserDataRepository";
 import LocationsRepository from "../Repositories/LocationsRepository";
-import BranchData, { City, Country, Promotion, State } from '../../../../data/DTOs/BranchData';
+import BranchData from '../../../../data/DTOs/BranchData';
 import BranchTemplateMessagesFactory from '../../../Domain/MessageFactories/BranchTemplateMessagesFactory';
 import DaysUtils from '../../../Shared/Utils/DaysUtils';
 import PromotionsUtils from '../../../Shared/Utils/PromotionsUtils';
-import { LocationsPayload } from "../../../../data/DTOs/LocationsPayload";
 import MemoryData from "../../../../data/DTOs/MemoryData/MemoryData";
 
 export interface InitialData {

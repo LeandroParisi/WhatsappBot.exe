@@ -21,8 +21,8 @@ export default class CustomerRepository {
     return insertedClient;
   }
 
-  async UpdateClient(client : Customer, payload : any) : Promise<number> {
-    const affectedRows = await this.customerDb.update({ _id: client._id }, { $set: payload })
+  async UpdateClient(clientId : string, payload : any) : Promise<number> {
+    const affectedRows = await this.customerDb.update({ _id: clientId }, { $set: payload })
     return affectedRows
   }
 
@@ -34,6 +34,11 @@ export default class CustomerRepository {
   async DeleteClient(query : Object) : Promise<any> {
     const affectedRows = await this.customerDb.remove(query, { multi: true })
     return affectedRows
+  }
+
+  async GetCustomerById(customerId : string) : Promise<Customer> {
+    const client = await this.customerDb.findOne({ _id : customerId})
+    return client as Customer 
   }
 }
 

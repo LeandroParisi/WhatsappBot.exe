@@ -30,9 +30,9 @@ export default class Api {
    * @param {object} headers Request headers
    * @returns Object { ...responsePayload } Any relevant information returned by the API. It will always include a key message (even on errors)
   */
-  private async MakeRequest({
+  private async MakeRequest<T>({
     method, endpoint, body = null, headers = null, ...otherOptions
-  } : IApi) {
+  } : IApi) : Promise<T> {
     const options = {
       method,
       headers: headers && { ...headers },
@@ -42,12 +42,12 @@ export default class Api {
     }
 
     const response = await axios(options)
-    return response
+    return response.data as T
   }
 
-  async Request(payload : IApi) {
+  async Request<T>(payload : IApi) : Promise<T> {
     try {
-      return await this.MakeRequest(payload)
+      return await this.MakeRequest<T>(payload)
     } catch (error) {
       const { response } = error
       throw new BackendError(response.status, response.data.error, error)

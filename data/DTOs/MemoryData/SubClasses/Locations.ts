@@ -1,13 +1,13 @@
 import AddressParser from "../../../../src/Shared/Parsers/AddressParser";
+import GenericParser from "../../../../src/Shared/Parsers/GenericParser";
 import { City, Country, State } from "../../BranchData";
-import { LocationsPayload } from "../../LocationsPayload";
 
 export default class Locations {
   public readonly countries : Array<Country>
   public readonly states : Array<State>
   public readonly cities : Array<City>
 
-  constructor(locations : LocationsPayload) {
+  constructor(locations : Locations) {
     this.countries = locations.countries
     this.states = locations.states
     this.cities = locations.cities
@@ -47,5 +47,17 @@ export default class Locations {
 
   public GetCityByIndex(stateId : number, selectedIndex : number) : City {
     return this.GetCitiesByStateId(stateId)[selectedIndex]
+  }
+
+  public TryGetStateByCode(stateCode : string) : State {
+    return this.states.find((s : State) => (
+      GenericParser.ToUpperTrim(s.stateCode) === GenericParser.ToUpperTrim(stateCode)
+    ))
+  }
+
+  public TryGetCityByName(cityName : string) : City {
+    return this.cities.find((c : City) => (
+      GenericParser.ToUpperTrim(c.cityName) === GenericParser.ToUpperTrim(cityName)
+    ))
   }
 }

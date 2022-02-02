@@ -1,4 +1,3 @@
-import { CurrentlyRegisteringAddress } from "../../../../../../../data/Interfaces/ICustomerAddress";
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements";
 import Validations from "../../../../Utils/Validations";
 import IStep, {  StepNumbers } from "../../../Interfaces/IStep";
@@ -8,6 +7,7 @@ import RegisterAddressStep from "../RegisterAddressStep";
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler";
 import StepDefinition from "../../../Interfaces/StepDefinition";
 import GenericParser from "../../../../../../Shared/Parsers/GenericParser";
+import CustomerAddress, { CurrentlyRegisteringAddress } from "../../../../../../../data/Models/CustomerAddress";
 
 interface ValidationPayload {
   isValid : boolean,
@@ -96,22 +96,40 @@ export default class ConfirmAddressStep extends StepDefinition {
   }
 
   private EditAddress(invalidData: CurrentlyRegisteringAddress) : void {
-    if (invalidData === CurrentlyRegisteringAddress.CITY_NAME) {
-      delete this.Address.cityName
-    } else if (invalidData === CurrentlyRegisteringAddress.COUNTRY_NAME) {
+    if (invalidData === CurrentlyRegisteringAddress.COUNTRY_NAME) {
       delete this.Address.countryName
+      delete this.Address.countryId
+      EditAddressAuxiliary.DeleteState(this.Address)
+      EditAddressAuxiliary.DeleteCity(this.Address)
+    } else if (invalidData === CurrentlyRegisteringAddress.STATE_NAME) {
+      EditAddressAuxiliary.DeleteState(this.Address)
+      EditAddressAuxiliary.DeleteCity(this.Address)
+    } else if (invalidData === CurrentlyRegisteringAddress.CITY_NAME) {
+      EditAddressAuxiliary.DeleteCity(this.Address)
     } else if (invalidData === CurrentlyRegisteringAddress.NEIGHBORHOOD) {
       delete this.Address.neighborhood
     } else if (invalidData === CurrentlyRegisteringAddress.POSTAL_CODE) {
       delete this.Address.postalCode
-    } else if (invalidData === CurrentlyRegisteringAddress.STATE_NAME) {
-      delete this.Address.stateName
+      EditAddressAuxiliary.DeleteState(this.Address)
+      EditAddressAuxiliary.DeleteCity(this.Address)
     } else if (invalidData === CurrentlyRegisteringAddress.STREET) {
       delete this.Address.street
     } else if (invalidData === CurrentlyRegisteringAddress.STREET_COMPLEMENT) {
-      delete this.Address.street
+      delete this.Address.streetComplement
     } else if (invalidData === CurrentlyRegisteringAddress.STREET_NUMBER) {
-      delete this.Address.street
+      delete this.Address.streetNumber
     }
+  }
+}
+
+class EditAddressAuxiliary {
+  public static DeleteState(address : CustomerAddress) {
+    delete address.stateName
+    delete address.stateId
+  }
+
+  public static DeleteCity(address : CustomerAddress) {
+    delete address.cityName
+    delete address.cityId
   }
 }

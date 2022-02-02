@@ -31,8 +31,7 @@ export default class SessionHandler {
     const customerInfo = await this.TaonRepository.CheckCustomerInfo(customer, message)
 
     customer._id = customerInfo.id
-    delete customerInfo.id
-    customer.info = customerInfo
+    customer.info = customerInfo.MapToMongo()
 
     customer.customerTemplateMessages = this.GenerateTemplateMessages(customer.info)
 
@@ -51,7 +50,7 @@ export default class SessionHandler {
 
   async UpdateClientStep(client : Customer, nextStep : number) {
     await this.CustomerRepository.UpdateClient(
-      client, 
+      client._id, 
       { 
         currentStep: nextStep,
         lastMessage: client.lastMessage

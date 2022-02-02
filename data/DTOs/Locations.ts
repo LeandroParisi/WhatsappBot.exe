@@ -1,6 +1,6 @@
 import { City, Country, State } from "./BranchData";
 
-export interface LocationsPayload {
+export interface Locations {
   countries: Array<Country>
   states: Array<State>
   cities: Array<City>

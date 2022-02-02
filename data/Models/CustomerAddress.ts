@@ -1,9 +1,25 @@
-import ICustomerAddress, { AddressStatusEnum, CurrentlyRegisteringAddress } from "../Interfaces/ICustomerAddress";
 import Payload from "../../src/Domain/Flow/StepActions/DTOs/Payload";
 import { v4 as uuid } from "uuid";
 
+export enum AddressStatusEnum {
+  REGISTERING,
+  FINISHED,
+  NONE
+}
 
-export default class CustomerAddress implements ICustomerAddress, Payload {
+export enum CurrentlyRegisteringAddress {
+  COUNTRY_NAME = 1,
+  STATE_NAME = 2,
+  CITY_NAME = 3,
+  NEIGHBORHOOD = 4,
+  STREET = 5,
+  STREET_NUMBER = 6,
+  STREET_COMPLEMENT = 7,
+  POSTAL_CODE = 8,
+  NONE = 0,
+}
+
+export default class CustomerAddress implements Payload {
   _id : string;
   customerId : string;
   countryId : number 
@@ -49,11 +65,14 @@ export default class CustomerAddress implements ICustomerAddress, Payload {
   }
 }
 
-export class CustomerAddressSQL implements ICustomerAddress {
+export class CustomerAddressSQL {
   id : string;
   customerId : string; 
+  countryId : number;
   countryName : string;
+  stateId : number;
   stateName : string;
+  cityId : number;
   cityName : string;
   neighborhood : string;
   street : string;
@@ -67,9 +86,9 @@ export class CustomerAddressSQL implements ICustomerAddress {
     ) {
     this.id = address._id
     this.customerId = address.customerId    
-    this.countryName = address.countryName
-    this.stateName = address.stateName
-    this.cityName = address.cityName
+    this.countryId = address.countryId
+    this.stateId = address.stateId
+    this.cityId = address.cityId
     this.neighborhood = address.neighborhood
     this.street = address.street
     this.streetNumber = address.streetNumber

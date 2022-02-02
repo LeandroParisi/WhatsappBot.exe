@@ -1,8 +1,8 @@
 import Datastore = require("nedb-promises");
 import { Service } from "typedi";
 import BranchData, { City, Country, State } from "../../../../data/DTOs/BranchData";
+import { Locations } from "../../../../data/DTOs/Locations";
 import LocationsDb from '../locationsDataConfig'
-import { LocationsPayload } from "../../../../data/DTOs/LocationsPayload";
 
 @Service()
 export default class LocationsRepository {
@@ -17,7 +17,7 @@ export default class LocationsRepository {
     await this.LocationsDb.statesDb.remove({}, { multi: true })
   }
 
-  async InsertLocations(locations : LocationsPayload) : Promise<void> {
+  async InsertLocations(locations : Locations) : Promise<void> {
     const { countries, states, cities } = locations
     await this.LocationsDb.citiesDb.insert(cities)
     await this.LocationsDb.countriesDb.insert(countries)
