@@ -1,8 +1,5 @@
 import Datastore = require("nedb-promises");
 import { Service } from "typedi";
-import Customer from "../../../../data/Models/Customer";
-import { api } from "../../TaonBackend/services/api";
-import LoginData from "../../../../data/Interfaces/LoginData";
 import BranchData, { City, Country, State } from "../../../../data/DTOs/BranchData";
 import LocationsDb from '../locationsDataConfig'
 import { LocationsPayload } from "../../../../data/DTOs/LocationsPayload";

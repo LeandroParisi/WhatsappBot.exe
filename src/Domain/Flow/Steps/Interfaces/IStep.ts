@@ -17,7 +17,8 @@ export enum StepNumbers {
   registerCountry = 3.1,
   registerState = 3.2,
   registerCity = 3.3,
-  confirmAddress = 3.4,
+  registerCEP = 3.4,
+  confirmAddress = 3.5,
   confirmOrder = 8,
   closingStep = 9,
   mainMenu = 10,
@@ -39,6 +40,7 @@ export const ADDRESS_STEPS = new Set([
   StepNumbers.registerCountry,
   StepNumbers.registerState,
   StepNumbers.registerCity,
+  StepNumbers.registerCEP,
 ])
 
 

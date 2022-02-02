@@ -7,21 +7,19 @@ import StepInfo from "../../../Messages/StepInfo";
 import RegisterAddressStep from "../RegisterAddressStep";
 
 @staticImplements<IStep>()
-export default class RegisterStateStep extends StepDefinition implements IOptionsAnswer {
-  static STEP_NUMBER = StepNumbers.registerState
+export default class RegisterCityStep extends StepDefinition implements IOptionsAnswer {
+  static STEP_NUMBER = StepNumbers.registerCity
   formattedAnswer : number;
   
   public async Interact(): Promise<StepInfo> {
     const isValid = this.ValidateAnswer()
-    console.log("StateStep")
-
 
     if (isValid) {
-      const { stateName, id} = this.SessionData.inMemoryData.locations.GetStateByIndex(
-        this.Address.countryId, this.formattedAnswer - 1
+      const { cityName, id} = this.SessionData.inMemoryData.locations.GetCityByIndex(
+        this.Address.stateId, this.formattedAnswer - 1
       )
-      this.Address.stateId = id
-      this.Address.stateName = stateName
+      this.Address.cityId = id
+      this.Address.cityName = cityName
     } else {
       const nextStep = RegisterAddressStep.ExtractMissingAddressInfo(this.Address, this.SessionData.inMemoryData)
 
@@ -40,10 +38,9 @@ export default class RegisterStateStep extends StepDefinition implements IOption
   }
 
   private ValidateAnswer() : boolean {
-    console.log(this.Answer)
     const isValid = Validations.IsInRange(
       this.Answer, 
-      this.SessionData.inMemoryData.locations.GetStatesByCountryId(this.Address.countryId)
+      this.SessionData.inMemoryData.locations.GetCitiesByStateId(this.Address.stateId)
     )
 
     if (isValid) this.formattedAnswer = GenericParser.ToNumber(this.Answer)

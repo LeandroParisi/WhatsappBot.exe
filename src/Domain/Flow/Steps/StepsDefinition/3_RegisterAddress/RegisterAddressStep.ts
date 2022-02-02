@@ -81,9 +81,10 @@ export default class RegisterAddressStep extends StepDefinition {
 
       return new StepInfo(
         [
-          "Vamos cadastrar sua *cidade*, favor digitar o nome da cidade de sua residência."
+          "Vamos cadastrar sua *cidade*, favor digitar *número* da sua cidade de residência da lista abaixo:",
+          memoryData.locations.ParseCitiesByStateId(address.stateId)
         ],
-        StepNumbers.registerAddress,
+        StepNumbers.registerCity,
         [ActionsEnum.UPSERT_ADDRESS],
         [address]
       )
@@ -95,7 +96,7 @@ export default class RegisterAddressStep extends StepDefinition {
         [
           "Vamos cadastrar seu *CEP*, favor digitar o número."
         ],
-        StepNumbers.registerAddress,
+        StepNumbers.registerCEP,
         [ActionsEnum.UPSERT_ADDRESS],
         [address]
       )

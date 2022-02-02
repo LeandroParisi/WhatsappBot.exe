@@ -1,9 +1,6 @@
 import Datastore = require("nedb-promises");
 import { Service } from "typedi";
-import Customer from "../../../../data/Models/Customer";
-import { api } from "../../TaonBackend/services/api";
 import LoginData from "../../../../data/Interfaces/LoginData";
-import BranchData, { Country } from "../../../../data/DTOs/BranchData";
 import BranchDataDb from '../branchDataConfig'
 
 @Service()

@@ -1,23 +1,27 @@
 import { Service } from "typedi"
-import { Message } from "venom-bot";
 // import { Message } from "venom-bot";
 import BranchData, { City, Country, State } from "../../../data/DTOs/BranchData";
 import CustomerInfo from "../../../data/DTOs/CustomerInfo";
 import LoginData from "../../../data/Interfaces/LoginData";
-import { CustomMessage } from "../../../node_modules_extensions/MessageExtension";
 import Customer from "../../../data/Models/Customer";
 import CustomerAddress, { CustomerAddressSQL } from "../../../data/Models/CustomerAddress";
-import { api } from "./services/api"
 import { LocationsPayload } from "../../../data/DTOs/LocationsPayload";
+import Api from "../Shared/api";
+import Config from "../../config";
 
 @Service()
 export default class TaonRepository {
+  private readonly Api : Api
+
+  constructor() {
+    this.Api = new Api(Config.backendUrl)
+  }
   
   async Login(email : string, password : string) : Promise<LoginData> {
     const endpoint = "users/bot/login"
     const method = "POST"
 
-    const response = await api({
+    const response = await this.Api.Request({
       endpoint, 
       method,
       body: { email, password },
@@ -30,7 +34,7 @@ export default class TaonRepository {
     const endpoint = "users/bot/sessionAuth"
     const method = "POST"
 
-    await api({
+    await this.Api.Request({
       endpoint, 
       method,
       body: { token },
@@ -41,7 +45,7 @@ export default class TaonRepository {
     const endpoint = "branches/bot/initialLoad"
     const method = "GET"
 
-    const response = await api({
+    const response = await this.Api.Request({
       endpoint, 
       method,
       body: { whatsappNumber },
@@ -55,7 +59,7 @@ export default class TaonRepository {
     const endpoint = "locations"
     const method = "GET"
 
-    const response = await api({
+    const response = await this.Api.Request({
       endpoint, 
       method,
     })
@@ -67,7 +71,7 @@ export default class TaonRepository {
     const endpoint = `customers/bot/checkCustomer/${message.from}`
     const method = "POST"
 
-    const response = await api({
+    const response = await this.Api.Request({
       endpoint,
       method,
       body: {
@@ -83,7 +87,7 @@ export default class TaonRepository {
     const endpoint = `addresses`
     const method = "POST"
 
-    const response = await api({
+    const response = await this.Api.Request({
       endpoint,
       method,
       body
