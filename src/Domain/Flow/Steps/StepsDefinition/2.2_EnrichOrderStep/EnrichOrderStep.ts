@@ -48,10 +48,6 @@ export default class EnrichOrderStep extends StepDefinition {
     } else {
       return new StepInfo(
         [
-          "Todos os dados foram coletados corretamente!",
-          "Vamos só confirmar os dados do pedido, ok?",
-          "Vou lhe enviar as informações de seu pedido, caso algumas delas estiver errada favor *digitar o número* da mesma para corrigirmos.",
-          `Caso esteja tudo certo digite *${OrderConfirmationAnswers.OK}*`,
           ...ConfirmOrderStep.GenerateConfirmationMessage(orderInfo, sessionData.branchData, customer)
         ],
         StepNumbers.confirmOrder,

@@ -8,6 +8,8 @@ import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler";
 import StepDefinition from "../../../Interfaces/StepDefinition";
 import GenericParser from "../../../../../../Shared/Parsers/GenericParser";
 import CustomerAddress, { CurrentlyRegisteringAddress } from "../../../../../../../data/Models/CustomerAddress";
+import ConfirmOrderStep from "../../8_ConfirmOrder/ConfirmOrder";
+import EnrichOrderStep from "../../2.2_EnrichOrderStep/EnrichOrderStep";
 
 interface ValidationPayload {
   isValid : boolean,
@@ -34,7 +36,7 @@ export default class ConfirmAddressStep extends StepDefinition {
       } = this.ValidateAnswer()
 
       if (isValid) {
-        return this.GenerateStepInfo(action, invalidData)
+        return await this.GenerateStepInfo(action, invalidData)
       } else {
         return new StepInfo(
           [
@@ -65,10 +67,10 @@ export default class ConfirmAddressStep extends StepDefinition {
     }
   }
 
-  private GenerateStepInfo(
+  private async GenerateStepInfo(
       action: PossibleActions,
       invalidData: CurrentlyRegisteringAddress,
-    ) : StepInfo {
+    ) : Promise<StepInfo> {
     if (action === PossibleActions.CHANGE_ADDRESS) {
       this.EditAddress(invalidData)
       const nextStep = RegisterAddressStep.ExtractMissingAddressInfo(this.Address, this.SessionData.inMemoryData)
@@ -83,14 +85,19 @@ export default class ConfirmAddressStep extends StepDefinition {
       )
     } else {
       this.OrderInfo.addressId = this.Address._id
+      this.Customer.info.customerAddresses.push(this.Address)
+
+      const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, this.SessionData, this.Customer)
+
       return new StepInfo(
         [
-          "Perfeito!",
-          "Vamos dar sequência à finalização do seu pedido"
+          "Perfeito, seu novo endereço será cadastrado.",
+          "Vamos dar continuidade ao seu pedido.",
+          ...nextStep.outboundMessages,
         ],
-        StepNumbers.confirmOrder,
-        [ActionsEnum.UPDATE_ORDER, ActionsEnum.SAVE_ADDRESS],
-        [this.OrderInfo, this.Address]
+        nextStep.nextStep,
+        [ActionsEnum.UPDATE_ORDER, ActionsEnum.SAVE_ADDRESS, ...nextStep.requiredAction],
+        [this.OrderInfo, this.Address, ...nextStep.actionPayload]
       )
     }
   }

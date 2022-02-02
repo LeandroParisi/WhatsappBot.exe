@@ -1,16 +1,19 @@
-export enum OrderStatusEnum {
-  REGISTERING = 'REGISTERING',
-  FINISHED = "FINISHED"
-}
-
 export default interface IOrderInfo {
-  _id: string;
-  customerId: string;
-  branchId : string;
-  promotionId?: number;
-  status: OrderStatusEnum;
-  createdAt: Date;
-  deliveryTypeId? : number
+  branchId : string
+  customerId : string
   addressId? : string
+  orderNumber : number
+  subTotal : number
+  deliveryTypeId? : number
+  deliveryFee : number
   paymentMethodId? : number
+  discount : number
+  totalPrice : number
+  status : string
+  coupomId : number
+  promotionId?: number;
+  estimatedDeliveryTime : string
+  comments : string
+  dispatchTime : Date
+  deliveryTime : Date
 }

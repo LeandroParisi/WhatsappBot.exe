@@ -1,21 +1,13 @@
-import { Message } from "venom-bot";
-import BranchData, { Promotion, PromotionsInformation } from "../../../../../../data/DTOs/BranchData";
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
-import { ValidateParameters } from '../../Interfaces/IValidatedStep'
-import Customer from "../../../../../../data/Models/Customer";
 import IStep, { StepNumbers } from "../../Interfaces/IStep";
 import StepInfo from "../../Messages/StepInfo";
 import Validations from "../../../Utils/Validations";
-import MessageUtils from "../../../../MessageFactories/AddressMessageFactory";
 import PromotionsSelectionStep from "../StepGenerators/PromotionsSelectionStep";
 import ReturnToMenu from "../StepGenerators/ReturnToMenu";
 import StepError from "../../../../Abstractions/Errors/StepError";
-import { SessionData } from "../../../Startup/BotCore";
 import DaysUtils from "../../../../../Shared/Utils/DaysUtils";
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
-import IValidatedStep from "../../Interfaces/IValidatedStep";
 import Order from "../../../../../../data/Models/Order";
-import { OrderStatusEnum } from "../../../../../../data/Interfaces/IOrderInfo";
 import StepDefinition from "../../Interfaces/StepDefinition";
 import EnrichOrderStep from "../2.2_EnrichOrderStep/EnrichOrderStep";
 import GenericParser from "../../../../../Shared/Parsers/GenericParser";
@@ -91,7 +83,6 @@ export default class PromotionsStep extends StepDefinition {
           this.Customer._id,
           branchData.id,
           branchData.avaiablePromotions[formattedAnswer - 1].id,
-          OrderStatusEnum.REGISTERING
         )
 
         const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(order, this.SessionData, this.Customer)

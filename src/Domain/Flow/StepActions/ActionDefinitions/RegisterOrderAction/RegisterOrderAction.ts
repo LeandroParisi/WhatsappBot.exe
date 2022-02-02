@@ -1,5 +1,4 @@
-import Container, { Service } from "typedi";
-import { OrderStatusEnum } from "../../../../../../data/Interfaces/IOrderInfo";
+import Container from "typedi";
 import OrderRepository from "../../../../../Services/SessionManagement/Repositories/OrderRepository";
 import Customer from "../../../../../../data/Models/Customer";
 import Order from "../../../../../../data/Models/Order";
@@ -16,7 +15,6 @@ export default class RegisterOrderAction implements IActionHandler<Order> {
       customer._id,
       payload.branchId,
       payload.promotionId,
-      OrderStatusEnum.REGISTERING
     )
 
    await orderRepository.Insert(order);

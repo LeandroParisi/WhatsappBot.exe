@@ -23,7 +23,7 @@ export default class OrderRepository {
     return order as Order;
   }
 
-  async UpdateOrder(order : IOrderInfo) : Promise<number> {
+  async UpdateOrder(order : Order) : Promise<number> {
     const affectedRows = await this.orderDb.update({ _id: order._id }, { $set: order })
     return affectedRows
   }
