@@ -10,6 +10,7 @@ import TaonRepository from "../../TaonBackend/TaonRepository";
 import CustomerRepository from '../Repositories/CustomerRepository';
 import OrderRepository from "../Repositories/OrderRepository";
 import AddressesRepository from "../Repositories/AddressesRepository";
+import CustomerAddress from "../../../../data/Models/CustomerAddress";
 
 @Service()
 export default class SessionHandler {
@@ -33,15 +34,15 @@ export default class SessionHandler {
     customer._id = customerInfo.id
     customer.info = customerInfo.MapToMongo()
 
-    customer.customerTemplateMessages = this.GenerateTemplateMessages(customer.info)
+    customer.customerTemplateMessages = SessionHandler.GenerateTemplateMessages(customer.info.customerAddresses)
 
     await this.CustomerRepository.InsertCustomer(customer)
 
     return customer;
   }
 
-  private GenerateTemplateMessages(customerInfo : CustomerInfo): CustomerTemplateMessages {
-    var addresses = CustomerTemplateMessagesFactory.GenerateAddressMessage(customerInfo.customerAddresses)
+  static GenerateTemplateMessages(customerAddresses : Array<CustomerAddress>): CustomerTemplateMessages {
+    var addresses = CustomerTemplateMessagesFactory.GenerateAddressMessage(customerAddresses)
     
     return {
       addresses

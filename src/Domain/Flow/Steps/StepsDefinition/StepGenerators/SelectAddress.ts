@@ -40,14 +40,24 @@ export default class SelectAddress {
       }
     }
 
-  static GetRegisterStep(customer : Customer, memoryData : MemoryData) : StepInfo {
+  static GetRegisterStep (
+      customer : Customer,
+      memoryData : MemoryData, 
+      options?: options
+    ) : StepInfo {
     const address = new CustomerAddress(AddressStatusEnum.REGISTERING, customer._id)
     const nextStep = RegisterAddressStep.ExtractMissingAddressInfo(address, memoryData)
 
+    const prefixMessages = options 
+      ? options.prefixMessages 
+      : [
+        "Você não tem nenhum endereço cadastrado conosco.",
+        "Que tal cadastrarmos um?"
+      ]
+
     return new StepInfo(
       [
-        "Você não tem nenhum endereço cadastrado conosco.",
-        "Que tal cadastrarmos um?",
+        ...prefixMessages,
         ...nextStep.outboundMessages
       ],
       nextStep.nextStep,

@@ -57,7 +57,11 @@ export default class SelectAddressStep extends StepDefinition {
     
       switch(selectedOption) {
         case SelectedOption.registerAddress:
-          return SelectAddress.GetRegisterStep(this.Customer, this.SessionData.inMemoryData)
+          return SelectAddress.GetRegisterStep(
+            this.Customer,
+            this.SessionData.inMemoryData,
+            { prefixMessages: ["Perfeito, vamos começar o cadastro de um novo endereço"] }
+          )
         case SelectedOption.selectAddress:
           this.OrderInfo.addressId = this.Customer.info.customerAddresses[formattedAnswer - 1]._id
           
