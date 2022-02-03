@@ -10,8 +10,6 @@ export interface StepDefinitionArgs {
   customer: Customer, 
   message : Message, 
   sessionData : SessionData,
-  orderInfo? : Order
-  address? : CustomerAddress
 }
 
 export default abstract class StepDefinition implements IStepOptions {
@@ -24,13 +22,13 @@ export default abstract class StepDefinition implements IStepOptions {
   ADDRESS_STEP: boolean;
   ORDER_STEP: boolean;
 
-  constructor({ customer , message , sessionData , orderInfo , address } : StepDefinitionArgs) {
+  constructor({ customer , message , sessionData } : StepDefinitionArgs) {
     this.Customer = customer
     this.Message = message
     this.SessionData = sessionData
     this.Answer = message.body
-    this.OrderInfo = orderInfo
-    this.Address = address
+    this.OrderInfo = null
+    this.Address = null
     this.ADDRESS_STEP = false
     this.ORDER_STEP = false
   }

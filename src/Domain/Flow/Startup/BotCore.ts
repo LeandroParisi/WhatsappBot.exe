@@ -4,7 +4,7 @@ import BranchData, { Country } from '../../../../data/DTOs/BranchData';
 import SessionHandler from '../../../Services/SessionManagement/Handlers/SessionHandler';
 import UserDataHandler from '../../../Services/UserData/Handlers/UserDataHandler';
 import Customer from '../../../../data/Models/Customer';
-import IStep, { ADDRESS_STEPS, BUY_STEPS } from '../Steps/Interfaces/IStep';
+import IStep from '../Steps/Interfaces/IStep';
 import StepFactory from '../Steps/StepsDefinition/StepFactory/StepFactory';
 import ActionsFactory from '../StepActions/ActionDefinitions/ActionsFactory/ActionsFactory';
 import TaonHandler from '../../../Services/TaonBackend/TaonHandler';
@@ -12,7 +12,7 @@ import StepInfo from '../Steps/Messages/StepInfo';
 import OrderRepository from '../../../Services/SessionManagement/Repositories/OrderRepository';
 import AddressesRepository from '../../../Services/SessionManagement/Repositories/AddressesRepository';
 import { ActionsEnum } from '../StepActions/Interfaces/IActionHandler';
-import { StepDefinitionArgs } from '../Steps/Interfaces/StepDefinition';
+import StepDefinition, { StepDefinitionArgs } from '../Steps/Interfaces/StepDefinition';
 import MemoryData from '../../../../data/DTOs/MemoryData/MemoryData';
 
 interface SetupInfo {
@@ -71,23 +71,41 @@ export default class BotCore {
       customer, 
     } = await this.MessageSetup(inboundMessage)
 
-    const stepPayload = await this.PayloadFactory(customer, inboundMessage)
+    // const stepPayload = await this.PayloadFactory(customer, inboundMessage)
 
-    const stepHandler = StepFactory.Create(customer.currentStep, stepPayload)
+    const stepHandler = StepFactory.Create(customer.currentStep, {
+      customer,
+      message: inboundMessage,
+      sessionData: { ...this.sessionData },
+    })
 
+    await this.EnrichStepHandler(stepHandler, customer)
 
-    console.log({isAddress: stepHandler.ADDRESS_STEP})
-    console.log({isOrder: stepHandler.ORDER_STEP})
-
-    let stepInfo = null
-
-    stepInfo = await stepHandler.Interact()
+    const stepInfo = await stepHandler.Interact()
 
     return {
       stepInfo,
       customer
     }
   }
+
+  async EnrichStepHandler(stepHandler: StepDefinition, customer: Customer) : Promise<void> {
+    let orderInfo = null
+    let address = null
+
+    if (stepHandler.ORDER_STEP) {
+      orderInfo = await this.OrderRepository.GetClientOrders(customer._id)
+    }
+
+    if (stepHandler.ADDRESS_STEP) {
+      address = await this.AddressesRepository.GetClientAddresses(customer._id)
+    }
+
+    stepHandler.Address = address
+    stepHandler.OrderInfo = orderInfo
+  }
+
+
 
   private async MessageSetup(inboundMessage: Message) : Promise<SetupInfo> {
     const customer = await this.SessionHandler.CheckIn(inboundMessage);
@@ -98,27 +116,6 @@ export default class BotCore {
 
     return {
       customer,
-    }
-  }
-
-  private async PayloadFactory(customer : Customer, message : Message) : Promise<StepDefinitionArgs> {
-    let orderInfo = null
-    let address = null
-
-    if (BUY_STEPS.has(customer.currentStep)) {
-      orderInfo = await this.OrderRepository.GetClientOrders(customer._id)
-    }
-
-    if (ADDRESS_STEPS.has(customer.currentStep)) {
-      address = await this.AddressesRepository.GetClientAddresses(customer._id)
-    }
-
-    return {
-      customer,
-      message,
-      sessionData: { ...this.sessionData },
-      orderInfo,
-      address
     }
   }
 
