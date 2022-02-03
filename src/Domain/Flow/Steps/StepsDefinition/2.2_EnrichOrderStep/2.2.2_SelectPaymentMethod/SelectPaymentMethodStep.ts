@@ -2,15 +2,28 @@ import staticImplements from "../../../../../../Shared/Anotations/staticImplemen
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler"
 import ActionsUtils from "../../../../Utils/ActionsUtils"
 import Validations from "../../../../Utils/Validations"
-import IStep, { StepNumbers } from "../../../Interfaces/IStep"
-import StepDefinition from "../../../Interfaces/StepDefinition"
+import IStep, { IStepOptions, StepNumbers } from "../../../Interfaces/IStep"
+import StepDefinition, { StepDefinitionArgs } from "../../../Interfaces/StepDefinition"
 import StepInfo from "../../../Messages/StepInfo"
 import EnrichOrderStep from "../EnrichOrderStep"
 
 
 @staticImplements<IStep>()
+@staticImplements<IStepOptions>()
 export default class SelectPaymentMethodStep extends StepDefinition{
   static STEP_NUMBER = StepNumbers.selectPaymentMethod
+  static ORDER_STEP = true
+  static ADDRESS_STEP = false
+  
+  /**
+    *
+  */
+   constructor(stepDefinitionArgs : StepDefinitionArgs) {
+    super(stepDefinitionArgs);
+    this.ORDER_STEP = SelectPaymentMethodStep.ORDER_STEP
+    this.ADDRESS_STEP = SelectPaymentMethodStep.ADDRESS_STEP
+  }
+    
   
   public async Interact() : Promise<StepInfo> {
     const { branchData } = this.SessionData

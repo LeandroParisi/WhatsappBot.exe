@@ -1,11 +1,11 @@
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements";
 import Validations from "../../../../Utils/Validations";
-import IStep, {  StepNumbers } from "../../../Interfaces/IStep";
+import IStep, {  IStepOptions, StepNumbers } from "../../../Interfaces/IStep";
 import StepInfo from "../../../Messages/StepInfo";
 import MessageUtils from "../../../../../MessageFactories/AddressMessageFactory";
 import RegisterAddressStep from "../RegisterAddressStep";
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler";
-import StepDefinition from "../../../Interfaces/StepDefinition";
+import StepDefinition, { StepDefinitionArgs } from "../../../Interfaces/StepDefinition";
 import GenericParser from "../../../../../../Shared/Parsers/GenericParser";
 import CustomerAddress, { CurrentlyRegisteringAddress } from "../../../../../../../data/Models/CustomerAddress";
 import ConfirmOrderStep from "../../8_ConfirmOrder/ConfirmOrder";
@@ -25,8 +25,20 @@ enum PossibleActions {
 const possibleAnswers = new Set([...Object.values(CurrentlyRegisteringAddress), 'OK'])
 
 @staticImplements<IStep>()
+@staticImplements<IStepOptions>()
 export default class ConfirmAddressStep extends StepDefinition {
   static STEP_NUMBER = StepNumbers.confirmAddress
+  static ADDRESS_STEP = true
+  static ORDER_STEP = true
+
+  /**
+  *
+  */
+    constructor(stepDefinitionArgs : StepDefinitionArgs) {
+    super(stepDefinitionArgs);
+    this.ORDER_STEP = ConfirmAddressStep.ORDER_STEP
+    this.ADDRESS_STEP = ConfirmAddressStep.ADDRESS_STEP
+  }
   
   public async Interact() : Promise<StepInfo> {
       const {

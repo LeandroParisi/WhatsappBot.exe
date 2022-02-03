@@ -1,15 +1,27 @@
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements";
 import GenericParser from "../../../../../../Shared/Parsers/GenericParser";
 import Validations from "../../../../Utils/Validations";
-import IStep, { IOptionsAnswer, StepNumbers } from "../../../Interfaces/IStep";
-import StepDefinition from "../../../Interfaces/StepDefinition";
+import IStep, { IOptionsAnswer, IStepOptions, StepNumbers } from "../../../Interfaces/IStep";
+import StepDefinition, { StepDefinitionArgs } from "../../../Interfaces/StepDefinition";
 import StepInfo from "../../../Messages/StepInfo";
 import RegisterAddressStep from "../RegisterAddressStep";
 
 @staticImplements<IStep>()
+@staticImplements<IStepOptions>()
 export default class RegisterCityStep extends StepDefinition implements IOptionsAnswer {
   static STEP_NUMBER = StepNumbers.registerCity
+  static ADDRESS_STEP = true
+  static ORDER_STEP = false
   formattedAnswer : number;
+
+  /**
+  *
+  */
+   constructor(stepDefinitionArgs : StepDefinitionArgs) {
+    super(stepDefinitionArgs);
+    this.ADDRESS_STEP = RegisterCityStep.ADDRESS_STEP
+    this.ORDER_STEP = RegisterCityStep.ORDER_STEP
+  }
   
   public async Interact(): Promise<StepInfo> {
     const isValid = this.ValidateAnswer()

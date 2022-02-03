@@ -6,9 +6,9 @@ import Customer from "../../../../../../data/Models/Customer"
 import CustomerAddress from "../../../../../../data/Models/CustomerAddress"
 import Order from "../../../../../../data/Models/Order"
 import Validations from "../../../Utils/Validations"
-import IStep, { StepNumbers } from "../../Interfaces/IStep"
+import IStep, { IStepOptions, StepNumbers } from "../../Interfaces/IStep"
 import IValidatedStep, { ValidateParameters } from "../../Interfaces/IValidatedStep"
-import StepDefinition from "../../Interfaces/StepDefinition"
+import StepDefinition, { StepDefinitionArgs } from "../../Interfaces/StepDefinition"
 import StepInfo from "../../Messages/StepInfo"
 import Container from "typedi"
 import AddressesRepository from "../../../../../Services/SessionManagement/Repositories/AddressesRepository"
@@ -39,8 +39,20 @@ export enum OrderConfirmationOptions {
 }
 
 @staticImplements<IStep>()
+@staticImplements<IStepOptions>()
 export default class ConfirmOrderStep extends StepDefinition {
   static STEP_NUMBER = StepNumbers.confirmOrder
+  static ADDRESS_STEP = false
+  static ORDER_STEP = true
+
+  /**
+  *
+  */
+    constructor(stepDefinitionArgs : StepDefinitionArgs) {
+    super(stepDefinitionArgs);
+    this.ORDER_STEP = ConfirmOrderStep.ORDER_STEP
+    this.ADDRESS_STEP = ConfirmOrderStep.ADDRESS_STEP
+  }
   
   public async Interact() : Promise<StepInfo> {
       throw new Error()

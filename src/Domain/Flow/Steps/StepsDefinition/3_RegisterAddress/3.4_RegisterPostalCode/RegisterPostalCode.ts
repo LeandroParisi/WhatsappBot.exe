@@ -4,15 +4,27 @@ import ValidateCepRepository from "../../../../../../Services/ExternalServices/V
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements";
 import GenericParser from "../../../../../../Shared/Parsers/GenericParser";
 import Validations from "../../../../Utils/Validations";
-import IStep, { IOptionsAnswer, StepNumbers } from "../../../Interfaces/IStep";
-import StepDefinition from "../../../Interfaces/StepDefinition";
+import IStep, { IOptionsAnswer, IStepOptions, StepNumbers } from "../../../Interfaces/IStep";
+import StepDefinition, { StepDefinitionArgs } from "../../../Interfaces/StepDefinition";
 import StepInfo from "../../../Messages/StepInfo";
 import RegisterAddressStep from "../RegisterAddressStep";
 
 @staticImplements<IStep>()
+@staticImplements<IStepOptions>()
 export default class RegisterPostalCode extends StepDefinition  {
   static STEP_NUMBER = StepNumbers.registerPostalCode
   private cepInfo : CepInfo
+  static ADDRESS_STEP = true
+  static ORDER_STEP = false
+
+  /**
+  *
+  */
+   constructor(stepDefinitionArgs : StepDefinitionArgs) {
+    super(stepDefinitionArgs);
+    this.ADDRESS_STEP = RegisterPostalCode.ADDRESS_STEP
+    this.ORDER_STEP = RegisterPostalCode.ORDER_STEP
+  }
   
   public async Interact(): Promise<StepInfo> {
     this.Answer = this.ParseCep()

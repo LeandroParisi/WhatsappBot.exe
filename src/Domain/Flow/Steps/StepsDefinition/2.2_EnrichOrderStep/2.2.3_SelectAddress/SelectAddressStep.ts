@@ -6,9 +6,9 @@ import Order from "../../../../../../../data/Models/Order"
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler"
 import ActionsUtils from "../../../../Utils/ActionsUtils"
 import Validations from "../../../../Utils/Validations"
-import IStep, { StepNumbers } from "../../../Interfaces/IStep"
+import IStep, { IStepOptions, StepNumbers } from "../../../Interfaces/IStep"
 import { ValidateParameters } from "../../../Interfaces/IValidatedStep"
-import StepDefinition from "../../../Interfaces/StepDefinition"
+import StepDefinition, { StepDefinitionArgs } from "../../../Interfaces/StepDefinition"
 import StepInfo from "../../../Messages/StepInfo"
 import SelectAddress from "../../StepGenerators/SelectAddress"
 import EnrichOrderStep from "../EnrichOrderStep"
@@ -28,8 +28,20 @@ interface ValidationPayload {
 }
 
 @staticImplements<IStep>()
+@staticImplements<IStepOptions>()
 export default class SelectAddressStep extends StepDefinition {
   static STEP_NUMBER = StepNumbers.selectAddress
+  static ORDER_STEP = true
+  static ADDRESS_STEP = false
+
+  /**
+    *
+  */
+   constructor(stepDefinitionArgs : StepDefinitionArgs) {
+    super(stepDefinitionArgs);
+    this.ORDER_STEP = SelectAddressStep.ORDER_STEP
+    this.ADDRESS_STEP = SelectAddressStep.ADDRESS_STEP
+  }
   
   public async Interact() : Promise<StepInfo> {
     const { branchData } = this.SessionData

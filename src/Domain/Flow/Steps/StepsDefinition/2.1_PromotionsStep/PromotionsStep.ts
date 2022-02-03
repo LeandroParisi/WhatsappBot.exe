@@ -8,7 +8,7 @@ import StepError from "../../../../Abstractions/Errors/StepError";
 import DaysUtils from "../../../../../Shared/Utils/DaysUtils";
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
 import Order from "../../../../../../data/Models/Order";
-import StepDefinition from "../../Interfaces/StepDefinition";
+import StepDefinition, { StepDefinitionArgs } from "../../Interfaces/StepDefinition";
 import EnrichOrderStep from "../2.2_EnrichOrderStep/EnrichOrderStep";
 import GenericParser from "../../../../../Shared/Parsers/GenericParser";
 
@@ -31,6 +31,13 @@ enum SelectedOption {
 @staticImplements<IStep>()
 export default class PromotionsStep extends StepDefinition {
   static STEP_NUMBER = StepNumbers.promotionStep
+  
+    /**
+     *
+    */
+     constructor(stepDefinitionArgs : StepDefinitionArgs) {
+      super(stepDefinitionArgs);
+    }
   
   public async Interact() : Promise<StepInfo> {
     const { branchData } = this.SessionData

@@ -13,6 +13,14 @@
 // @staticImplements<IValidatedStep<boolean>>()
 // export default class _TEMPLATE {
 //   static STEP_NUMBER = StepNumbers.registerCountry
+
+  // /**
+  // *
+  // */
+  //  constructor(stepDefinitionArgs : StepDefinitionArgs) {
+  //   super(stepDefinitionArgs);
+  //   this.ADDRESS_STEP = true
+  // }
   
 //   static Interact({
 //     customer,

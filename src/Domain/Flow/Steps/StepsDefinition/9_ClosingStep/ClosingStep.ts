@@ -2,7 +2,7 @@ import GenericParser from "../../../../../Shared/Parsers/GenericParser"
 import MessageUtils from "../../../../MessageFactories/AddressMessageFactory"
 import { StepNumbers } from "../../Interfaces/IStep"
 import { ValidateParameters } from "../../Interfaces/IValidatedStep"
-import StepDefinition from "../../Interfaces/StepDefinition"
+import StepDefinition, { StepDefinitionArgs } from "../../Interfaces/StepDefinition"
 import StepInfo from "../../Messages/StepInfo"
 import ReturnToMenu from "../StepGenerators/ReturnToMenu"
 
@@ -10,6 +10,13 @@ export default class ClosingStep extends StepDefinition{
   static STEP_NUMBER = StepNumbers.closingStep
   
   static INTRO_MESSAGE = "Posso lhe ajudar em mais alguma coisa?\n1. Sim\n2. Não"
+
+  /**
+  *
+  */
+   constructor(stepDefinitionArgs : StepDefinitionArgs) {
+    super(stepDefinitionArgs);
+  }
 
   public async Interact() : Promise<StepInfo> {
     const clientAnswer = this.Message.body

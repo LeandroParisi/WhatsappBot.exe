@@ -75,6 +75,10 @@ export default class BotCore {
 
     const stepHandler = StepFactory.Create(customer.currentStep, stepPayload)
 
+
+    console.log({isAddress: stepHandler.ADDRESS_STEP})
+    console.log({isOrder: stepHandler.ORDER_STEP})
+
     let stepInfo = null
 
     stepInfo = await stepHandler.Interact()
