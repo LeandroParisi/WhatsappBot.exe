@@ -29,6 +29,7 @@ export default class Order implements IOrderInfo, Payload {
   coupomId? : number
   promotionId?: number //
   estimatedDeliveryDuration : number
+  distanceInKm: number
   comments : string
   dispatchTime : Date
   deliveryTime : Date
@@ -75,6 +76,7 @@ export class OrderSQL implements IOrderInfo, Payload {
   coupomId? : number
   promotionId?: number //
   estimatedDeliveryDuration : number
+  distanceInKm: number
   comments : string
   dispatchTime : Date
   deliveryTime : Date

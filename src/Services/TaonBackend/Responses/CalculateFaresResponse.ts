@@ -8,5 +8,6 @@ export interface CalculatedFares {
   estimatedDeliveryDuration: number,
   deliveryFee: number,
   subTotal: number,
-  totalPrice: number
+  totalPrice: number,
+  distanceInKm : number
 }
