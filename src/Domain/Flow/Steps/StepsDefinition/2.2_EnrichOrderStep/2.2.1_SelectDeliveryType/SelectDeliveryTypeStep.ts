@@ -1,3 +1,4 @@
+import { CurrentlyRegisteringOrder } from "../../../../../../../data/Models/Order"
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements"
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler"
 import ActionsUtils from "../../../../Utils/ActionsUtils"
@@ -32,6 +33,8 @@ export default class SelectDeliveryTypeStep extends StepDefinition {
       if (isValidAnswer) {
         this.OrderInfo.deliveryTypeId = branchData
           .deliveryTypes[Number(this.Answer) -  1].id
+
+        this.OrderInfo.currentlyRegistering = CurrentlyRegisteringOrder.PAYMENT_METHOD
 
         const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, this.SessionData, this.Customer)
 

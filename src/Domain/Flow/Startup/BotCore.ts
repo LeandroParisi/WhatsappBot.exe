@@ -54,12 +54,11 @@ export default class BotCore {
       if (this.IsValidMessage(inboundMessage)) {
         const { stepInfo, customer } = await this.HandleMessage(inboundMessage)
 
-        await this.HandleStepAction(stepInfo, customer);
-        
         await this.SessionHandler.UpdateClientStep(customer, stepInfo.nextStep)
-        
+
         await this.SendMessages(stepInfo.outboundMessages, customer)
         
+        await this.HandleStepAction(stepInfo, customer);
       } else {
         // No actions for messages received from groups
       }
@@ -105,8 +104,6 @@ export default class BotCore {
     stepHandler.OrderInfo = orderInfo
   }
 
-
-
   private async MessageSetup(inboundMessage: Message) : Promise<SetupInfo> {
     const customer = await this.SessionHandler.CheckIn(inboundMessage);
 
@@ -125,19 +122,25 @@ export default class BotCore {
     }
   }
 
-  private async HandleStepAction(stepInfo: StepInfo, client: Customer) {
+  private async HandleStepAction(stepInfo: StepInfo, customer: Customer) {
     if (stepInfo.requiredAction && !!stepInfo.requiredAction.length) {
       stepInfo.requiredAction.forEach(
         async (action : ActionsEnum, index : number) => {
           const actionHandler = ActionsFactory.Create(action)
-          await actionHandler
-            .DispatchAction(stepInfo.actionPayload[index], client);
+          const postActionStep = await actionHandler
+            .DispatchAction(stepInfo.actionPayload[index], customer, this.sessionData.branchData);
+
+          console.log({postActionStep})
+          if (postActionStep) {
+            await this.SendMessages(postActionStep.outboundMessages, customer)
+            await this.SessionHandler.UpdateClientStep(customer, postActionStep.nextStep)
+          }
       })
     }
   }
 
   private IsValidMessage(inboundMessage: Message) {
-    return !inboundMessage.isGroupMsg && inboundMessage.from === "553182630325@c.us"
+    return !inboundMessage.isGroupMsg && inboundMessage.from === "553197794403@c.us"
   }
 
   public SetBot(bot: any) {

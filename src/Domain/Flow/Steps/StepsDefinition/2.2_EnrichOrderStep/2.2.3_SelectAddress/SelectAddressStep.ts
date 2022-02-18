@@ -2,7 +2,7 @@ import BranchData from "../../../../../../../data/DTOs/BranchData"
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements"
 import StepError from "../../../../../Abstractions/Errors/StepError"
 import Customer from "../../../../../../../data/Models/Customer"
-import Order from "../../../../../../../data/Models/Order"
+import Order, { CurrentlyRegisteringOrder } from "../../../../../../../data/Models/Order"
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler"
 import ActionsUtils from "../../../../Utils/ActionsUtils"
 import Validations from "../../../../Utils/Validations"
@@ -76,6 +76,8 @@ export default class SelectAddressStep extends StepDefinition {
           )
         case SelectedOption.selectAddress:
           this.OrderInfo.addressId = this.Customer.info.customerAddresses[formattedAnswer - 1]._id
+          this.OrderInfo.currentlyRegistering = CurrentlyRegisteringOrder.COUPOM
+
           
           const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, this.SessionData, this.Customer)
 

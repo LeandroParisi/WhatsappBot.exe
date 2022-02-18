@@ -32,4 +32,12 @@ export default class SystemUtils {
     let keys = Object.keys(myEnum).filter(x => myEnum[x] == enumValue);
     return keys.length > 0 ? keys[0] : null;
   }
+
+  public static GetEnumValues(myEnum : any) : Array<string> {
+    return Object.keys(myEnum).filter((x) => Number(x) >= 0) as unknown as Array<string>
+  }
+
+  public static GetEnumNumberValues(myEnum : any) : Array<number> {
+    return Object.keys(myEnum).filter((x) => Number(x) >= 0).map((x) => Number(x)) as unknown as Array<number>
+  }
 }

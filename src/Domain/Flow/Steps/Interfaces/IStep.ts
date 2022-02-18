@@ -1,12 +1,3 @@
-import { Message } from "venom-bot";
-import BranchData from "../../../../../data/DTOs/BranchData";
-import Customer from "../../../../../data/Models/Customer"
-import CustomerAddress from "../../../../../data/Models/CustomerAddress";
-import Order from "../../../../../data/Models/Order";
-import SystemUtils from "../../../../Shared/Utils/SystemUtils";
-import { SessionData } from "../../Startup/BotCore";
-import StepInfo from "../Messages/StepInfo";
-
 export enum StepNumbers {
   welcomeStep = 1,
   promotionStep = 2,
@@ -15,8 +6,8 @@ export enum StepNumbers {
   selectPaymentMethod = 3.2,
   selectAddress = 3.3,
   selectCoupom = 3.4,
-  getDeliveryInfo = 3.5,
-  setComments = 3.6,
+  setComment = 3.5,
+  getDeliveryInfo = 3.6,
   registerAddress = 4,
   registerCountry = 4.1,
   registerState = 4.2,
@@ -37,6 +28,11 @@ export interface IStepOptions {
   ORDER_STEP : boolean
 }
 
-export interface IOptionsAnswer {
-  formattedAnswer : number
+export interface IIntroMessages {
+  INTRO_MESSAGES : Array<string>
 }
+
+export interface IOptionsAnswer {
+  formattedAnswer : number | string
+}
+

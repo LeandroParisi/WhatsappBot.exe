@@ -10,6 +10,8 @@ import GenericParser from "../../../../../../Shared/Parsers/GenericParser";
 import CustomerAddress, { CurrentlyRegisteringAddress } from "../../../../../../../data/Models/CustomerAddress";
 import ConfirmOrderStep from "../../8_ConfirmOrder/ConfirmOrder";
 import EnrichOrderStep from "../../2.2_EnrichOrderStep/EnrichOrderStep";
+import ActionsUtils from "../../../../Utils/ActionsUtils";
+import { CurrentlyRegisteringOrder } from "../../../../../../../data/Models/Order";
 
 interface ValidationPayload {
   isValid : boolean,
@@ -97,7 +99,7 @@ export default class ConfirmAddressStep extends StepDefinition {
       )
     } else {
       this.OrderInfo.addressId = this.Address._id
-      this.Customer.info.customerAddresses.push(this.Address)
+      this.OrderInfo.currentlyRegistering = CurrentlyRegisteringOrder.COUPOM
 
       const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, this.SessionData, this.Customer)
 
@@ -108,8 +110,9 @@ export default class ConfirmAddressStep extends StepDefinition {
           ...nextStep.outboundMessages,
         ],
         nextStep.nextStep,
-        [ActionsEnum.UPDATE_ORDER, ActionsEnum.SAVE_ADDRESS, ...nextStep.requiredAction],
-        [this.OrderInfo, this.Address, ...nextStep.actionPayload]
+        // TODO: salvar o Address no banco primeiro, depois dar o update da order
+        [ActionsEnum.SAVE_ADDRESS, ActionsEnum.UPDATE_ORDER, ...ActionsUtils.ExtractActions(nextStep)],
+        [this.Address, this.OrderInfo, ...ActionsUtils.ExtractActionsPayload(nextStep)]
       )
     }
   }

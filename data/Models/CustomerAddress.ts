@@ -87,8 +87,11 @@ export class CustomerAddressSQL {
     this.id = address._id
     this.customerId = address.customerId    
     this.countryId = address.countryId
+    this.countryName = address.countryName;
     this.stateId = address.stateId
+    this.stateName = address.stateName;
     this.cityId = address.cityId
+    this.cityName = address.cityName;
     this.neighborhood = address.neighborhood
     this.street = address.street
     this.streetNumber = address.streetNumber

@@ -10,9 +10,9 @@ export default interface IOrderInfo {
   discount : number
   totalPrice : number
   status : string
-  coupomId : number
+  coupomId? : number
   promotionId?: number;
-  estimatedDeliveryTime : string
+  estimatedDeliveryDuration : number
   comments : string
   dispatchTime : Date
   deliveryTime : Date

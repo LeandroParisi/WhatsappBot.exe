@@ -7,27 +7,42 @@ import Customer from "../../../data/Models/Customer";
 import CustomerAddress, { CustomerAddressSQL } from "../../../data/Models/CustomerAddress";
 import Api from "../Shared/api";
 import Config from "../../config";
-import { LoginDataPayload } from "./Payloads/LoginDataPayload";
-import BotInitialLoadPayload from "./Payloads/BotInitialLoadPayload";
+import { LoginDataResponse } from "./Responses/LoginDataResponse";
+import BotInitialLoadResponse from "./Responses/BotInitialLoadResponse";
 import Locations from "../../../data/DTOs/MemoryData/SubClasses/Locations";
-import LocationsPayload from "./Payloads/LocationsPayload";
-import CheckCustomerPayload from "./Payloads/CheckCustomerPayload";
+import LocationsResponse from "./Responses/LocationsResponse";
+import CheckCustomerResponse from "./Responses/CheckCustomerResponse";
+import METHODS from "../Shared/methods";
+import ValidatedCoupom, { IsCoupomValidResponse } from "./Responses/IsCoupomValidResponse";
+import Order, { OrderSQL } from "../../../data/Models/Order";
+import CalculateFaresResponse, { CalculatedFares } from "./Responses/CalculateFaresResponse";
 
 @Service()
 export default class TaonRepository {
+
   private readonly Api : Api
 
   constructor() {
     this.Api = new Api(Config.backendUrl)
   }
+
+  async VerifyCoupomValidity(coupomCode: string, branchId: string) : Promise<ValidatedCoupom> {
+    const endpoint = `coupons/isValid/${branchId}/${coupomCode}`
+
+    const response = await this.Api.Request<IsCoupomValidResponse>({
+      endpoint, 
+      method : METHODS.GET,
+    })
+
+    return response.data
+  }
   
   async Login(email : string, password : string) : Promise<LoginData> {
     const endpoint = "users/bot/login"
-    const method = "POST"
 
-    const response = await this.Api.Request<LoginDataPayload>({
+    const response = await this.Api.Request<LoginDataResponse>({
       endpoint, 
-      method,
+      method: METHODS.POST,
       body: { email, password },
     })
 
@@ -36,22 +51,20 @@ export default class TaonRepository {
 
   async ValidateSession(token : string) : Promise<void> {
     const endpoint = "users/bot/sessionAuth"
-    const method = "POST"
 
     await this.Api.Request({
       endpoint, 
-      method,
+      method: METHODS.POST,
       body: { token },
     })
   }
 
   async GetInitialData(token : string, whatsappNumber : string) : Promise<BranchData> {
     const endpoint = "branches/bot/initialLoad"
-    const method = "GET"
 
-    const response = await this.Api.Request<BotInitialLoadPayload>({
+    const response = await this.Api.Request<BotInitialLoadResponse>({
       endpoint, 
-      method,
+      method: METHODS.GET,
       body: { whatsappNumber },
       headers: { auth: token }
     })
@@ -61,11 +74,10 @@ export default class TaonRepository {
 
   async GetLocations() : Promise<Locations> {
     const endpoint = "locations"
-    const method = "GET"
 
-    const response = await this.Api.Request<LocationsPayload>({
+    const response = await this.Api.Request<LocationsResponse>({
       endpoint, 
-      method,
+      method: METHODS.GET,
     })
 
     return response.data
@@ -73,11 +85,10 @@ export default class TaonRepository {
 
   async CheckCustomerInfo(customer : Customer, message : any) : Promise<CustomerInfoSql>{
     const endpoint = `customers/bot/checkCustomer/${message.from}`
-    const method = "POST"
 
-    const response = await this.Api.Request<CheckCustomerPayload>({
+    const response = await this.Api.Request<CheckCustomerResponse>({
       endpoint,
-      method,
+      method: METHODS.POST,
       body: {
         firstName: message.sender.shortName || message.sender.verifiedName || "Não identificado",
         id: customer._id
@@ -88,13 +99,24 @@ export default class TaonRepository {
   }
 
   async SaveAddress(body : CustomerAddressSQL) : Promise<void> {
-    const endpoint = `addresses`
-    const method = "POST"
+    const endpoint = `customersAddresses`
 
     const response = await this.Api.Request({
       endpoint,
-      method,
+      method: METHODS.POST,
       body
     })
+  }
+
+  async CalculateFares(body: OrderSQL) : Promise<CalculatedFares> {
+    const endpoint = `orders/calculateFares`
+
+    const response = await this.Api.Request<CalculateFaresResponse>({
+      endpoint,
+      method: METHODS.GET,
+      body
+    })
+
+    return response.data
   }
 }

@@ -17,8 +17,6 @@ export default class SessionHandler {
   constructor(
     private readonly CustomerRepository : CustomerRepository,
     private readonly TaonRepository : TaonRepository,
-    private readonly OrderRepository : OrderRepository,
-    private readonly AddressesRepository : AddressesRepository
   ) {
   }
 
@@ -62,13 +60,15 @@ export default class SessionHandler {
   async ValidateCurrentSessions(startupDate : Date) : Promise<void> {
     const { sessionResetRules } = Config
 
+    console.log({sessionResetRules})
+
     const lastMessageLimit = DaysUtils.SubtractTimeFromDate(
       startupDate, sessionResetRules.lastMessageInHours
     )
 
     const findQuery = {
       $or: [
-        { currentStep: { $in: sessionResetRules.currentStep } },
+        { currentStep: { $in: sessionResetRules.stepsToReset } },
         { lastMessage: { $lte: lastMessageLimit } }
       ]
     }
@@ -79,8 +79,7 @@ export default class SessionHandler {
       _id: { $in: invalidSessions.map((client : Customer) => client._id)}
     }
 
-    await this.OrderRepository.CleanUp();
-    await this.AddressesRepository.CleanUp();
+
     await this.CustomerRepository.DeleteClient(deleteQuery)
   }
 

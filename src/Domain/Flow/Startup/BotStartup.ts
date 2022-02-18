@@ -1,5 +1,7 @@
 import Container, { Service } from "typedi";
 import SessionHandler from "../../../Services/SessionManagement/Handlers/SessionHandler";
+import AddressesRepository from "../../../Services/SessionManagement/Repositories/AddressesRepository";
+import OrderRepository from "../../../Services/SessionManagement/Repositories/OrderRepository";
 import UserDataHandler from "../../../Services/UserData/Handlers/UserDataHandler";
 import LocationsRepository from "../../../Services/UserData/Repositories/LocationsRepository";
 import DaysUtils from "../../../Shared/Utils/DaysUtils";
@@ -9,15 +11,13 @@ import Installer from "./Installer";
 @Service()
 export default class BotStartup {
 
-  SessionHandler : SessionHandler
-  UserDataHandler: UserDataHandler;
-  LocationsRepository : LocationsRepository
-
-  constructor() {
-    this.SessionHandler = Container.get(SessionHandler)
-    this.UserDataHandler = Container.get(UserDataHandler)
-    this.LocationsRepository = Container.get(LocationsRepository)
-  }
+  constructor(
+    private readonly OrderRepository : OrderRepository,
+    private readonly AddressesRepository : AddressesRepository,
+    private readonly SessionHandler : SessionHandler,
+    private readonly UserDataHandler : UserDataHandler,
+    private readonly LocationsRepository : LocationsRepository,
+  ) {}
 
   public InstallServices() {
     Installer.InstallServices()
@@ -50,5 +50,7 @@ export default class BotStartup {
 
   private async CleanUp() {
     await this.LocationsRepository.CleanUp();
+    await this.OrderRepository.CleanUp();
+    await this.AddressesRepository.CleanUp();
   }
 }

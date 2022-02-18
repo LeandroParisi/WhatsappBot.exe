@@ -3,6 +3,16 @@ import DaysUtils from "../../src/Shared/Utils/DaysUtils";
 import { v4 as uuid } from 'uuid';
 import Payload from "../../src/Domain/Flow/StepActions/DTOs/Payload";
 
+export enum CurrentlyRegisteringOrder {
+  DELIVERY_TYPE = 1,
+  PAYMENT_METHOD = 2,
+  ADDRESS = 3,
+  COUPOM = 4,
+  COMMENTS = 5,
+  DELIVERY_FEE = 6,
+  FINISHED = 7,
+}
+
 export default class Order implements IOrderInfo, Payload {
   _id : string; //
   branchId : string //
@@ -16,13 +26,14 @@ export default class Order implements IOrderInfo, Payload {
   discount : number
   totalPrice : number
   status : string
-  coupomId : number
+  coupomId? : number
   promotionId?: number //
-  estimatedDeliveryTime : string
+  estimatedDeliveryDuration : number
   comments : string
   dispatchTime : Date
   deliveryTime : Date
   createdAt: Date;
+  currentlyRegistering : CurrentlyRegisteringOrder
 
   /**
    *
@@ -37,6 +48,66 @@ export default class Order implements IOrderInfo, Payload {
     this.customerId = customerId
     this.promotionId = promotionId
     this.branchId = branchId
+    this.coupomId = undefined
     this.createdAt = DaysUtils.GetDateFromTimestamp(Date.now() / 1000)
+    // this.currentlyRegistering = CurrentlyRegisteringOrder.DELIVERY_TYPE
+
+    // TODO: TEST
+    this.deliveryTypeId = 1
+    this.paymentMethodId = 1
+    this.currentlyRegistering = CurrentlyRegisteringOrder.ADDRESS
+  }
+}
+
+export class OrderSQL implements IOrderInfo, Payload {
+  id : string; //
+  branchId : string //
+  customerId : string //
+  addressId? : string //
+  orderNumber : number //
+  subTotal : number
+  deliveryTypeId? : number //
+  deliveryFee : number
+  paymentMethodId? : number //
+  discount : number
+  totalPrice : number
+  status : string
+  coupomId? : number
+  promotionId?: number //
+  estimatedDeliveryDuration : number
+  comments : string
+  dispatchTime : Date
+  deliveryTime : Date
+  createdAt: Date;
+  currentlyRegistering : CurrentlyRegisteringOrder
+
+  /**
+   *
+   */
+  constructor(
+     order : Order
+  ) {
+    this.id = order._id
+    this.customerId = order.customerId
+    this.promotionId = order.promotionId
+    this.branchId = order.branchId
+    this.createdAt = order.createdAt
+    this.deliveryTypeId = order.deliveryTypeId
+    this.paymentMethodId = order.paymentMethodId
+    this.coupomId = order.coupomId
+    this.addressId = order.addressId
+    this.comments = order.comments
+  }
+
+  MapToMongo() : Order {
+    const order = new Order(this.customerId, this.branchId, this.promotionId, this.id)
+    order.createdAt = this.createdAt
+    order.deliveryTypeId = this.deliveryTypeId
+    order.paymentMethodId = this.paymentMethodId
+    order.coupomId = this.coupomId
+    order.addressId = this.addressId
+    order.comments = this.comments
+  
+    return order
   }
 }

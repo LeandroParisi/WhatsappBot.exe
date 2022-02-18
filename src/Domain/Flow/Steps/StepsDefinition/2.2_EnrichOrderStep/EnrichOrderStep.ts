@@ -6,11 +6,14 @@ import IStep, { IStepOptions, StepNumbers } from "../../Interfaces/IStep";
 import MainMenu from "../10_MainMenu/MainMenu";
 import StepInfo from "../../Messages/StepInfo";
 import { SessionData } from "../../../Startup/BotCore";
-import Order from "../../../../../../data/Models/Order";
+import Order, { CurrentlyRegisteringOrder } from "../../../../../../data/Models/Order";
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
 import SelectAddress from "../StepGenerators/SelectAddress";
 import StepDefinition, { StepDefinitionArgs } from "../../Interfaces/StepDefinition";
 import ConfirmOrderStep, { OrderConfirmationAnswers } from "../8_ConfirmOrder/ConfirmOrder";
+import SelectCoupomStep from "./2.2.4_SelectCoupom/SelectCoupomStep";
+import SetCommentStep from "./2.2.5_SetComments/SetCommentStep";
+import StepError from "../../../../Abstractions/Errors/StepError";
 
 @staticImplements<IStep>()
 @staticImplements<IStepOptions>()
@@ -38,7 +41,7 @@ export default class EnrichOrderStep extends StepDefinition {
     sessionData : SessionData,
     customer : Customer
     ) : StepInfo {
-    if (!orderInfo.deliveryTypeId) {
+    if (orderInfo.currentlyRegistering === CurrentlyRegisteringOrder.DELIVERY_TYPE) {
       return new StepInfo(
         [
           "Precisamos preencher alguns dados de seu pedido.",
@@ -48,7 +51,7 @@ export default class EnrichOrderStep extends StepDefinition {
         StepNumbers.selectDeliveryType
       )
     } 
-    else if (!orderInfo.paymentMethodId) {
+    else if (orderInfo.currentlyRegistering === CurrentlyRegisteringOrder.PAYMENT_METHOD) {
       return new StepInfo(
         [
           "Precisamos preencher alguns dados de seu pedido.",
@@ -58,28 +61,47 @@ export default class EnrichOrderStep extends StepDefinition {
         StepNumbers.selectPaymentMethod
       )
     } 
-    else if (!orderInfo.addressId) {
+    else if (orderInfo.currentlyRegistering === CurrentlyRegisteringOrder.ADDRESS) {
       return SelectAddress.GenerateMessage({}, customer, sessionData)
     } 
-    else if (!orderInfo.coupomId) {
-      throw new Error("Must be implemented")
+    else if (orderInfo.currentlyRegistering === CurrentlyRegisteringOrder.COUPOM) {
+      return new StepInfo(
+        [
+          "Deseja aplicar algum cupom no seu pedido?",
+          ...SelectCoupomStep.INTRO_MESSAGES,
+        ],
+        StepNumbers.selectCoupom
+      )
     }
-    else if (!orderInfo.deliveryFee) {
-      throw new Error("Must be implemented")
+    else if (orderInfo.currentlyRegistering === CurrentlyRegisteringOrder.COMMENTS) {
+      return new StepInfo(
+        [
+          ...SetCommentStep.INTRO_MESSAGES,
+        ],
+        StepNumbers.setComment 
+      )
     }
-    else if (!orderInfo.estimatedDeliveryTime) {
-      throw new Error("Must be implemented") // ?
+    else if (orderInfo.currentlyRegistering === CurrentlyRegisteringOrder.DELIVERY_FEE) {
+      return new StepInfo(
+        [
+          "Recolhemos todos os dados de seu pedido.",
+          "Agora vamos calcular a taxa de entrega e já já lhe enviamos todos os dados do pedido para confirmação."
+        ],
+        StepNumbers.confirmOrder,
+        [ActionsEnum.CALCULATE_FARES],
+        [orderInfo]
+      )
     }
-    else if (!orderInfo.comments) {
-      throw new Error("Must be implemented")
-    }
-    else {
+    else if (orderInfo.currentlyRegistering === CurrentlyRegisteringOrder.FINISHED){
       return new StepInfo(
         [
           ...ConfirmOrderStep.GenerateConfirmationMessage(orderInfo, sessionData.branchData, customer)
         ],
         StepNumbers.confirmOrder,
       )
+    }
+    else {
+      throw new StepError(this.STEP_NUMBER, `Invalid order currently Registering status ${orderInfo.currentlyRegistering}`)
     }
   }
 }

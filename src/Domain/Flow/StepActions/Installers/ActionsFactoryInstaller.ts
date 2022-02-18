@@ -1,6 +1,7 @@
 import staticImplements from "../../../../Shared/Anotations/staticImplements";
 import IInstaller from "../../../../Shared/Interfaces/IInstaller";
 import ActionsFactory from "../ActionDefinitions/ActionsFactory/ActionsFactory";
+import CalculateFaresAction from "../ActionDefinitions/CalculateFaresAction/CalculateFaresAction";
 import RegisterOrderAction from "../ActionDefinitions/RegisterOrderAction/RegisterOrderAction";
 import SaveAddressAction from "../ActionDefinitions/SaveAddress/SaveAddressAction";
 import SendOrderAction from "../ActionDefinitions/SendOrderAction/SendOrderAction";
@@ -15,5 +16,6 @@ export default class ActionsFactoryInstaller  {
     ActionsFactory.RegisterAction(new UpdateOrderAction())
     ActionsFactory.RegisterAction(new UpdateAddressAction())
     ActionsFactory.RegisterAction(new SaveAddressAction())
+    ActionsFactory.RegisterAction(new CalculateFaresAction())
   }
 }

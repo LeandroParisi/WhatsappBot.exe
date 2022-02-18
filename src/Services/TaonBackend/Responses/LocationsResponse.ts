@@ -1,5 +1,5 @@
 import Locations from "../../../../data/DTOs/MemoryData/SubClasses/Locations";
 
-export default interface LocationsPayload {
+export default interface LocationsResponse {
   data : Locations
 }

@@ -14,6 +14,7 @@ import Container from "typedi"
 import AddressesRepository from "../../../../../Services/SessionManagement/Repositories/AddressesRepository"
 import PaymentMethodsUtils from "../../../../../Shared/Utils/PaymentMethodsUtils"
 import DeliveryTypeUtils from "../../../../../Shared/Utils/DeliveryTypeUtils"
+import GenericParser from "../../../../../Shared/Parsers/GenericParser"
 
 export enum OrderConfirmationAnswers {
   OK = "OK"
@@ -31,11 +32,16 @@ interface ValidationPayload {
   selectedOption? : SelectedOption
 }
 
+
 export enum OrderConfirmationOptions {
-  promotionId = 1,
-  deliveryTypeId = 2,
-  paymentMethodId = 3,
-  addressId = 4,
+  promotion = 1,
+  deliveryType = 2,
+  paymentMethod = 3,
+  address = 4,
+  comment = 5,
+  subTotal = 6,
+  deliveryFee = 7,
+  totalPrice = 8,
 }
 
 @staticImplements<IStep>()
@@ -83,14 +89,25 @@ export default class ConfirmOrderStep extends StepDefinition {
       .find((a : CustomerAddress) => a._id === orderInfo.addressId)
     )
 
+
     return [
-        "Todos os dados foram coletados corretamente!",
         "Vamos só confirmar os dados do pedido, ok?",
-        "Vou lhe enviar as informações de seu pedido:",
-        `*${OrderConfirmationOptions.promotionId}. Promoção:*\n${promoInfo}${productInfo}`,
-        `*${OrderConfirmationOptions.deliveryTypeId}. Tipo de entrega:*\n${DeliveryTypeUtils.TranslateToPt(deliveryType)}`,
-        `*${OrderConfirmationOptions.paymentMethodId}. Método de pagamento:*\n${PaymentMethodsUtils.TranslateToPt(paymentMethod)}`,
-        `*${OrderConfirmationOptions.addressId}. Endereço:*\n${address}`,
+        "Vou lhe enviar as informações:",
+        `*${OrderConfirmationOptions.promotion}. Promoção:*\n${promoInfo}${productInfo}`,
+        `*${OrderConfirmationOptions.deliveryType}. Tipo de entrega:*\n${DeliveryTypeUtils.TranslateToPt(deliveryType)}`,
+        `*${OrderConfirmationOptions.paymentMethod}. Método de pagamento:*\n${PaymentMethodsUtils.TranslateToPt(paymentMethod)}`,
+        `*${OrderConfirmationOptions.address}. Endereço:*\n${address}`,
+        `*${OrderConfirmationOptions.comment}. Comentário:*\n${orderInfo.comments}`,
+        `*${OrderConfirmationOptions.subTotal}. Sub Total:*\n${GenericParser.FormatPrice(
+          {price:orderInfo.subTotal , decimal: true}
+        )}`,
+        `*${OrderConfirmationOptions.deliveryFee}. Taxa de entrega:*\n${GenericParser.FormatPrice(
+          {price:orderInfo.deliveryFee , decimal: true}
+        )}`,
+        `*${OrderConfirmationOptions.totalPrice}. Total (Sub Total + Taxa de entrega):*\n${GenericParser.FormatPrice(
+          {price:orderInfo.totalPrice , decimal: true}
+        )}`,
+
         `Caso algumas delas estiver errada favor *digitar o número* da mesma para corrigirmos. Mas se estiver tudo certo digite *${OrderConfirmationAnswers.OK}*`,
     ]
   }
@@ -108,18 +125,5 @@ export default class ConfirmOrderStep extends StepDefinition {
         isValid,
       }
     }
-  }
-
-  private static async GetSelectedAddress(customer : Customer, orderInfo : Order,) {
-    const addressesRepository = Container.get(AddressesRepository)
-
-    const isOldAddress = customer.info.customerAddresses
-      .find((a : CustomerAddress) => a._id === orderInfo.addressId)
-
-    const isNewAddress = await addressesRepository.GetClientAddresses(customer._id)
-
-    console.log({ isOldAddress})
-    console.log({ isNewAddress})
-
   }
 }

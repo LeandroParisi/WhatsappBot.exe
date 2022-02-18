@@ -6,6 +6,8 @@ import PromotionsStep from "../StepsDefinition/2.1_PromotionsStep/PromotionsStep
 import SelectDeliveryTypeStep from "../StepsDefinition/2.2_EnrichOrderStep/2.2.1_SelectDeliveryType/SelectDeliveryTypeStep";
 import SelectPaymentMethodStep from "../StepsDefinition/2.2_EnrichOrderStep/2.2.2_SelectPaymentMethod/SelectPaymentMethodStep";
 import SelectAddressStep from "../StepsDefinition/2.2_EnrichOrderStep/2.2.3_SelectAddress/SelectAddressStep";
+import SelectCoupomStep from "../StepsDefinition/2.2_EnrichOrderStep/2.2.4_SelectCoupom/SelectCoupomStep";
+import SetCommentStep from "../StepsDefinition/2.2_EnrichOrderStep/2.2.5_SetComments/SetCommentStep";
 import EnrichOrderStep from "../StepsDefinition/2.2_EnrichOrderStep/EnrichOrderStep";
 import RegisterStateStep from "../StepsDefinition/3_RegisterAddress/3.2_RegisterState/RegisterStateStep";
 import RegisterCityStep from "../StepsDefinition/3_RegisterAddress/3.3_RegisterCity/RegisterCityStep";
@@ -28,7 +30,9 @@ export default class StepFactoryInstaller {
     StepFactory.RegisterStep(SelectAddressStep)
     StepFactory.RegisterStep(ClosingStep)
     StepFactory.RegisterStep(MainMenu)
+    StepFactory.RegisterStep(SelectCoupomStep)
     StepFactory.RegisterStep(RegisterAddressStep)
+    StepFactory.RegisterStep(SetCommentStep)
     StepFactory.RegisterStep(RegisterStateStep)
     StepFactory.RegisterStep(RegisterCityStep)
     StepFactory.RegisterStep(RegisterPostalCode)

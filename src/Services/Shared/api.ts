@@ -49,6 +49,7 @@ export default class Api {
     try {
       return await this.MakeRequest<T>(payload)
     } catch (error) {
+      console.log(error)
       const { response } = error
       throw new BackendError(response.status, response.data.error, error)
     }

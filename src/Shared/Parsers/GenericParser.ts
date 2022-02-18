@@ -22,4 +22,8 @@ export default class GenericParser {
   public static ToUpperTrim(string : string) {
     return string.trim().toUpperCase()
   }
+
+  public static ToLowerTrim(string : string) {
+    return string.trim().toLowerCase()
+  }
 }
