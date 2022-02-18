@@ -5,15 +5,12 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
   ],
   env: {
-    browser: true,
+    // browser: true,
     node: true,
     serviceworker: true,
   },
   parserOptions: {
     sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true,
-    },
   },
   settings: {
     react: {
@@ -21,7 +18,7 @@ module.exports = {
     },
     'import/resolver': {
       node: {
-        extensions: ['.ts'],
+        extensions: ['.ts', '.js'],
       },
     },
   },
@@ -43,24 +40,3 @@ module.exports = {
     'class-methods-use-this': 0,
   },
 }
-
-// module.exports = {
-//   parserOptions: {
-//     ecmaVersion: 2018,
-//     sourceType: 'module',
-//   },
-//   env: {
-//     browser: true,
-//     commonjs: true,
-//     es2021: true,
-//   },
-//   extends: [
-//     'airbnb-base',
-//   ],
-//   // parserOptions: {
-//   //   ecmaVersion: 12,
-//   // },
-//   ignorePatterns: ['seeders/', 'migrations/'],
-//   rules: {
-//   },
-// };

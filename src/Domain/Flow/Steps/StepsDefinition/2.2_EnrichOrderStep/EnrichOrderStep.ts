@@ -6,14 +6,15 @@ import IStep, { IStepOptions, StepNumbers } from "../../Interfaces/IStep";
 import MainMenu from "../10_MainMenu/MainMenu";
 import StepInfo from "../../Messages/StepInfo";
 import { SessionData } from "../../../Startup/BotCore";
-import Order, { CurrentlyRegisteringOrder } from "../../../../../../data/Models/Order";
+import Order from "../../../../../../data/Models/Order";
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
 import SelectAddress from "../StepGenerators/SelectAddress";
 import StepDefinition, { StepDefinitionArgs } from "../../Interfaces/StepDefinition";
 import ConfirmOrderStep, { OrderConfirmationAnswers } from "../8_ConfirmOrder/ConfirmOrder";
-import SelectCoupomStep from "./2.2.4_SelectCoupom/SelectCoupomStep";
+import SelectCoupomStep from "./2.2.6_SelectCoupom/SelectCoupomStep";
 import SetCommentStep from "./2.2.5_SetComments/SetCommentStep";
 import StepError from "../../../../Abstractions/Errors/StepError";
+import { CurrentlyRegisteringOrder } from "../../../../../../data/Enums/CurrentlyRegisteringOrder";
 
 @staticImplements<IStep>()
 @staticImplements<IStepOptions>()
@@ -64,13 +65,14 @@ export default class EnrichOrderStep extends StepDefinition {
     else if (orderInfo.currentlyRegistering === CurrentlyRegisteringOrder.ADDRESS) {
       return SelectAddress.GenerateMessage({}, customer, sessionData)
     } 
-    else if (orderInfo.currentlyRegistering === CurrentlyRegisteringOrder.COUPOM) {
+    else if (orderInfo.currentlyRegistering === CurrentlyRegisteringOrder.DELIVERY_FEE) {
       return new StepInfo(
         [
-          "Deseja aplicar algum cupom no seu pedido?",
-          ...SelectCoupomStep.INTRO_MESSAGES,
+          "Agora vamos calcular a taxa de entrega e já já damos continuidade ao pedido."
         ],
-        StepNumbers.selectCoupom
+        StepNumbers.enrichOrderStep,
+        [ActionsEnum.CALCULATE_FARES],
+        [orderInfo]
       )
     }
     else if (orderInfo.currentlyRegistering === CurrentlyRegisteringOrder.COMMENTS) {
@@ -81,15 +83,13 @@ export default class EnrichOrderStep extends StepDefinition {
         StepNumbers.setComment 
       )
     }
-    else if (orderInfo.currentlyRegistering === CurrentlyRegisteringOrder.DELIVERY_FEE) {
+    else if (orderInfo.currentlyRegistering === CurrentlyRegisteringOrder.COUPOM) {
       return new StepInfo(
         [
-          "Recolhemos todos os dados de seu pedido.",
-          "Agora vamos calcular a taxa de entrega e já já lhe enviamos todos os dados do pedido para confirmação."
+          "Deseja aplicar algum cupom no seu pedido?",
+          ...SelectCoupomStep.INTRO_MESSAGES,
         ],
-        StepNumbers.confirmOrder,
-        [ActionsEnum.CALCULATE_FARES],
-        [orderInfo]
+        StepNumbers.selectCoupom
       )
     }
     else if (orderInfo.currentlyRegistering === CurrentlyRegisteringOrder.FINISHED){

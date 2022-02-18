@@ -11,7 +11,7 @@ import CustomerAddress, { CurrentlyRegisteringAddress } from "../../../../../../
 import ConfirmOrderStep from "../../8_ConfirmOrder/ConfirmOrder";
 import EnrichOrderStep from "../../2.2_EnrichOrderStep/EnrichOrderStep";
 import ActionsUtils from "../../../../Utils/ActionsUtils";
-import { CurrentlyRegisteringOrder } from "../../../../../../../data/Models/Order";
+import { CurrentlyRegisteringOrder, GetNextOrderRegisteringStep } from "../../../../../../../data/Enums/CurrentlyRegisteringOrder";
 
 interface ValidationPayload {
   isValid : boolean,
@@ -99,7 +99,7 @@ export default class ConfirmAddressStep extends StepDefinition {
       )
     } else {
       this.OrderInfo.addressId = this.Address._id
-      this.OrderInfo.currentlyRegistering = CurrentlyRegisteringOrder.COUPOM
+      this.OrderInfo.currentlyRegistering = GetNextOrderRegisteringStep(this.OrderInfo.currentlyRegistering)
 
       const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, this.SessionData, this.Customer)
 

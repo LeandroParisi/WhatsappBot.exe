@@ -128,7 +128,7 @@ export default class BotCore {
         async (action : ActionsEnum, index : number) => {
           const actionHandler = ActionsFactory.Create(action)
           const postActionStep = await actionHandler
-            .DispatchAction(stepInfo.actionPayload[index], customer, this.sessionData.branchData);
+            .DispatchAction(stepInfo.actionPayload[index], customer, this.sessionData);
 
           console.log({postActionStep})
           if (postActionStep) {

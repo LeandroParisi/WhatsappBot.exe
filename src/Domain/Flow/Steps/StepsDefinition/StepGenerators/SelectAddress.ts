@@ -48,6 +48,10 @@ export default class SelectAddress {
     const address = new CustomerAddress(AddressStatusEnum.REGISTERING, customer._id)
     const nextStep = RegisterAddressStep.ExtractMissingAddressInfo(address, memoryData)
 
+    console.log(address)
+    console.log(nextStep)
+
+
     const prefixMessages = options 
       ? options.prefixMessages 
       : [

@@ -1,13 +1,13 @@
-import BranchData from "../../../../../../../data/DTOs/BranchData"
+
+import { GetNextOrderRegisteringStep } from "../../../../../../../data/Enums/CurrentlyRegisteringOrder"
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements"
 import StepError from "../../../../../Abstractions/Errors/StepError"
-import Customer from "../../../../../../../data/Models/Customer"
-import Order, { CurrentlyRegisteringOrder } from "../../../../../../../data/Models/Order"
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler"
+
 import ActionsUtils from "../../../../Utils/ActionsUtils"
 import Validations from "../../../../Utils/Validations"
 import IStep, { IStepOptions, StepNumbers } from "../../../Interfaces/IStep"
-import { ValidateParameters } from "../../../Interfaces/IValidatedStep"
+
 import StepDefinition, { StepDefinitionArgs } from "../../../Interfaces/StepDefinition"
 import StepInfo from "../../../Messages/StepInfo"
 import SelectAddress from "../../StepGenerators/SelectAddress"
@@ -76,7 +76,7 @@ export default class SelectAddressStep extends StepDefinition {
           )
         case SelectedOption.selectAddress:
           this.OrderInfo.addressId = this.Customer.info.customerAddresses[formattedAnswer - 1]._id
-          this.OrderInfo.currentlyRegistering = CurrentlyRegisteringOrder.COUPOM
+          this.OrderInfo.currentlyRegistering = GetNextOrderRegisteringStep(this.OrderInfo.currentlyRegistering)
 
           
           const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, this.SessionData, this.Customer)

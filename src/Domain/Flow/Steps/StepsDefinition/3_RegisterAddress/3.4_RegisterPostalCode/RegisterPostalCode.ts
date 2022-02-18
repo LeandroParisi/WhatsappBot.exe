@@ -2,9 +2,8 @@ import Container from "typedi";
 import CepInfo from "../../../../../../../data/DTOs/CepInfo";
 import ValidateCepRepository from "../../../../../../Services/ExternalServices/ViaCep/ValidateCepRepository";
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements";
-import GenericParser from "../../../../../../Shared/Parsers/GenericParser";
 import Validations from "../../../../Utils/Validations";
-import IStep, { IOptionsAnswer, IStepOptions, StepNumbers } from "../../../Interfaces/IStep";
+import IStep, { IStepOptions, StepNumbers } from "../../../Interfaces/IStep";
 import StepDefinition, { StepDefinitionArgs } from "../../../Interfaces/StepDefinition";
 import StepInfo from "../../../Messages/StepInfo";
 import RegisterAddressStep from "../RegisterAddressStep";
@@ -53,6 +52,10 @@ export default class RegisterPostalCode extends StepDefinition  {
   private UpdateAddress() {
     const selectedState = this.SessionData.inMemoryData.locations.TryGetStateByCode(this.cepInfo.stateCode)
     const selectedCity = this.SessionData.inMemoryData.locations.TryGetCityByName(this.cepInfo.cityName)
+
+    console.log({selectedState})
+    console.log({selectedCity})
+
 
     this.Address.stateId = selectedState.id
     this.Address.stateName = selectedState.stateName

@@ -9,6 +9,7 @@ export default class UpdateOrderAction implements IActionHandler<Order> {
 
   async DispatchAction(payload: Order): Promise<void> {
     const orderRepository = Container.get(OrderRepository);
+    console.log("UPDATE ORDER")
 
     await orderRepository.UpdateOrder(payload)
   }

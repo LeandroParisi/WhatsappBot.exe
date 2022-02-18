@@ -2,16 +2,7 @@ import IOrderInfo from "../Interfaces/IOrderInfo";
 import DaysUtils from "../../src/Shared/Utils/DaysUtils";
 import { v4 as uuid } from 'uuid';
 import Payload from "../../src/Domain/Flow/StepActions/DTOs/Payload";
-
-export enum CurrentlyRegisteringOrder {
-  DELIVERY_TYPE = 1,
-  PAYMENT_METHOD = 2,
-  ADDRESS = 3,
-  COUPOM = 4,
-  COMMENTS = 5,
-  DELIVERY_FEE = 6,
-  FINISHED = 7,
-}
+import { CurrentlyRegisteringOrder, CurrentlyRegisteringOrderValues } from "../Enums/CurrentlyRegisteringOrder";
 
 export default class Order implements IOrderInfo, Payload {
   _id : string; //
@@ -34,7 +25,7 @@ export default class Order implements IOrderInfo, Payload {
   dispatchTime : Date
   deliveryTime : Date
   createdAt: Date;
-  currentlyRegistering : CurrentlyRegisteringOrder
+  currentlyRegistering : CurrentlyRegisteringOrderValues
 
   /**
    *
@@ -81,7 +72,7 @@ export class OrderSQL implements IOrderInfo, Payload {
   dispatchTime : Date
   deliveryTime : Date
   createdAt: Date;
-  currentlyRegistering : CurrentlyRegisteringOrder
+  currentlyRegistering : CurrentlyRegisteringOrderValues
 
   /**
    *
