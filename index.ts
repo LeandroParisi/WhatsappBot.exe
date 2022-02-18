@@ -38,10 +38,12 @@ class Main {
   private async CreateBot() : Promise<any> {
     const bot = await venom.create({
       session: 'session-name', // name of session
-      multidevice: false, // for version not multidevice use false.(default: true)
+      multidevice: true , // for version not multidevice use false.(default: true)
+      // mkdirFolderToken: '/node_modules', //folder directory tokens, just inside the venom folder, example:  { mkdirFolderToken: '/node_modules', } //will save the tokens folder in the node_modules directory
+
     });
 
-    return bot
+    return bot  
   }
 }
 
