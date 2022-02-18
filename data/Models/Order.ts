@@ -21,6 +21,7 @@ export default class Order implements IOrderInfo, Payload {
   promotionId?: number //
   estimatedDeliveryDuration : number
   distanceInKm: number
+  freeDelivery?: boolean
   comments : string
   dispatchTime : Date
   deliveryTime : Date

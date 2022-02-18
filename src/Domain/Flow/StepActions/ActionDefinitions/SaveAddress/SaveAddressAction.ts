@@ -13,6 +13,7 @@ export default class SaveAddressAction implements IActionHandler<CustomerAddress
   actionName = ActionsEnum.SAVE_ADDRESS;
 
   async DispatchAction(payload: CustomerAddress): Promise<void> {
+    console.log('SAVE ADDRESS ACTION')
     const taonRepository = Container.get(TaonRepository);
     const customerRepository = Container.get(CustomerRepository);
     const addressRepository = Container.get(AddressesRepository);

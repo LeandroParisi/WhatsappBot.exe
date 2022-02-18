@@ -18,7 +18,7 @@ export default class CalculateFaresAction implements IActionHandler<Order> {
   actionName = ActionsEnum.CALCULATE_FARES;
   
   async DispatchAction(payload: Order, customer: Customer, sessionData : SessionData): Promise<StepInfo> {
-    console.log('calculate ares action')
+    console.log('calculate fares action')
     const taonRepository = Container.get(TaonRepository);
     const orderRepository = Container.get(OrderRepository);
 

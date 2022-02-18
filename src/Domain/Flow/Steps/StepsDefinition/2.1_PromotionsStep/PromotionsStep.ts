@@ -11,6 +11,7 @@ import Order from "../../../../../../data/Models/Order";
 import StepDefinition, { StepDefinitionArgs } from "../../Interfaces/StepDefinition";
 import EnrichOrderStep from "../2.2_EnrichOrderStep/EnrichOrderStep";
 import GenericParser from "../../../../../Shared/Parsers/GenericParser";
+import ActionsUtils from "../../../Utils/ActionsUtils";
 
 enum PossibleAnswers {
   back = "VOLTAR",
@@ -99,8 +100,8 @@ export default class PromotionsStep extends StepDefinition {
             ...nextStep.outboundMessages
           ],
           nextStep.nextStep,
-          [ActionsEnum.REGISTER_ORDER],
-          [order]
+          [ActionsEnum.REGISTER_ORDER, ...ActionsUtils.ExtractActions(nextStep)],
+          [order,...ActionsUtils.ExtractActionsPayload(nextStep)]
         )
 
       case SelectedOption.invalidPromotionNumber:

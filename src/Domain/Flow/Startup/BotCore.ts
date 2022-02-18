@@ -124,18 +124,34 @@ export default class BotCore {
 
   private async HandleStepAction(stepInfo: StepInfo, customer: Customer) {
     if (stepInfo.requiredAction && !!stepInfo.requiredAction.length) {
-      stepInfo.requiredAction.forEach(
-        async (action : ActionsEnum, index : number) => {
-          const actionHandler = ActionsFactory.Create(action)
-          const postActionStep = await actionHandler
-            .DispatchAction(stepInfo.actionPayload[index], customer, this.sessionData);
 
-          console.log({postActionStep})
-          if (postActionStep) {
-            await this.SendMessages(postActionStep.outboundMessages, customer)
-            await this.SessionHandler.UpdateClientStep(customer, postActionStep.nextStep)
-          }
-      })
+      console.log({actions: stepInfo.requiredAction })
+
+      for (var index = 0; index <= stepInfo.requiredAction.length - 1; index += 1) {
+        const action = stepInfo.requiredAction[index]
+        const actionHandler = ActionsFactory.Create(action)
+        const postActionStep = await actionHandler
+          .DispatchAction(stepInfo.actionPayload[index], customer, this.sessionData);
+
+        console.log({postActionStep})
+        if (postActionStep) {
+          await this.SendMessages(postActionStep.outboundMessages, customer)
+          await this.SessionHandler.UpdateClientStep(customer, postActionStep.nextStep)
+        }
+      }
+
+      // stepInfo.requiredAction.forEach(
+      //   async (action : ActionsEnum, index : number) => {
+      //     const actionHandler = ActionsFactory.Create(action)
+      //     const postActionStep = await actionHandler
+      //       .DispatchAction(stepInfo.actionPayload[index], customer, this.sessionData);
+
+      //     console.log({postActionStep})
+      //     if (postActionStep) {
+      //       await this.SendMessages(postActionStep.outboundMessages, customer)
+      //       await this.SessionHandler.UpdateClientStep(customer, postActionStep.nextStep)
+      //     }
+      // })
     }
   }
 

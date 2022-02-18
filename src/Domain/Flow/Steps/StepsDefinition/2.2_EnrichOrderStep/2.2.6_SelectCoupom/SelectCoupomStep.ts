@@ -1,5 +1,7 @@
 import Container from "typedi"
 import { GetNextOrderRegisteringStep } from "../../../../../../../data/Enums/CurrentlyRegisteringOrder"
+import ValidateCoupomBody from "../../../../../../Services/TaonBackend/Requests/ValidateCoupomBody"
+import ValidatedCoupom from "../../../../../../Services/TaonBackend/Responses/IsCoupomValidResponse"
 import TaonRepository from "../../../../../../Services/TaonBackend/TaonRepository"
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements"
 import GenericParser from "../../../../../../Shared/Parsers/GenericParser"
@@ -59,12 +61,21 @@ export default class SelectCoupomStep extends StepDefinition implements IOptions
 
   private async VerifyCoupom(): Promise<StepInfo> {
     const taonRepository = Container.get(TaonRepository)
-    const { isValid, id } = await taonRepository.VerifyCoupomValidity(this.formattedAnswer, this.SessionData.branchData.id)
+    const body : ValidateCoupomBody = {distanceInKm: this.OrderInfo.distanceInKm, subTotal: this.OrderInfo.subTotal} 
+    const { 
+      isValid, id, validationMessages, freeDelivery
+    } = await taonRepository.VerifyCoupomValidity(this.formattedAnswer, this.SessionData.branchData.id, body)
 
 
     if (isValid) {
       this.OrderInfo.coupomId = id
       this.OrderInfo.currentlyRegistering = GetNextOrderRegisteringStep(this.OrderInfo.currentlyRegistering)
+      this.OrderInfo.freeDelivery = freeDelivery
+
+      if (freeDelivery) {
+        this.OrderInfo.totalPrice -= this.OrderInfo.deliveryFee
+        this.OrderInfo.deliveryFee = 0
+      } 
 
       const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, this.SessionData, this.Customer)
       return new StepInfo(
@@ -76,10 +87,21 @@ export default class SelectCoupomStep extends StepDefinition implements IOptions
         [ActionsEnum.UPDATE_ORDER, ...ActionsUtils.ExtractActions(nextStep)],
         [this.OrderInfo, ...ActionsUtils.ExtractActionsPayload(nextStep)]
       )
-    } else {
+    } else if (!isValid && !!validationMessages?.length) {
       return new StepInfo(
         [
-          'Desculpe, Este cupom NÃO é válido para esta compra.',
+          'Desculpe, este cupom não é valido para esta compra pelos seguinte motivos:',
+          ...validationMessages,
+          'Se quiser tentar aplicar outro cupom basta digitar o nome.',
+          `Caso contrário digite *${SelectCoupomStep.NEGATION}* para não aplicar nenhum cupom`
+        ],
+        StepNumbers.selectCoupom,
+      )
+    }
+    else {
+      return new StepInfo(
+        [
+          'Desculpe, este cupom não existe.',
           'Se quiser tentar aplicar outro cupom basta digitar o nome.',
           `Caso contrário digite *${SelectCoupomStep.NEGATION}* para não aplicar nenhum cupom`
         ],

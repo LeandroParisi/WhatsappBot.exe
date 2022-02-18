@@ -97,7 +97,7 @@ export default class ConfirmOrderStep extends StepDefinition {
         `*${OrderConfirmationOptions.deliveryType}. Tipo de entrega:*\n${DeliveryTypeUtils.TranslateToPt(deliveryType)}`,
         `*${OrderConfirmationOptions.paymentMethod}. Método de pagamento:*\n${PaymentMethodsUtils.TranslateToPt(paymentMethod)}`,
         `*${OrderConfirmationOptions.address}. Endereço:*\n${address}`,
-        `*${OrderConfirmationOptions.comment}. Comentário:*\n${orderInfo.comments}`,
+        `*${OrderConfirmationOptions.comment}. Comentário:*\n${orderInfo.comments || "Nenhum"}`,
         `*${OrderConfirmationOptions.subTotal}. Sub Total:*\n${GenericParser.FormatPrice(
           {price:orderInfo.subTotal , decimal: true}
         )}`,

@@ -6,4 +6,6 @@ export interface IsCoupomValidResponse {
 export default interface ValidatedCoupom {
   isValid : boolean
   id? : number
+  validationMessages?: string[]
+  freeDelivery?: boolean
 }

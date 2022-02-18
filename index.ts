@@ -1,8 +1,6 @@
 import 'reflect-metadata';
 import Container from 'typedi';
 import BotCore from './src/Domain/Flow/Startup/BotCore'
-import DaysUtils from './src/Shared/Utils/DaysUtils';
-import Installer from './src/Domain/Flow/Startup/Installer';
 import BotStartup from './src/Domain/Flow/Startup/BotStartup';
 
 const venom = require('venom-bot')
@@ -37,9 +35,11 @@ class Main {
 
   private async CreateBot() : Promise<any> {
     const bot = await venom.create({
-      session: 'session-name', // name of session
+      session: 'teste', // name of session
       multidevice: true , // for version not multidevice use false.(default: true)
-      // mkdirFolderToken: '/node_modules', //folder directory tokens, just inside the venom folder, example:  { mkdirFolderToken: '/node_modules', } //will save the tokens folder in the node_modules directory
+      // mkdirFolderToken: '/node_modules', //folder directory tokens, just inside the venom folder, example:  { mkdirFolderToken: '/node_modules', } //will save the tokens folder in the node_modules directory,
+      headless: false, // Headless chrome
+      useChrome: true,
 
     });
 

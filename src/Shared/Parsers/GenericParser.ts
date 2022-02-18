@@ -11,6 +11,7 @@ export default class GenericParser {
       decimal = false 
     } : params
   ) => {
+    if (!price) return 'R$ 0.00'
     if (decimal) return `R$ ${Number(price).toFixed(2)}`
     return `R$ ${Number(price)}`
   }

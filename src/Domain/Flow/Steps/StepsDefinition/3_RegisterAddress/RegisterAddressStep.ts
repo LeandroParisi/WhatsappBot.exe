@@ -165,8 +165,8 @@ export default class RegisterAddressStep extends StepDefinition {
       return new StepInfo (
         [
           "Vamos confirmar seu endereço para ver se está tudo ok?",
+          MessageUtils.GenerateAddressConfirmationMessage(address),
           "Caso esteja tudo certo digite *OK*, caso algum dado esteja errado digite o número correspondente",
-          MessageUtils.GenerateAddressConfirmationMessage(address)
         ],
         StepNumbers.confirmAddress,
         [ActionsEnum.UPSERT_ADDRESS],

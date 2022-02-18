@@ -16,6 +16,7 @@ import METHODS from "../Shared/methods";
 import ValidatedCoupom, { IsCoupomValidResponse } from "./Responses/IsCoupomValidResponse";
 import Order, { OrderSQL } from "../../../data/Models/Order";
 import CalculateFaresResponse, { CalculatedFares } from "./Responses/CalculateFaresResponse";
+import ValidateCoupomBody from "./Requests/ValidateCoupomBody";
 
 @Service()
 export default class TaonRepository {
@@ -26,16 +27,18 @@ export default class TaonRepository {
     this.Api = new Api(Config.backendUrl)
   }
 
-  async VerifyCoupomValidity(coupomCode: string, branchId: string) : Promise<ValidatedCoupom> {
+  async VerifyCoupomValidity(coupomCode: string, branchId: string, body: ValidateCoupomBody) : Promise<ValidatedCoupom> {
     const endpoint = `coupons/isValid/${branchId}/${coupomCode}`
 
     const response = await this.Api.Request<IsCoupomValidResponse>({
       endpoint, 
       method : METHODS.GET,
+      body
     })
 
     return response.data
   }
+
   
   async Login(email : string, password : string) : Promise<LoginData> {
     const endpoint = "users/bot/login"

@@ -25,7 +25,6 @@ export default class RegisterStateStep extends StepDefinition implements IOption
   
   public async Interact(): Promise<StepInfo> {
     const isValid = this.ValidateAnswer()
-    console.log("StateStep")
 
 
     if (isValid) {
@@ -52,7 +51,6 @@ export default class RegisterStateStep extends StepDefinition implements IOption
   }
 
   private ValidateAnswer() : boolean {
-    console.log(this.Answer)
     const isValid = Validations.IsInRange(
       this.Answer, 
       this.SessionData.inMemoryData.locations.GetStatesByCountryId(this.Address.countryId)
