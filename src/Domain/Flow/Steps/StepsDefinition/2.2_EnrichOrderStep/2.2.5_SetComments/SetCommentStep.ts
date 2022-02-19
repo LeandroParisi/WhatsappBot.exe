@@ -1,5 +1,4 @@
 
-import { GetNextOrderRegisteringStep } from "../../../../../../../data/Enums/CurrentlyRegisteringOrder"
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements"
 import GenericParser from "../../../../../../Shared/Parsers/GenericParser"
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler"
@@ -34,7 +33,10 @@ export default class SetCommentStep extends StepDefinition implements IOptionsAn
   public async Interact() : Promise<StepInfo> {
     const hasComment = this.ValidateAnswer()
 
-    this.OrderInfo.currentlyRegistering = GetNextOrderRegisteringStep(this.OrderInfo.currentlyRegistering)
+    this.OrderInfo.GetNextOrderRegisteringStep()
+
+
+    // this.OrderInfo.currentlyRegistering = GetNextOrderRegisteringStep(this.OrderInfo.currentlyRegistering)
 
     if (hasComment) {
       this.OrderInfo.comments = this.formattedAnswer as string

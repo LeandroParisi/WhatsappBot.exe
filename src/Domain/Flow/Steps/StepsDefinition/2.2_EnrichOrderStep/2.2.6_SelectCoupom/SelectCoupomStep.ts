@@ -1,7 +1,7 @@
 import Container from "typedi"
-import { GetNextOrderRegisteringStep } from "../../../../../../../data/Enums/CurrentlyRegisteringOrder"
+
 import ValidateCoupomBody from "../../../../../../Services/TaonBackend/Requests/ValidateCoupomBody"
-import ValidatedCoupom from "../../../../../../Services/TaonBackend/Responses/IsCoupomValidResponse"
+
 import TaonRepository from "../../../../../../Services/TaonBackend/TaonRepository"
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements"
 import GenericParser from "../../../../../../Shared/Parsers/GenericParser"
@@ -44,7 +44,9 @@ export default class SelectCoupomStep extends StepDefinition implements IOptions
     if (isCoupomSelected) {
       return await this.VerifyCoupom()
     } else {
-      this.OrderInfo.currentlyRegistering = GetNextOrderRegisteringStep(this.OrderInfo.currentlyRegistering)
+      this.OrderInfo.GetNextOrderRegisteringStep()
+
+      // this.OrderInfo.currentlyRegistering = GetNextOrderRegisteringStep(this.OrderInfo.currentlyRegistering)
 
       const nextStep = await EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, this.SessionData, this.Customer)
       return new StepInfo(
@@ -69,7 +71,9 @@ export default class SelectCoupomStep extends StepDefinition implements IOptions
 
     if (isValid) {
       this.OrderInfo.coupomId = id
-      this.OrderInfo.currentlyRegistering = GetNextOrderRegisteringStep(this.OrderInfo.currentlyRegistering)
+      this.OrderInfo.GetNextOrderRegisteringStep()
+
+      // this.OrderInfo.currentlyRegistering = GetNextOrderRegisteringStep(this.OrderInfo.currentlyRegistering)
       this.OrderInfo.freeDelivery = freeDelivery
 
       if (freeDelivery) {

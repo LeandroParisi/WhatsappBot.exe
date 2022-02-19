@@ -1,5 +1,5 @@
 
-import { GetNextOrderRegisteringStep } from "../../../../../../../data/Enums/CurrentlyRegisteringOrder"
+
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements"
 import StepError from "../../../../../Abstractions/Errors/StepError"
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler"
@@ -76,7 +76,9 @@ export default class SelectAddressStep extends StepDefinition {
           )
         case SelectedOption.selectAddress:
           this.OrderInfo.addressId = this.Customer.info.customerAddresses[formattedAnswer - 1]._id
-          this.OrderInfo.currentlyRegistering = GetNextOrderRegisteringStep(this.OrderInfo.currentlyRegistering)
+          this.OrderInfo.GetNextOrderRegisteringStep()
+
+          // this.OrderInfo.currentlyRegistering = GetNextOrderRegisteringStep(this.OrderInfo.currentlyRegistering)
 
           
           const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, this.SessionData, this.Customer)

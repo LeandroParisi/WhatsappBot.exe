@@ -20,8 +20,7 @@ export const NextStep = {
    [CurrentlyRegisteringOrder.COUPOM]: CurrentlyRegisteringOrder.FINISHED,
 }
 
-
 export type NextStepKeys = keyof typeof NextStep;
 export type NextStepValues = typeof NextStep[NextStepKeys];
 
-export const GetNextOrderRegisteringStep = (currentRegistering : CurrentlyRegisteringOrderValues) => NextStep[currentRegistering]
+// export const GetNextOrderRegisteringStep = (currentRegistering : CurrentlyRegisteringOrderValues) => NextStep[currentRegistering]

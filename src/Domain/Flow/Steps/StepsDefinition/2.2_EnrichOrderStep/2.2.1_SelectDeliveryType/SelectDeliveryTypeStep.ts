@@ -1,5 +1,4 @@
 
-import { GetNextOrderRegisteringStep } from "../../../../../../../data/Enums/CurrentlyRegisteringOrder"
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements"
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler"
 import ActionsUtils from "../../../../Utils/ActionsUtils"
@@ -35,7 +34,9 @@ export default class SelectDeliveryTypeStep extends StepDefinition {
         this.OrderInfo.deliveryTypeId = branchData
           .deliveryTypes[Number(this.Answer) -  1].id
 
-        this.OrderInfo.currentlyRegistering = GetNextOrderRegisteringStep(this.OrderInfo.currentlyRegistering)
+        this.OrderInfo.GetNextOrderRegisteringStep()
+
+        // this.OrderInfo.currentlyRegistering = GetNextOrderRegisteringStep(this.OrderInfo.currentlyRegistering)
 
         const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, this.SessionData, this.Customer)
 

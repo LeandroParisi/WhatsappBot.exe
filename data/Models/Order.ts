@@ -2,7 +2,8 @@ import IOrderInfo from "../Interfaces/IOrderInfo";
 import DaysUtils from "../../src/Shared/Utils/DaysUtils";
 import { v4 as uuid } from 'uuid';
 import Payload from "../../src/Domain/Flow/StepActions/DTOs/Payload";
-import { CurrentlyRegisteringOrder, CurrentlyRegisteringOrderValues } from "../Enums/CurrentlyRegisteringOrder";
+import { CurrentlyRegisteringOrder, CurrentlyRegisteringOrderValues, NextStep } from "../Enums/CurrentlyRegisteringOrder";
+import { CalculatedFares } from "../../src/Services/TaonBackend/Responses/CalculateFaresResponse";
 
 export default class Order implements IOrderInfo, Payload {
   _id : string; //
@@ -26,7 +27,10 @@ export default class Order implements IOrderInfo, Payload {
   dispatchTime : Date
   deliveryTime : Date
   createdAt: Date;
+
+  // Bot exclusive properties
   currentlyRegistering : CurrentlyRegisteringOrderValues
+  isEdit : boolean
 
   /**
    *
@@ -43,12 +47,33 @@ export default class Order implements IOrderInfo, Payload {
     this.branchId = branchId
     this.coupomId = undefined
     this.createdAt = DaysUtils.GetDateFromTimestamp(Date.now() / 1000)
+    this.isEdit = false
     // this.currentlyRegistering = CurrentlyRegisteringOrder.DELIVERY_TYPE
 
     // TODO: TEST
     this.deliveryTypeId = 1
     this.paymentMethodId = 1
     this.currentlyRegistering = CurrentlyRegisteringOrder.ADDRESS
+  }
+
+  UpdateFares(calculatedFares : CalculatedFares) {
+
+    const { deliveryFee, distanceInKm, estimatedDeliveryDuration, subTotal, totalPrice } = calculatedFares
+
+    this.deliveryFee = deliveryFee
+    this.estimatedDeliveryDuration = estimatedDeliveryDuration
+    this.subTotal = subTotal
+    this.totalPrice = totalPrice
+    this.distanceInKm = distanceInKm
+    this.GetNextOrderRegisteringStep()
+  }
+
+  GetNextOrderRegisteringStep() : void {
+    if (this.isEdit) {
+      this.currentlyRegistering = CurrentlyRegisteringOrder.FINISHED
+    } else {
+      this.currentlyRegistering = NextStep[this.currentlyRegistering]
+    }
   }
 }
 
@@ -105,3 +130,5 @@ export class OrderSQL implements IOrderInfo, Payload {
     return order
   }
 }
+
+

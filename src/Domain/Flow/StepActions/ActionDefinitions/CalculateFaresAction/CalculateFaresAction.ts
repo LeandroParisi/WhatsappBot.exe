@@ -8,7 +8,6 @@ import IStep, { StepNumbers } from "../../../Steps/Interfaces/IStep";
 import StepInfo from "../../../Steps/Messages/StepInfo";
 import ConfirmOrderStep from "../../../Steps/StepsDefinition/8_ConfirmOrder/ConfirmOrder";
 import BranchData from "../../../../../../data/DTOs/BranchData";
-import { GetNextOrderRegisteringStep } from "../../../../../../data/Enums/CurrentlyRegisteringOrder";
 import EnrichOrderStep from "../../../Steps/StepsDefinition/2.2_EnrichOrderStep/EnrichOrderStep";
 import { SessionData } from "../../../Startup/BotCore";
 import ActionsUtils from "../../../Utils/ActionsUtils";
@@ -22,28 +21,23 @@ export default class CalculateFaresAction implements IActionHandler<Order> {
     const taonRepository = Container.get(TaonRepository);
     const orderRepository = Container.get(OrderRepository);
 
+    console.log({payload})
+
     const orderSQL = new OrderSQL(payload)
 
-    const {
-      deliveryFee,
-      estimatedDeliveryDuration,
-      subTotal,
-      totalPrice,
-      distanceInKm
-    } = await taonRepository.CalculateFares(orderSQL)
+    const calculatedFares = await taonRepository.CalculateFares(orderSQL)
 
-    const updatedOrder = orderSQL.MapToMongo()
+    // const updatedOrder = orderSQL.MapToMongo()
 
-    updatedOrder.deliveryFee = deliveryFee
-    updatedOrder.estimatedDeliveryDuration = estimatedDeliveryDuration
-    updatedOrder.subTotal = subTotal
-    updatedOrder.totalPrice = totalPrice
-    updatedOrder.currentlyRegistering = GetNextOrderRegisteringStep(payload.currentlyRegistering)
-    updatedOrder.distanceInKm = distanceInKm
+    console.log({updatedOrderBeforeCopy: payload})
 
-    await orderRepository.UpdateOrder(updatedOrder)
+    payload.UpdateFares(calculatedFares)
 
-    const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(updatedOrder, sessionData, customer)
+    console.log({updatedOrderAfterCopy: payload})
+
+    await orderRepository.UpdateOrder(payload)
+
+    const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(payload, sessionData, customer)
 
     return new StepInfo(
       [

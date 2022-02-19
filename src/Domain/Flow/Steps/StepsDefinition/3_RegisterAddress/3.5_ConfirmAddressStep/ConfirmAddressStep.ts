@@ -8,10 +8,8 @@ import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler";
 import StepDefinition, { StepDefinitionArgs } from "../../../Interfaces/StepDefinition";
 import GenericParser from "../../../../../../Shared/Parsers/GenericParser";
 import CustomerAddress, { CurrentlyRegisteringAddress } from "../../../../../../../data/Models/CustomerAddress";
-import ConfirmOrderStep from "../../8_ConfirmOrder/ConfirmOrder";
 import EnrichOrderStep from "../../2.2_EnrichOrderStep/EnrichOrderStep";
 import ActionsUtils from "../../../../Utils/ActionsUtils";
-import { CurrentlyRegisteringOrder, GetNextOrderRegisteringStep } from "../../../../../../../data/Enums/CurrentlyRegisteringOrder";
 
 interface ValidationPayload {
   isValid : boolean,
@@ -99,7 +97,9 @@ export default class ConfirmAddressStep extends StepDefinition {
       )
     } else {
       this.OrderInfo.addressId = this.Address._id
-      this.OrderInfo.currentlyRegistering = GetNextOrderRegisteringStep(this.OrderInfo.currentlyRegistering)
+      this.OrderInfo.GetNextOrderRegisteringStep()
+
+      // this.OrderInfo.currentlyRegistering = GetNextOrderRegisteringStep(this.OrderInfo.currentlyRegistering)
 
       const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, this.SessionData, this.Customer)
 
