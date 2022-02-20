@@ -11,8 +11,8 @@ import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
 import SelectAddress from "../StepGenerators/SelectAddress";
 import StepDefinition, { StepDefinitionArgs } from "../../Interfaces/StepDefinition";
 import ConfirmOrderStep from "../8_ConfirmOrder/ConfirmOrder";
-import SelectCoupomStep from "./3.2.6_SelectCoupom/SelectCoupomStep";
-import SetCommentStep from "./3.2.5_SetComments/SetCommentStep";
+import SelectCoupomStep from "./3.2.5_SelectCoupom/SelectCoupomStep";
+import SetCommentStep from "./3.2.4_SetComments/SetCommentStep";
 import StepError from "../../../../Abstractions/Errors/StepError";
 import { CurrentlyRegisteringOrder } from "../../../../../../data/Enums/CurrentlyRegisteringOrder";
 
@@ -70,7 +70,7 @@ export default class EnrichOrderStep extends StepDefinition {
         [
           "Agora vamos calcular a taxa de entrega e já já damos continuidade ao pedido."
         ],
-        StepNumbers.enrichOrderStep,
+        undefined,
         [ActionsEnum.CALCULATE_FARES],
         [orderInfo]
       )

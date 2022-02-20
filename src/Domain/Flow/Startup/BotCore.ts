@@ -128,8 +128,6 @@ export default class BotCore {
 
   private async HandleStepAction(stepInfo: StepInfo, customer: Customer) {
     if (stepInfo.requiredAction && !!stepInfo.requiredAction.length) {
-
-
       for (var index = 0; index <= stepInfo.requiredAction.length - 1; index += 1) {
         const action = stepInfo.requiredAction[index]
         const actionHandler = ActionsFactory.Create(action)

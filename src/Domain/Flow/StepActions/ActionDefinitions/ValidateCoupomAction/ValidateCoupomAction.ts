@@ -8,7 +8,7 @@ import { SessionData } from "../../../Startup/BotCore";
 import ValidateCoupomBody from "../../../../../Services/TaonBackend/Requests/ValidateCoupomBody";
 import EnrichOrderStep from "../../../Steps/StepsDefinition/3.2_EnrichOrderStep/EnrichOrderStep";
 import ActionsUtils from "../../../Utils/ActionsUtils";
-import SelectCoupomStep from "../../../Steps/StepsDefinition/3.2_EnrichOrderStep/3.2.6_SelectCoupom/SelectCoupomStep";
+import SelectCoupomStep from "../../../Steps/StepsDefinition/3.2_EnrichOrderStep/3.2.5_SelectCoupom/SelectCoupomStep";
 import { StepNumbers } from "../../../Steps/Interfaces/IStep";
 
 export default class ValidateCoupomAction implements IActionHandler<ValidateCoupomDTO> {

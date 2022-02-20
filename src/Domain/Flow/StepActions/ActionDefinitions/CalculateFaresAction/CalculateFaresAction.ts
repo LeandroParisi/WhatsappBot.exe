@@ -21,19 +21,11 @@ export default class CalculateFaresAction implements IActionHandler<Order> {
     const taonRepository = Container.get(TaonRepository);
     const orderRepository = Container.get(OrderRepository);
 
-    console.log({payload})
-
     const orderSQL = new OrderSQL(payload)
 
     const calculatedFares = await taonRepository.CalculateFares(orderSQL)
 
-    // const updatedOrder = orderSQL.MapToMongo()
-
-    console.log({updatedOrderBeforeCopy: payload})
-
     payload.UpdateFares(calculatedFares)
-
-    console.log({updatedOrderAfterCopy: payload})
 
     await orderRepository.UpdateOrder(payload)
 

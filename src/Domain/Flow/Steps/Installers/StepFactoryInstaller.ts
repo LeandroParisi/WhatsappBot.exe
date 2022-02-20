@@ -6,8 +6,8 @@ import PromotionsStep from "../StepsDefinition/2.1_PromotionsStep/PromotionsStep
 import SelectDeliveryTypeStep from "../StepsDefinition/3.2_EnrichOrderStep/3.2.1_SelectDeliveryType/SelectDeliveryTypeStep";
 import SelectPaymentMethodStep from "../StepsDefinition/3.2_EnrichOrderStep/3.2.2_SelectPaymentMethod/SelectPaymentMethodStep";
 import SelectAddressStep from "../StepsDefinition/3.2_EnrichOrderStep/3.2.3_SelectAddress/SelectAddressStep";
-import SelectCoupomStep from "../StepsDefinition/3.2_EnrichOrderStep/3.2.6_SelectCoupom/SelectCoupomStep";
-import SetCommentStep from "../StepsDefinition/3.2_EnrichOrderStep/3.2.5_SetComments/SetCommentStep";
+import SelectCoupomStep from "../StepsDefinition/3.2_EnrichOrderStep/3.2.5_SelectCoupom/SelectCoupomStep";
+import SetCommentStep from "../StepsDefinition/3.2_EnrichOrderStep/3.2.4_SetComments/SetCommentStep";
 import EnrichOrderStep from "../StepsDefinition/3.2_EnrichOrderStep/EnrichOrderStep";
 import RegisterStateStep from "../StepsDefinition/4_RegisterAddress/4.2_RegisterState/RegisterStateStep";
 import RegisterCityStep from "../StepsDefinition/4_RegisterAddress/4.3_RegisterCity/RegisterCityStep";
