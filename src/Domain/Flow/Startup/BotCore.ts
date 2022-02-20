@@ -54,7 +54,7 @@ export default class BotCore {
       if (this.IsValidMessage(inboundMessage)) {
         const { stepInfo, customer } = await this.HandleMessage(inboundMessage)
 
-        await this.SessionHandler.UpdateClientStep(customer, stepInfo.nextStep)
+        if (stepInfo.nextStep) await this.SessionHandler.UpdateClientStep(customer, stepInfo.nextStep)
 
         await this.SendMessages(stepInfo.outboundMessages, customer)
         
@@ -69,8 +69,6 @@ export default class BotCore {
     const { 
       customer, 
     } = await this.MessageSetup(inboundMessage)
-
-    // const stepPayload = await this.PayloadFactory(customer, inboundMessage)
 
     const stepHandler = StepFactory.Create(customer.currentStep, {
       customer,
@@ -100,6 +98,12 @@ export default class BotCore {
       address = await this.AddressesRepository.GetClientAddresses(customer._id)
     }
 
+    console.log("\nINICIO DO FLUXO")
+    console.log({orderInfo})
+    console.log({address})
+    console.log('\n\n')
+
+
     stepHandler.Address = address
     stepHandler.OrderInfo = orderInfo
   }
@@ -125,7 +129,6 @@ export default class BotCore {
   private async HandleStepAction(stepInfo: StepInfo, customer: Customer) {
     if (stepInfo.requiredAction && !!stepInfo.requiredAction.length) {
 
-      console.log({actions: stepInfo.requiredAction })
 
       for (var index = 0; index <= stepInfo.requiredAction.length - 1; index += 1) {
         const action = stepInfo.requiredAction[index]
@@ -133,25 +136,11 @@ export default class BotCore {
         const postActionStep = await actionHandler
           .DispatchAction(stepInfo.actionPayload[index], customer, this.sessionData);
 
-        console.log({postActionStep})
         if (postActionStep) {
           await this.SendMessages(postActionStep.outboundMessages, customer)
           await this.SessionHandler.UpdateClientStep(customer, postActionStep.nextStep)
         }
       }
-
-      // stepInfo.requiredAction.forEach(
-      //   async (action : ActionsEnum, index : number) => {
-      //     const actionHandler = ActionsFactory.Create(action)
-      //     const postActionStep = await actionHandler
-      //       .DispatchAction(stepInfo.actionPayload[index], customer, this.sessionData);
-
-      //     console.log({postActionStep})
-      //     if (postActionStep) {
-      //       await this.SendMessages(postActionStep.outboundMessages, customer)
-      //       await this.SessionHandler.UpdateClientStep(customer, postActionStep.nextStep)
-      //     }
-      // })
     }
   }
 

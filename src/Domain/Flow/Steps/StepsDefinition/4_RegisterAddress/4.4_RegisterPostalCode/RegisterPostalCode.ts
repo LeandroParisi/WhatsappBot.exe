@@ -53,10 +53,6 @@ export default class RegisterPostalCode extends StepDefinition  {
     const selectedState = this.SessionData.inMemoryData.locations.TryGetStateByCode(this.cepInfo.stateCode)
     const selectedCity = this.SessionData.inMemoryData.locations.TryGetCityByName(this.cepInfo.cityName)
 
-    console.log({selectedState})
-    console.log({selectedCity})
-
-
     this.Address.stateId = selectedState.id
     this.Address.stateName = selectedState.stateName
 

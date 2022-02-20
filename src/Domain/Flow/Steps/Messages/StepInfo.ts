@@ -1,4 +1,4 @@
-import Payload from "../../StepActions/DTOs/Payload";
+import Payload from "../../StepActions/DTOs/Base/Payload";
 import { ActionsEnum } from "../../StepActions/Interfaces/IActionHandler";
 import IStepInfo from "./IStepInfo";
 
@@ -13,7 +13,7 @@ export default class StepInfo implements IStepInfo {
    */
   constructor(
     outboundMessages : string[],
-    nextStep : number,
+    nextStep? : number,
     requiredAction? : ActionsEnum[],
     actionPayload? : Payload[]
   ) {

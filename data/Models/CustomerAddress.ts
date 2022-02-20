@@ -1,4 +1,4 @@
-import Payload from "../../src/Domain/Flow/StepActions/DTOs/Payload";
+import Payload from "../../src/Domain/Flow/StepActions/DTOs/Base/Payload";
 import { v4 as uuid } from "uuid";
 
 export enum AddressStatusEnum {

@@ -15,7 +15,8 @@ import GenericParser from "../../../../../Shared/Parsers/GenericParser"
 import { OrderConfirmationAnswers, OrderConfirmationOptions, OrderConfirmationOptionsValues, OrderConfirmationPossibleEdits, OrderConfirmationPossibleEditsValues, OrderOptionsTranslation, ValidationPayload } from "./Enums"
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler"
 import { CurrentlyRegisteringOrder } from "../../../../../../data/Enums/CurrentlyRegisteringOrder"
-import EnrichOrderStep from "../2.2_EnrichOrderStep/EnrichOrderStep"
+import EnrichOrderStep from "../3.2_EnrichOrderStep/EnrichOrderStep"
+import ActionsUtils from "../../../Utils/ActionsUtils"
 
 
 
@@ -41,8 +42,6 @@ export default class ConfirmOrderStep extends StepDefinition implements IOptions
     const validationPayload = this.ValidateAnswer()
 
     return this.GenerateAnswer(validationPayload)
-
-    throw new Error()
   }
 
   private GenerateAnswer(validationPayload: ValidationPayload): StepInfo  {
@@ -100,10 +99,12 @@ export default class ConfirmOrderStep extends StepDefinition implements IOptions
 
     const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, this.SessionData, this.Customer)
 
-    nextStep.requiredAction.unshift(ActionsEnum.UPDATE_ORDER)
-    nextStep.actionPayload.unshift(this.OrderInfo)
-
-    return nextStep
+    return new StepInfo(
+      nextStep.outboundMessages,
+      nextStep.nextStep,
+      [ActionsEnum.UPDATE_ORDER, ...ActionsUtils.ExtractActions(nextStep)],
+      [this.OrderInfo, ...ActionsUtils.ExtractActionsPayload(nextStep)]
+    )
   }
 
   public static GenerateConfirmationMessage(
@@ -150,18 +151,18 @@ export default class ConfirmOrderStep extends StepDefinition implements IOptions
           {price:orderInfo.totalPrice , decimal: true}
         )}`,
 
-        'Você pode editar as seguintes opções:',
-        ...ConfirmOrderStep.GetEditOptions(),
+        `Você pode editar as seguintes opções: ${ConfirmOrderStep.GetEditOptions()}`,
         'Para editar basta digitar o número correspondente',
         `Ou, se estiver tudo ok, digite *${OrderConfirmationAnswers.OK}* para finalizarmos seu pedido`,
     ]
   }
 
-  static GetEditOptions() {
+  static GetEditOptions() : string {
     const possibleEditsNumbers = Object.values(OrderConfirmationPossibleEdits)
 
     return possibleEditsNumbers
-      .map((optionNumber : number) => `${optionNumber}. ${OrderOptionsTranslation[optionNumber as OrderConfirmationOptionsValues]}`)
+      .map((optionNumber : number) => `*${OrderOptionsTranslation[optionNumber as OrderConfirmationOptionsValues]}*`)
+      .join(', ')
   }
 
   private ValidateAnswer() : ValidationPayload {
@@ -171,11 +172,6 @@ export default class ConfirmOrderStep extends StepDefinition implements IOptions
       && Validations.IsNumber(this.Answer)
 
     const isConfirmation = formattedAnswer.toUpperCase() === OrderConfirmationAnswers.OK
-
-    console.log({formattedAnswer})
-    console.log({isEdit})
-    console.log({isConfirmation})
-
 
     if (!isEdit && !isConfirmation) {
       return { isValid: false}

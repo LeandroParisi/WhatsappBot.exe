@@ -23,4 +23,15 @@ export const NextStep = {
 export type NextStepKeys = keyof typeof NextStep;
 export type NextStepValues = typeof NextStep[NextStepKeys];
 
+export const NextEditStep = {
+  [CurrentlyRegisteringOrder.DELIVERY_TYPE]: CurrentlyRegisteringOrder.DELIVERY_FEE,
+  [CurrentlyRegisteringOrder.PAYMENT_METHOD]: CurrentlyRegisteringOrder.FINISHED,
+  [CurrentlyRegisteringOrder.ADDRESS]: CurrentlyRegisteringOrder.DELIVERY_FEE,
+  [CurrentlyRegisteringOrder.DELIVERY_FEE]: CurrentlyRegisteringOrder.FINISHED,
+  [CurrentlyRegisteringOrder.COMMENTS]: CurrentlyRegisteringOrder.FINISHED,
+}
+
+export type NextEditStepKeys = keyof typeof NextEditStep;
+export type NextEditStepValues = typeof NextEditStep[NextEditStepKeys];
+
 // export const GetNextOrderRegisteringStep = (currentRegistering : CurrentlyRegisteringOrderValues) => NextStep[currentRegistering]

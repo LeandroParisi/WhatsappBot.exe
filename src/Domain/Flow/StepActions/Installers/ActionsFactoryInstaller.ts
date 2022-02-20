@@ -7,6 +7,7 @@ import SaveAddressAction from "../ActionDefinitions/SaveAddress/SaveAddressActio
 import SendOrderAction from "../ActionDefinitions/SendOrderAction/SendOrderAction";
 import UpdateAddressAction from "../ActionDefinitions/UpdateAddressAction/UpdateAddressAction";
 import UpdateOrderAction from "../ActionDefinitions/UpdateOrderAction/UpdateOrderAction";
+import ValidateCoupomAction from "../ActionDefinitions/ValidateCoupomAction/ValidateCoupomAction";
 
 @staticImplements<IInstaller>()
 export default class ActionsFactoryInstaller  {
@@ -17,5 +18,6 @@ export default class ActionsFactoryInstaller  {
     ActionsFactory.RegisterAction(new UpdateAddressAction())
     ActionsFactory.RegisterAction(new SaveAddressAction())
     ActionsFactory.RegisterAction(new CalculateFaresAction())
+    ActionsFactory.RegisterAction(new ValidateCoupomAction())
   }
 }

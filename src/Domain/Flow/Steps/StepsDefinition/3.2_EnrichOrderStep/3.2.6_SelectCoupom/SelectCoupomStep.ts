@@ -5,6 +5,7 @@ import ValidateCoupomBody from "../../../../../../Services/TaonBackend/Requests/
 import TaonRepository from "../../../../../../Services/TaonBackend/TaonRepository"
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements"
 import GenericParser from "../../../../../../Shared/Parsers/GenericParser"
+import ValidateCoupomDTO from "../../../../StepActions/DTOs/ValidateCoupomDTO"
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler"
 import ActionsUtils from "../../../../Utils/ActionsUtils"
 import IStep, { IIntroMessages, IOptionsAnswer, IStepOptions, StepNumbers } from "../../../Interfaces/IStep"
@@ -42,7 +43,14 @@ export default class SelectCoupomStep extends StepDefinition implements IOptions
     const isCoupomSelected = this.ValidateAnswer()
 
     if (isCoupomSelected) {
-      return await this.VerifyCoupom()
+      return new StepInfo(
+        [
+          "Perfeito, favor aguardar enquanto valido este cupom.",
+        ],
+        undefined,
+        [ActionsEnum.VALIDATE_COUPOM],
+        [new ValidateCoupomDTO(this.OrderInfo, this.formattedAnswer)]
+      )
     } else {
       this.OrderInfo.GetNextOrderRegisteringStep()
 
@@ -63,7 +71,7 @@ export default class SelectCoupomStep extends StepDefinition implements IOptions
 
   private async VerifyCoupom(): Promise<StepInfo> {
     const taonRepository = Container.get(TaonRepository)
-    const body : ValidateCoupomBody = {distanceInKm: this.OrderInfo.distanceInKm, subTotal: this.OrderInfo.subTotal} 
+    const body : ValidateCoupomBody = { distanceInKm: this.OrderInfo.distanceInKm, subTotal: this.OrderInfo.subTotal} 
     const { 
       isValid, id, validationMessages, freeDelivery
     } = await taonRepository.VerifyCoupomValidity(this.formattedAnswer, this.SessionData.branchData.id, body)

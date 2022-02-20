@@ -11,8 +11,8 @@ import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
 import SelectAddress from "../StepGenerators/SelectAddress";
 import StepDefinition, { StepDefinitionArgs } from "../../Interfaces/StepDefinition";
 import ConfirmOrderStep from "../8_ConfirmOrder/ConfirmOrder";
-import SelectCoupomStep from "./2.2.6_SelectCoupom/SelectCoupomStep";
-import SetCommentStep from "./2.2.5_SetComments/SetCommentStep";
+import SelectCoupomStep from "./3.2.6_SelectCoupom/SelectCoupomStep";
+import SetCommentStep from "./3.2.5_SetComments/SetCommentStep";
 import StepError from "../../../../Abstractions/Errors/StepError";
 import { CurrentlyRegisteringOrder } from "../../../../../../data/Enums/CurrentlyRegisteringOrder";
 

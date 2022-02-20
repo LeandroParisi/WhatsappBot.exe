@@ -1,4 +1,4 @@
-import Payload from "../StepActions/DTOs/Payload";
+import Payload from "../StepActions/DTOs/Base/Payload";
 import { ActionsEnum } from "../StepActions/Interfaces/IActionHandler";
 import StepInfo from "../Steps/Messages/StepInfo";
 

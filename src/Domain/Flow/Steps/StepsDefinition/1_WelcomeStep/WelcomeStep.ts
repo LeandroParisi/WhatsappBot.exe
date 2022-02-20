@@ -11,19 +11,14 @@ import Order from "../../../../../../data/Models/Order";
 import CustomerAddress from "../../../../../../data/Models/CustomerAddress";
 
 @staticImplements<IStep>()
-@staticImplements<IStepOptions>()
 export default class WelcomeStep extends StepDefinition {
   static STEP_NUMBER = StepNumbers.welcomeStep
-  static ADDRESS_STEP = true
-  static ORDER_STEP = true
 
   /**
    *
    */
   constructor(stepDefinitionArgs : StepDefinitionArgs) {
     super(stepDefinitionArgs);
-    this.ADDRESS_STEP = WelcomeStep.ADDRESS_STEP
-    this.ORDER_STEP = WelcomeStep.ORDER_STEP
   }
 
   public async Interact() : Promise<StepInfo> {

@@ -1,5 +1,5 @@
 import staticImplements from "../../../../../Shared/Anotations/staticImplements";
-import Payload from "../../DTOs/Payload";
+import Payload from "../../DTOs/Base/Payload";
 import IActionHandler, { ActionsEnum } from "../../Interfaces/IActionHandler";
 import { Dictionary } from "../../../../../Shared/Utils/SystemUtils";
 

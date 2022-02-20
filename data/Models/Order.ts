@@ -1,8 +1,8 @@
 import IOrderInfo from "../Interfaces/IOrderInfo";
 import DaysUtils from "../../src/Shared/Utils/DaysUtils";
 import { v4 as uuid } from 'uuid';
-import Payload from "../../src/Domain/Flow/StepActions/DTOs/Payload";
-import { CurrentlyRegisteringOrder, CurrentlyRegisteringOrderValues, NextStep } from "../Enums/CurrentlyRegisteringOrder";
+import Payload from "../../src/Domain/Flow/StepActions/DTOs/Base/Payload";
+import { CurrentlyRegisteringOrder, CurrentlyRegisteringOrderValues, NextEditStep, NextStep } from "../Enums/CurrentlyRegisteringOrder";
 import { CalculatedFares } from "../../src/Services/TaonBackend/Responses/CalculateFaresResponse";
 
 export default class Order implements IOrderInfo, Payload {
@@ -57,24 +57,35 @@ export default class Order implements IOrderInfo, Payload {
   }
 
   UpdateFares(calculatedFares : CalculatedFares) {
-
     const { deliveryFee, distanceInKm, estimatedDeliveryDuration, subTotal, totalPrice } = calculatedFares
 
-    this.deliveryFee = deliveryFee
     this.estimatedDeliveryDuration = estimatedDeliveryDuration
     this.subTotal = subTotal
-    this.totalPrice = totalPrice
     this.distanceInKm = distanceInKm
+    this.totalPrice = totalPrice
+
+    if (this.freeDelivery) {
+      this.deliveryFee = 0
+      this.totalPrice -= deliveryFee
+    } else {
+      this.deliveryFee = deliveryFee
+    }
+
     this.GetNextOrderRegisteringStep()
   }
 
   GetNextOrderRegisteringStep() : void {
+    console.log({before: this.currentlyRegistering})
     if (this.isEdit) {
-      this.currentlyRegistering = CurrentlyRegisteringOrder.FINISHED
+      this.currentlyRegistering = NextEditStep[this.currentlyRegistering]
     } else {
       this.currentlyRegistering = NextStep[this.currentlyRegistering]
     }
+    console.log({after: this.currentlyRegistering})
+
   }
+
+
 }
 
 export class OrderSQL implements IOrderInfo, Payload {
@@ -129,6 +140,31 @@ export class OrderSQL implements IOrderInfo, Payload {
   
     return order
   }
+}
+
+export function CreateOrder(order : Order) : Order {
+  const createdOrder = new Order(order.customerId, order.branchId, order.promotionId, order._id)
+  createdOrder.addressId = order.addressId
+  createdOrder.orderNumber = order.orderNumber
+  createdOrder.subTotal = order.subTotal
+  createdOrder.deliveryTypeId = order.deliveryTypeId
+  createdOrder.deliveryFee = order.deliveryFee
+  createdOrder.paymentMethodId = order.paymentMethodId
+  createdOrder.discount = order.discount
+  createdOrder.totalPrice = order.totalPrice
+  createdOrder.status = order.status
+  createdOrder.coupomId = order.coupomId
+  createdOrder.estimatedDeliveryDuration = order.estimatedDeliveryDuration
+  createdOrder.distanceInKm= order.distanceInKm
+  createdOrder.freeDelivery= order.freeDelivery
+  createdOrder.comments = order.comments
+  createdOrder.dispatchTime = order.dispatchTime
+  createdOrder.deliveryTime = order.deliveryTime
+  createdOrder.createdAt= order.createdAt
+  createdOrder.currentlyRegistering= order.currentlyRegistering
+  createdOrder.isEdit= order.isEdit
+
+  return createdOrder
 }
 
 

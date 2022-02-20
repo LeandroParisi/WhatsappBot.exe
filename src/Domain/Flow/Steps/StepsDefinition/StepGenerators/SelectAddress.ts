@@ -6,8 +6,8 @@ import IStep, { StepNumbers } from "../../Interfaces/IStep";
 import IStepInfo from "../../Messages/IStepInfo";
 import StepInfo from "../../Messages/StepInfo";
 import MainMenu from "../10_MainMenu/MainMenu";
-import { AddressPossibleAnswers } from "../2.2_EnrichOrderStep/2.2.3_SelectAddress/SelectAddressStep";
-import RegisterAddressStep from "../3_RegisterAddress/RegisterAddressStep";
+import { AddressPossibleAnswers } from "../3.2_EnrichOrderStep/3.2.3_SelectAddress/SelectAddressStep";
+import RegisterAddressStep from "../4_RegisterAddress/RegisterAddressStep";
 import { SessionData } from "../../../Startup/BotCore";
 import MemoryData from "../../../../../../data/DTOs/MemoryData/MemoryData";
 

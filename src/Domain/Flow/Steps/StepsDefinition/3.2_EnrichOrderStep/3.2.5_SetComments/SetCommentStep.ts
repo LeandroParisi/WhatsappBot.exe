@@ -35,13 +35,10 @@ export default class SetCommentStep extends StepDefinition implements IOptionsAn
 
     this.OrderInfo.GetNextOrderRegisteringStep()
 
-
-    // this.OrderInfo.currentlyRegistering = GetNextOrderRegisteringStep(this.OrderInfo.currentlyRegistering)
-
     if (hasComment) {
       this.OrderInfo.comments = this.formattedAnswer as string
 
-      const nextStep = await EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, this.SessionData, this.Customer)
+      const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, this.SessionData, this.Customer)
       return new StepInfo(
         [
           'Perfeito! Seu comentário foi adicionado no pedido.',
@@ -53,7 +50,7 @@ export default class SetCommentStep extends StepDefinition implements IOptionsAn
       )
     }
 
-    const nextStep = await EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, this.SessionData, this.Customer)
+    const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, this.SessionData, this.Customer)
     return new StepInfo(
       [
         'Perfeito! Seu pedido será feito sem nenhum comentário',

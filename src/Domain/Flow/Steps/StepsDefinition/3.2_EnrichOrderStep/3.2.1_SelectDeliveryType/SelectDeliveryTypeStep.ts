@@ -36,8 +36,6 @@ export default class SelectDeliveryTypeStep extends StepDefinition {
 
         this.OrderInfo.GetNextOrderRegisteringStep()
 
-        // this.OrderInfo.currentlyRegistering = GetNextOrderRegisteringStep(this.OrderInfo.currentlyRegistering)
-
         const nextStep = EnrichOrderStep.ExtractMissingOrderInfo(this.OrderInfo, this.SessionData, this.Customer)
 
         return new StepInfo(

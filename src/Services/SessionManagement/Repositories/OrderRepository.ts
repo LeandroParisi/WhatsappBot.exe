@@ -2,7 +2,7 @@ import Datastore = require("nedb-promises");
 import { Service } from "typedi";
 import IOrderInfo from "../../../../data/Interfaces/IOrderInfo";
 import Customer from "../../../../data/Models/Customer";
-import Order from "../../../../data/Models/Order";
+import Order, { CreateOrder } from "../../../../data/Models/Order";
 import SessionDataDbs from '../config'
 
 @Service()
@@ -20,7 +20,8 @@ export default class OrderRepository {
 
   async GetClientOrders(customerId : string) : Promise<Order> {
     const order = await this.orderDb.findOne({ customerId })
-    return order as Order;
+
+    return CreateOrder(order as Order)
   }
 
   async UpdateOrder(order : Order) : Promise<number> {

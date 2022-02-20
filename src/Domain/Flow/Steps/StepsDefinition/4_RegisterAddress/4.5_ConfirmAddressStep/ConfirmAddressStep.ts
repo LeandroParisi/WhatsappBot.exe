@@ -8,7 +8,7 @@ import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler";
 import StepDefinition, { StepDefinitionArgs } from "../../../Interfaces/StepDefinition";
 import GenericParser from "../../../../../../Shared/Parsers/GenericParser";
 import CustomerAddress, { CurrentlyRegisteringAddress } from "../../../../../../../data/Models/CustomerAddress";
-import EnrichOrderStep from "../../2.2_EnrichOrderStep/EnrichOrderStep";
+import EnrichOrderStep from "../../3.2_EnrichOrderStep/EnrichOrderStep";
 import ActionsUtils from "../../../../Utils/ActionsUtils";
 
 interface ValidationPayload {

@@ -8,7 +8,7 @@ import IStep, { StepNumbers } from "../../../Steps/Interfaces/IStep";
 import StepInfo from "../../../Steps/Messages/StepInfo";
 import ConfirmOrderStep from "../../../Steps/StepsDefinition/8_ConfirmOrder/ConfirmOrder";
 import BranchData from "../../../../../../data/DTOs/BranchData";
-import EnrichOrderStep from "../../../Steps/StepsDefinition/2.2_EnrichOrderStep/EnrichOrderStep";
+import EnrichOrderStep from "../../../Steps/StepsDefinition/3.2_EnrichOrderStep/EnrichOrderStep";
 import { SessionData } from "../../../Startup/BotCore";
 import ActionsUtils from "../../../Utils/ActionsUtils";
 
@@ -17,7 +17,7 @@ export default class CalculateFaresAction implements IActionHandler<Order> {
   actionName = ActionsEnum.CALCULATE_FARES;
   
   async DispatchAction(payload: Order, customer: Customer, sessionData : SessionData): Promise<StepInfo> {
-    console.log('calculate fares action')
+    console.log('CALCULATE FARES ACTION')
     const taonRepository = Container.get(TaonRepository);
     const orderRepository = Container.get(OrderRepository);
 
