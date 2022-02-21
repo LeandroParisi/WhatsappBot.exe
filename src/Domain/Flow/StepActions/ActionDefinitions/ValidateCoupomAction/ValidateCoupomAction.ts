@@ -30,6 +30,7 @@ export default class ValidateCoupomAction implements IActionHandler<ValidateCoup
 
     if (isValid) {
       order.coupomId = id
+      order.coupomCode = coupomCode
       order.GetNextOrderRegisteringStep()
 
       order.freeDelivery = freeDelivery

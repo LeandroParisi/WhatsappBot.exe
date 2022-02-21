@@ -29,6 +29,8 @@ export const NextEditStep = {
   [CurrentlyRegisteringOrder.ADDRESS]: CurrentlyRegisteringOrder.DELIVERY_FEE,
   [CurrentlyRegisteringOrder.DELIVERY_FEE]: CurrentlyRegisteringOrder.FINISHED,
   [CurrentlyRegisteringOrder.COMMENTS]: CurrentlyRegisteringOrder.FINISHED,
+  [CurrentlyRegisteringOrder.COUPOM]: CurrentlyRegisteringOrder.FINISHED,
+
 }
 
 export type NextEditStepKeys = keyof typeof NextEditStep;

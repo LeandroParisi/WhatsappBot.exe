@@ -137,8 +137,9 @@ export default class BotCore {
           .DispatchAction(stepInfo.actionPayload[index], customer, this.sessionData)
 
         if (postActionStep) {
+          if (postActionStep.nextStep) await this.SessionHandler.UpdateClientStep(customer, postActionStep.nextStep)
           await this.SendMessages(postActionStep.outboundMessages, customer)
-          await this.SessionHandler.UpdateClientStep(customer, postActionStep.nextStep)
+          await this.HandleStepAction(postActionStep, customer)
         }
       }
     }

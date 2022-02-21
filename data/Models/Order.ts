@@ -18,9 +18,6 @@ export default class Order implements IOrderInfo, Payload {
   orderNumber : number //
   subTotal : number
   deliveryTypeId? : number //
-
-
-
   deliveryFee : number
   paymentMethodId? : number //
   discount : number
@@ -39,6 +36,7 @@ export default class Order implements IOrderInfo, Payload {
   // Bot exclusive properties
   currentlyRegistering : CurrentlyRegisteringOrderValues
   isEdit : boolean
+  coupomCode? : string
 
   /**
    *
@@ -71,15 +69,7 @@ export default class Order implements IOrderInfo, Payload {
     this.subTotal = subTotal
     this.distanceInKm = distanceInKm
     this.totalPrice = totalPrice
-
-    if (this.freeDelivery) {
-      this.deliveryFee = 0
-      this.totalPrice -= deliveryFee
-    } else {
-      this.deliveryFee = deliveryFee
-    }
-
-    this.GetNextOrderRegisteringStep()
+    this.deliveryFee = deliveryFee
   }
 
   GetNextOrderRegisteringStep() : void {
@@ -171,6 +161,8 @@ export function CreateOrder(order : Order) : Order {
   createdOrder.createdAt= order.createdAt
   createdOrder.currentlyRegistering= order.currentlyRegistering
   createdOrder.isEdit= order.isEdit
+  createdOrder.coupomCode= order.coupomCode
+
 
   return createdOrder
 }

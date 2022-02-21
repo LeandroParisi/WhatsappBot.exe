@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import 'reflect-metadata'
 import Container from 'typedi'
 import BotCore from './src/Domain/Flow/Startup/BotCore'
 import BotStartup from './src/Domain/Flow/Startup/BotStartup'
-import venom from 'venom-bot'
+const venom = require('venom-bot')
 
 class Main {
   BotCore : BotCore
@@ -39,7 +40,6 @@ class Main {
       // mkdirFolderToken: '/node_modules', //folder directory tokens, just inside the venom folder, example:  { mkdirFolderToken: '/node_modules', } //will save the tokens folder in the node_modules directory,
       headless: false, // Headless chrome
       useChrome: true,
-
     })
     return bot  
   }
