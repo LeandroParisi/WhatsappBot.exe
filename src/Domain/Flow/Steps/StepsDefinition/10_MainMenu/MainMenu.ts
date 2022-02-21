@@ -1,14 +1,13 @@
-import Config from "../../../../../config";
-import { PromotionsInformation } from "../../../../../../data/DTOs/BranchData";
-import staticImplements from "../../../../../Shared/Anotations/staticImplements";
-import MessageUtils from "../../../../MessageFactories/AddressMessageFactory";
-import IStep, { StepNumbers } from "../../Interfaces/IStep";
-import StepInfo from "../../Messages/StepInfo";
-import ClosingStep from "../9_ClosingStep/ClosingStep";
-import PromotionsSelectionStep from "../StepGenerators/PromotionsSelectionStep";
-import StepError from "../../../../Abstractions/Errors/StepError";
-import StepDefinition from "../../Interfaces/StepDefinition";
-import GenericParser from "../../../../../Shared/Parsers/GenericParser";
+import Config from "../../../../../config"
+import { PromotionsInformation } from "../../../../../../data/DTOs/BranchData"
+import staticImplements from "../../../../../Shared/Anotations/staticImplements"
+import IStep, { StepNumbers } from "../../Interfaces/IStep"
+import StepInfo from "../../Messages/StepInfo"
+import ClosingStep from "../9_ClosingStep/ClosingStep"
+import PromotionsSelectionStep from "../StepGenerators/PromotionsSelectionStep"
+import StepError from "../../../../Abstractions/Errors/StepError"
+import StepDefinition from "../../Interfaces/StepDefinition"
+import GenericParser from "../../../../../Shared/Parsers/GenericParser"
 
 const options = [
   '1. Fazer pedido',

@@ -1,4 +1,3 @@
-import staticImplements from "../Anotations/staticImplements";
 
 export enum PaymentMethodTranslation {
   money = 'Dinheiro',

@@ -1,22 +1,22 @@
 import { Service } from "typedi"
 // import { Message } from "venom-bot";
-import BranchData, { City, Country, State } from "../../../data/DTOs/BranchData";
-import CustomerInfo, { CustomerInfoSql } from "../../../data/DTOs/CustomerInfo";
-import LoginData from "../../../data/Interfaces/LoginData";
-import Customer from "../../../data/Models/Customer";
-import CustomerAddress, { CustomerAddressSQL } from "../../../data/Models/CustomerAddress";
-import Api from "../Shared/api";
-import Config from "../../config";
-import { LoginDataResponse } from "./Responses/LoginDataResponse";
-import BotInitialLoadResponse from "./Responses/BotInitialLoadResponse";
-import Locations from "../../../data/DTOs/MemoryData/SubClasses/Locations";
-import LocationsResponse from "./Responses/LocationsResponse";
-import CheckCustomerResponse from "./Responses/CheckCustomerResponse";
-import METHODS from "../Shared/methods";
-import ValidatedCoupom, { IsCoupomValidResponse } from "./Responses/IsCoupomValidResponse";
-import Order, { OrderSQL } from "../../../data/Models/Order";
-import CalculateFaresResponse, { CalculatedFares } from "./Responses/CalculateFaresResponse";
-import ValidateCoupomBody from "./Requests/ValidateCoupomBody";
+import BranchData from "../../../data/DTOs/BranchData"
+import { CustomerInfoSql } from "../../../data/DTOs/CustomerInfo"
+import LoginData from "../../../data/Interfaces/LoginData"
+import Customer from "../../../data/Models/Customer"
+import { CustomerAddressSQL } from "../../../data/Models/CustomerAddress"
+import Api from "../Shared/api"
+import Config from "../../config"
+import { LoginDataResponse } from "./Responses/LoginDataResponse"
+import BotInitialLoadResponse from "./Responses/BotInitialLoadResponse"
+import Locations from "../../../data/DTOs/MemoryData/SubClasses/Locations"
+import LocationsResponse from "./Responses/LocationsResponse"
+import CheckCustomerResponse from "./Responses/CheckCustomerResponse"
+import METHODS from "../Shared/methods"
+import ValidatedCoupom, { IsCoupomValidResponse } from "./Responses/IsCoupomValidResponse"
+import { OrderSQL } from "../../../data/Models/Order"
+import CalculateFaresResponse, { CalculatedFares } from "./Responses/CalculateFaresResponse"
+import ValidateCoupomBody from "./Requests/ValidateCoupomBody"
 
 @Service()
 export default class TaonRepository {

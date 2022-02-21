@@ -34,7 +34,7 @@ export default class SelectCoupomStep extends StepDefinition implements IOptions
    *
    */
   constructor(stepDefinitionArgs : StepDefinitionArgs) {
-    super(stepDefinitionArgs);
+    super(stepDefinitionArgs)
     this.ORDER_STEP = SelectCoupomStep.ORDER_STEP
     this.ADDRESS_STEP = SelectCoupomStep.ADDRESS_STEP
   }

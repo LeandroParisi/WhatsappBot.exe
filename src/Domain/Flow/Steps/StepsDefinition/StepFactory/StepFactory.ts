@@ -1,9 +1,8 @@
-import { Message } from "venom-bot";
-import staticImplements from "../../../../../Shared/Anotations/staticImplements";
-import IStep, { StepNumbers} from "../../Interfaces/IStep";
-import StepInfo from "../../Messages/StepInfo";
-import { Dictionary } from "../../../../../Shared/Utils/SystemUtils";
-import StepDefinition, { StepDefinitionArgs } from "../../Interfaces/StepDefinition";
+import staticImplements from "../../../../../Shared/Anotations/staticImplements"
+import IStep, { StepNumbers} from "../../Interfaces/IStep"
+import StepInfo from "../../Messages/StepInfo"
+import { Dictionary } from "../../../../../Shared/Utils/SystemUtils"
+import StepDefinition, { StepDefinitionArgs } from "../../Interfaces/StepDefinition"
 
 @staticImplements()
 export default class StepFactory {

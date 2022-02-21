@@ -1,10 +1,10 @@
-import staticImplements from "../../../../../../Shared/Anotations/staticImplements";
-import GenericParser from "../../../../../../Shared/Parsers/GenericParser";
-import Validations from "../../../../Utils/Validations";
-import IStep, { IOptionsAnswer, IStepOptions, StepNumbers } from "../../../Interfaces/IStep";
-import StepDefinition, { StepDefinitionArgs } from "../../../Interfaces/StepDefinition";
-import StepInfo from "../../../Messages/StepInfo";
-import RegisterAddressStep from "../RegisterAddressStep";
+import staticImplements from "../../../../../../Shared/Anotations/staticImplements"
+import GenericParser from "../../../../../../Shared/Parsers/GenericParser"
+import Validations from "../../../../Utils/Validations"
+import IStep, { IOptionsAnswer, IStepOptions, StepNumbers } from "../../../Interfaces/IStep"
+import StepDefinition, { StepDefinitionArgs } from "../../../Interfaces/StepDefinition"
+import StepInfo from "../../../Messages/StepInfo"
+import RegisterAddressStep from "../RegisterAddressStep"
 
 @staticImplements<IStep>()
 @staticImplements<IStepOptions>()
@@ -18,7 +18,7 @@ export default class RegisterStateStep extends StepDefinition implements IOption
   *
   */
    constructor(stepDefinitionArgs : StepDefinitionArgs) {
-    super(stepDefinitionArgs);
+    super(stepDefinitionArgs)
     this.ADDRESS_STEP = RegisterStateStep.ADDRESS_STEP
     this.ORDER_STEP = RegisterStateStep.ORDER_STEP
   }

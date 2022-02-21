@@ -1,16 +1,13 @@
-import { Service } from "typedi";
-import { Message } from "venom-bot";
-import Config from "../../../config";
-import CustomerInfo from "../../../../data/DTOs/CustomerInfo";
-import CustomerTemplateMessages from "../../../../data/DTOs/CustomerTemplateMessages";
-import Customer from "../../../../data/Models/Customer";
-import CustomerTemplateMessagesFactory from "../../../Domain/MessageFactories/CustomerTemplateMessagesFactory";
-import DaysUtils from "../../../Shared/Utils/DaysUtils";
-import TaonRepository from "../../TaonBackend/TaonRepository";
-import CustomerRepository from '../Repositories/CustomerRepository';
-import OrderRepository from "../Repositories/OrderRepository";
-import AddressesRepository from "../Repositories/AddressesRepository";
-import CustomerAddress from "../../../../data/Models/CustomerAddress";
+import { Service } from "typedi"
+import { Message } from "venom-bot"
+import Config from "../../../config"
+import CustomerTemplateMessages from "../../../../data/DTOs/CustomerTemplateMessages"
+import Customer from "../../../../data/Models/Customer"
+import CustomerTemplateMessagesFactory from "../../../Domain/MessageFactories/CustomerTemplateMessagesFactory"
+import DaysUtils from "../../../Shared/Utils/DaysUtils"
+import TaonRepository from "../../TaonBackend/TaonRepository"
+import CustomerRepository from '../Repositories/CustomerRepository'
+import CustomerAddress from "../../../../data/Models/CustomerAddress"
 
 @Service()
 export default class SessionHandler {
@@ -21,11 +18,11 @@ export default class SessionHandler {
   }
 
   async CheckIn(message: Message) : Promise<Customer> {
-    const foundCustomer = await this.CustomerRepository.GetClientByNumber(message.from);
+    const foundCustomer = await this.CustomerRepository.GetClientByNumber(message.from)
 
-    if (foundCustomer) return foundCustomer;
+    if (foundCustomer) return foundCustomer
 
-    const customer = new Customer(message);
+    const customer = new Customer(message)
 
     const customerInfo = await this.TaonRepository.CheckCustomerInfo(customer, message)
 
@@ -36,11 +33,11 @@ export default class SessionHandler {
 
     await this.CustomerRepository.InsertCustomer(customer)
 
-    return customer;
+    return customer
   }
 
   static GenerateTemplateMessages(customerAddresses : Array<CustomerAddress>): CustomerTemplateMessages {
-    var addresses = CustomerTemplateMessagesFactory.GenerateAddressMessage(customerAddresses)
+    const addresses = CustomerTemplateMessagesFactory.GenerateAddressMessage(customerAddresses)
     
     return {
       addresses
@@ -71,7 +68,7 @@ export default class SessionHandler {
       ]
     }
 
-    const invalidSessions = await this.CustomerRepository.FindAll(findQuery);
+    const invalidSessions = await this.CustomerRepository.FindAll(findQuery)
 
     const deleteQuery = {
       _id: { $in: invalidSessions.map((client : Customer) => client._id)}
@@ -84,12 +81,12 @@ export default class SessionHandler {
   // eslint-disable-next-line class-methods-use-this
   async ErrorCatcher(callback: () => any) {
     try {
-      const result = await callback();
-      return result;
+      const result = await callback()
+      return result
     } catch (error) {
       // No need to treat error since it's already beeing treated
       // on config/database.onError event listener
-      return null;
+      return null
     }
   }
 }

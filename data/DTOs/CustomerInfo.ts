@@ -1,4 +1,4 @@
-import CustomerAddress, { AddressStatusEnum, CurrentlyRegisteringAddress, CustomerAddressSQL } from "../Models/CustomerAddress";
+import CustomerAddress, { AddressStatusEnum, CurrentlyRegisteringAddress, CustomerAddressSQL } from "../Models/CustomerAddress"
 
 export default interface CustomerInfo {
   whatsappNumber : string

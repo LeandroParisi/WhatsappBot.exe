@@ -1,5 +1,5 @@
-import { City, Country, State } from "../../../data/DTOs/BranchData";
-import CustomerAddress from "../../../data/Models/CustomerAddress";
+import { City, Country, State } from "../../../data/DTOs/BranchData"
+import CustomerAddress from "../../../data/Models/CustomerAddress"
 
 export default class AddressParser {
   public static ParseAddressToText(a : CustomerAddress) {

@@ -1,7 +1,7 @@
 import Datastore = require("nedb-promises");
-import { Service } from "typedi";
-import BranchData, { City, Country, State } from "../../../../data/DTOs/BranchData";
-import { Locations } from "../../../../data/DTOs/Locations";
+import { Service } from "typedi"
+import { City, Country, State } from "../../../../data/DTOs/BranchData"
+import { Locations } from "../../../../data/DTOs/Locations"
 import LocationsDb from '../locationsDataConfig'
 
 @Service()

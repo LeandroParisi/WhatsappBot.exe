@@ -20,7 +20,7 @@ export default class SelectDeliveryTypeStep extends StepDefinition {
     *
   */
     constructor(stepDefinitionArgs : StepDefinitionArgs) {
-    super(stepDefinitionArgs);
+    super(stepDefinitionArgs)
     this.ORDER_STEP = SelectDeliveryTypeStep.ORDER_STEP
     this.ADDRESS_STEP = SelectDeliveryTypeStep.ADDRESS_STEP
   }

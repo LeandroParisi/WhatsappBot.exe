@@ -1,6 +1,6 @@
 import Datastore = require("nedb-promises");
-import { Service } from "typedi";
-import LoginData from "../../../../data/Interfaces/LoginData";
+import { Service } from "typedi"
+import LoginData from "../../../../data/Interfaces/LoginData"
 import BranchDataDb from '../branchDataConfig'
 
 @Service()
@@ -9,21 +9,21 @@ export default class UserDataRepository {
 
 
   constructor() {
-    this.sessionData = BranchDataDb.sessionData;
+    this.sessionData = BranchDataDb.sessionData
   }
 
   async SaveLoginData(data : LoginData) : Promise<string> {
-    const insertedData = await this.sessionData.insert(data);
+    const insertedData = await this.sessionData.insert(data)
     return insertedData._id
   }
 
   async DestroySessionData() {
-    await this.sessionData.remove({}, { multi: true });
+    await this.sessionData.remove({}, { multi: true })
   }
 
   async GetLoginData() : Promise<LoginData> {
-    const data = await this.sessionData.findOne({});
-    return data;
+    const data = await this.sessionData.findOne({})
+    return data
   }
 
   async UpdateUserData(query : any, payload: { lastStartup: Date; }) {

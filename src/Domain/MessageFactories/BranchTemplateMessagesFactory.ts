@@ -1,17 +1,18 @@
-import { Promotion, Product, Attribute, AttributeTypes, OpeningHours, DayInfo, DeliveryType, DeliveryFees, DeliveryFeeTypesEnum, DeliveryFeeType, PaymentMethod, PromotionsInformation } from "../../../data/DTOs/BranchData";
-import staticImplements from "../../Shared/Anotations/staticImplements";
-import DaysUtils from "../../Shared/Utils/DaysUtils";
-import DeliveryTypeUtils from "../../Shared/Utils/DeliveryTypeUtils";
-import GenericParser from "../../Shared/Parsers/GenericParser";
-import PaymentMethodsUtils from "../../Shared/Utils/PaymentMethodsUtils";
-import PromotionsUtils from "../../Shared/Utils/PromotionsUtils";
-import SystemUtils from "../../Shared/Utils/SystemUtils";
-import GenerateTemplateMessageError from "../Abstractions/Errors/GenerateTemplateMessageError";
+/* eslint-disable max-len */
+import { Promotion, OpeningHours, DeliveryType, DeliveryFees, DeliveryFeeTypesEnum, DeliveryFeeType, PaymentMethod, PromotionsInformation } from "../../../data/DTOs/BranchData"
+import staticImplements from "../../Shared/Anotations/staticImplements"
+import DaysUtils from "../../Shared/Utils/DaysUtils"
+import DeliveryTypeUtils from "../../Shared/Utils/DeliveryTypeUtils"
+import GenericParser from "../../Shared/Parsers/GenericParser"
+import PaymentMethodsUtils from "../../Shared/Utils/PaymentMethodsUtils"
+import PromotionsUtils from "../../Shared/Utils/PromotionsUtils"
+import SystemUtils from "../../Shared/Utils/SystemUtils"
+import GenerateTemplateMessageError from "../Abstractions/Errors/GenerateTemplateMessageError"
 
 @staticImplements()
 export default class BranchTemplateMessagesFactory {
   static GenerateDeliveryTypesMessage(deliveryTypes: DeliveryType[]) {
-    throw new Error("Method not implemented.");
+    throw new Error("Method not implemented.")
   }
   static GeneratePromotionsMessage(avaiablePromotions : Promotion[]) : PromotionsInformation {
     if (avaiablePromotions.length === 0) {
@@ -36,7 +37,7 @@ export default class BranchTemplateMessagesFactory {
   }
 
   static GenerateOpeningHoursMessage(openingHours : OpeningHours) : string {
-    const openingHoursEntries = SystemUtils.GetObjectEntries(openingHours);
+    const openingHoursEntries = SystemUtils.GetObjectEntries(openingHours)
 
     const message = openingHoursEntries.map(([day, info]) => {
       let dayMessage = ""
@@ -75,7 +76,7 @@ export default class BranchTemplateMessagesFactory {
   static GeneratePaymentMethodsMessage(paymentMethods : Array<PaymentMethod>) : string {
     if (paymentMethods.length === 0) return "Atualmente não aceitamos nenhum método de pagamento"
 
-    let message = "Atualmente aceitamos os seguintes métodos de pagamento:\n"
+    const message = "Atualmente aceitamos os seguintes métodos de pagamento:\n"
     
     return message + paymentMethods.map((paymentMethod  : PaymentMethod, index : number) => {
       return `${index + 1}. ${PaymentMethodsUtils.TranslateToPt(paymentMethod.paymentMethod)}`
@@ -93,7 +94,9 @@ export default class BranchTemplateMessagesFactory {
       return deliveryFeeText += this.ParseRadiusFeeType(deliveryFees.fees)
     }
     
-    throw new GenerateTemplateMessageError(`Invalid deliveryFeeType ${deliveryFees.type}. Unable to generate template message on ${typeof this.CreateDeliveryFeeText}`)
+    throw new GenerateTemplateMessageError(
+      `Invalid deliveryFeeType ${deliveryFees.type}. Unable to generate template message on ${typeof this.CreateDeliveryFeeText}`
+      )
     
   }
 

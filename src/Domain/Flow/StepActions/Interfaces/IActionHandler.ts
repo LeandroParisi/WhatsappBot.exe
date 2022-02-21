@@ -1,7 +1,6 @@
-import BranchData from "../../../../../data/DTOs/BranchData";
-import Customer from "../../../../../data/Models/Customer";
-import { SessionData } from "../../Startup/BotCore";
-import StepInfo from "../../Steps/Messages/StepInfo";
+import Customer from "../../../../../data/Models/Customer"
+import { SessionData } from "../../Startup/BotCore"
+import StepInfo from "../../Steps/Messages/StepInfo"
 
 export enum ActionsEnum {
   SEND_ORDER = 'SEND_ORDER',

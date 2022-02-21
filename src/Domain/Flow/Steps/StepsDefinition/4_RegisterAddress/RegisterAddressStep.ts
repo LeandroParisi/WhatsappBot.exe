@@ -1,13 +1,11 @@
-import staticImplements from "../../../../../Shared/Anotations/staticImplements";
-import CustomerAddress, { CurrentlyRegisteringAddress } from "../../../../../../data/Models/CustomerAddress";
-import MessageUtils from "../../../../MessageFactories/AddressMessageFactory";
-import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
-import IStep, { IStepOptions, StepNumbers } from "../../Interfaces/IStep";
-import StepDefinition, { StepDefinitionArgs } from "../../Interfaces/StepDefinition";
-import StepInfo from "../../Messages/StepInfo";
-import { Service } from "typedi";
-import AddressMessageFactory from "../../../../MessageFactories/AddressMessageFactory";
-import MemoryData from "../../../../../../data/DTOs/MemoryData/MemoryData";
+import staticImplements from "../../../../../Shared/Anotations/staticImplements"
+import CustomerAddress, { CurrentlyRegisteringAddress } from "../../../../../../data/Models/CustomerAddress"
+import MessageUtils from "../../../../MessageFactories/AddressMessageFactory"
+import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler"
+import IStep, { IStepOptions, StepNumbers } from "../../Interfaces/IStep"
+import StepDefinition, { StepDefinitionArgs } from "../../Interfaces/StepDefinition"
+import StepInfo from "../../Messages/StepInfo"
+import MemoryData from "../../../../../../data/DTOs/MemoryData/MemoryData"
 
 
 @staticImplements<IStep>()
@@ -21,7 +19,7 @@ export default class RegisterAddressStep extends StepDefinition {
   *
   */
     constructor(stepDefinitionArgs : StepDefinitionArgs) {
-    super(stepDefinitionArgs);
+    super(stepDefinitionArgs)
     this.ORDER_STEP = RegisterAddressStep.ORDER_STEP
     this.ADDRESS_STEP = RegisterAddressStep.ADDRESS_STEP
   }

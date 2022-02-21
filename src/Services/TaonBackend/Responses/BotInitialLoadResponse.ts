@@ -1,4 +1,4 @@
-import BranchData from "../../../../data/DTOs/BranchData";
+import BranchData from "../../../../data/DTOs/BranchData"
 
 export default interface BotInitialLoadResponse {
   ok : boolean

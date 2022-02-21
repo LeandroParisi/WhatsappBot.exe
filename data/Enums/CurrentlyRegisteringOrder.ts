@@ -34,4 +34,3 @@ export const NextEditStep = {
 export type NextEditStepKeys = keyof typeof NextEditStep;
 export type NextEditStepValues = typeof NextEditStep[NextEditStepKeys];
 
-// export const GetNextOrderRegisteringStep = (currentRegistering : CurrentlyRegisteringOrderValues) => NextStep[currentRegistering]

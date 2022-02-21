@@ -20,7 +20,7 @@ export default class SelectPaymentMethodStep extends StepDefinition{
     *
   */
    constructor(stepDefinitionArgs : StepDefinitionArgs) {
-    super(stepDefinitionArgs);
+    super(stepDefinitionArgs)
     this.ORDER_STEP = SelectPaymentMethodStep.ORDER_STEP
     this.ADDRESS_STEP = SelectPaymentMethodStep.ADDRESS_STEP
   }

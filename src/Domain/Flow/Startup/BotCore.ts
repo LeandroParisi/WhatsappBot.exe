@@ -1,19 +1,19 @@
-import { Service } from 'typedi';
-import { Message } from 'venom-bot';
-import BranchData, { Country } from '../../../../data/DTOs/BranchData';
-import SessionHandler from '../../../Services/SessionManagement/Handlers/SessionHandler';
-import UserDataHandler from '../../../Services/UserData/Handlers/UserDataHandler';
-import Customer from '../../../../data/Models/Customer';
-import IStep from '../Steps/Interfaces/IStep';
-import StepFactory from '../Steps/StepsDefinition/StepFactory/StepFactory';
-import ActionsFactory from '../StepActions/ActionDefinitions/ActionsFactory/ActionsFactory';
-import TaonHandler from '../../../Services/TaonBackend/TaonHandler';
-import StepInfo from '../Steps/Messages/StepInfo';
-import OrderRepository from '../../../Services/SessionManagement/Repositories/OrderRepository';
-import AddressesRepository from '../../../Services/SessionManagement/Repositories/AddressesRepository';
-import { ActionsEnum } from '../StepActions/Interfaces/IActionHandler';
-import StepDefinition, { StepDefinitionArgs } from '../Steps/Interfaces/StepDefinition';
-import MemoryData from '../../../../data/DTOs/MemoryData/MemoryData';
+import { Service } from 'typedi'
+import { Message } from 'venom-bot'
+import BranchData from '../../../../data/DTOs/BranchData'
+import SessionHandler from '../../../Services/SessionManagement/Handlers/SessionHandler'
+import UserDataHandler from '../../../Services/UserData/Handlers/UserDataHandler'
+import Customer from '../../../../data/Models/Customer'
+import StepFactory from '../Steps/StepsDefinition/StepFactory/StepFactory'
+import ActionsFactory from '../StepActions/ActionDefinitions/ActionsFactory/ActionsFactory'
+import TaonHandler from '../../../Services/TaonBackend/TaonHandler'
+import StepInfo from '../Steps/Messages/StepInfo'
+import OrderRepository from '../../../Services/SessionManagement/Repositories/OrderRepository'
+import AddressesRepository from '../../../Services/SessionManagement/Repositories/AddressesRepository'
+import StepDefinition from '../Steps/Interfaces/StepDefinition'
+import MemoryData from '../../../../data/DTOs/MemoryData/MemoryData'
+import {Whatsapp} from 'venom-bot'
+
 
 interface SetupInfo {
   customer : Customer
@@ -32,7 +32,7 @@ export interface SessionData {
 
 @Service()
 export default class BotCore {
-  private bot: any;
+  private bot: Whatsapp;
   private sessionData : SessionData
 
   constructor(
@@ -58,11 +58,11 @@ export default class BotCore {
 
         await this.SendMessages(stepInfo.outboundMessages, customer)
         
-        await this.HandleStepAction(stepInfo, customer);
+        await this.HandleStepAction(stepInfo, customer)
       } else {
         // No actions for messages received from groups
       }
-    });
+    })
   }
 
   private async HandleMessage(inboundMessage: Message) : Promise<HandledMessage> {
@@ -109,9 +109,11 @@ export default class BotCore {
   }
 
   private async MessageSetup(inboundMessage: Message) : Promise<SetupInfo> {
-    const customer = await this.SessionHandler.CheckIn(inboundMessage);
+    const customer = await this.SessionHandler.CheckIn(inboundMessage)
 
-    const branchData = await this.UserDataHandler.UpdateTemplateMessages(customer.lastMessage, this.sessionData.branchData)   
+    const branchData = await this.UserDataHandler.UpdateTemplateMessages(
+      customer.lastMessage, this.sessionData.branchData
+    )   
     
     this.SetBranchData(branchData)
 
@@ -121,18 +123,18 @@ export default class BotCore {
   }
 
   private async SendMessages(outboundMessages : string[], customer : Customer) {
-    for (let outboundMessage of outboundMessages) {
+    for (const outboundMessage of outboundMessages) {
       await this.bot.sendText(customer.info.whatsappId, outboundMessage)
     }
   }
 
   private async HandleStepAction(stepInfo: StepInfo, customer: Customer) {
     if (stepInfo.requiredAction && !!stepInfo.requiredAction.length) {
-      for (var index = 0; index <= stepInfo.requiredAction.length - 1; index += 1) {
+      for (let index = 0; index <= stepInfo.requiredAction.length - 1; index += 1) {
         const action = stepInfo.requiredAction[index]
         const actionHandler = ActionsFactory.Create(action)
         const postActionStep = await actionHandler
-          .DispatchAction(stepInfo.actionPayload[index], customer, this.sessionData);
+          .DispatchAction(stepInfo.actionPayload[index], customer, this.sessionData)
 
         if (postActionStep) {
           await this.SendMessages(postActionStep.outboundMessages, customer)

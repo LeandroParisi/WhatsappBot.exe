@@ -1,6 +1,6 @@
-import AddressParser from "../../../../src/Shared/Parsers/AddressParser";
-import GenericParser from "../../../../src/Shared/Parsers/GenericParser";
-import { City, Country, State } from "../../BranchData";
+import AddressParser from "../../../../src/Shared/Parsers/AddressParser"
+import GenericParser from "../../../../src/Shared/Parsers/GenericParser"
+import { City, Country, State } from "../../BranchData"
 
 export default class Locations {
   public readonly countries : Array<Country>

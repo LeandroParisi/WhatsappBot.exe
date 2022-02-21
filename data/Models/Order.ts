@@ -1,9 +1,14 @@
-import IOrderInfo from "../Interfaces/IOrderInfo";
-import DaysUtils from "../../src/Shared/Utils/DaysUtils";
-import { v4 as uuid } from 'uuid';
-import Payload from "../../src/Domain/Flow/StepActions/DTOs/Base/Payload";
-import { CurrentlyRegisteringOrder, CurrentlyRegisteringOrderValues, NextEditStep, NextStep } from "../Enums/CurrentlyRegisteringOrder";
-import { CalculatedFares } from "../../src/Services/TaonBackend/Responses/CalculateFaresResponse";
+import IOrderInfo from "../Interfaces/IOrderInfo"
+import DaysUtils from "../../src/Shared/Utils/DaysUtils"
+import { v4 as uuid } from 'uuid'
+import Payload from "../../src/Domain/Flow/StepActions/DTOs/Base/Payload"
+import { 
+  CurrentlyRegisteringOrder,
+   CurrentlyRegisteringOrderValues,
+   NextEditStep,
+   NextStep 
+  } from "../Enums/CurrentlyRegisteringOrder"
+import { CalculatedFares } from "../../src/Services/TaonBackend/Responses/CalculateFaresResponse"
 
 export default class Order implements IOrderInfo, Payload {
   _id : string; //
@@ -13,6 +18,9 @@ export default class Order implements IOrderInfo, Payload {
   orderNumber : number //
   subTotal : number
   deliveryTypeId? : number //
+
+
+
   deliveryFee : number
   paymentMethodId? : number //
   discount : number

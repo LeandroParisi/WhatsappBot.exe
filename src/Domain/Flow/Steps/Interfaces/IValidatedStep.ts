@@ -1,8 +1,5 @@
-import { Message } from "venom-bot";
 import Customer from "../../../../../data/Models/Customer"
-import Order from "../../../../../data/Models/Order";
-import { SessionData } from "../../Startup/BotCore";
-import StepInfo from "../Messages/StepInfo";
+import { SessionData } from "../../Startup/BotCore"
 
 export interface ValidateParameters {
   answer: string, 

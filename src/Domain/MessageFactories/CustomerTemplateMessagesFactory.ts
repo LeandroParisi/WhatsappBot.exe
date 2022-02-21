@@ -1,8 +1,6 @@
-import CustomerInfo from "../../../data/DTOs/CustomerInfo";
-import staticImplements from "../../Shared/Anotations/staticImplements";
-import AddressParser from "../../Shared/Parsers/AddressParser";
-import Customer from "../../../data/Models/Customer";
-import CustomerAddress from "../../../data/Models/CustomerAddress";
+import staticImplements from "../../Shared/Anotations/staticImplements"
+import AddressParser from "../../Shared/Parsers/AddressParser"
+import CustomerAddress from "../../../data/Models/CustomerAddress"
 
 @staticImplements()
 export default class CustomerTemplateMessagesFactory {

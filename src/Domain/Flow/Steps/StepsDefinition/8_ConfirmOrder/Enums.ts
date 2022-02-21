@@ -1,4 +1,3 @@
-import StepInfo from "../../Messages/StepInfo";
 
 export enum OrderConfirmationAnswers {
   OK = "OK",

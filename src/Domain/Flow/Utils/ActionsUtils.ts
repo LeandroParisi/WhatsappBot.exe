@@ -1,6 +1,6 @@
-import Payload from "../StepActions/DTOs/Base/Payload";
-import { ActionsEnum } from "../StepActions/Interfaces/IActionHandler";
-import StepInfo from "../Steps/Messages/StepInfo";
+import Payload from "../StepActions/DTOs/Base/Payload"
+import { ActionsEnum } from "../StepActions/Interfaces/IActionHandler"
+import StepInfo from "../Steps/Messages/StepInfo"
 
 export default class ActionsUtils {
   static ExtractActions(step : StepInfo) : ActionsEnum[] {

@@ -1,4 +1,3 @@
-import Order from "../../../../data/Models/Order";
 
 export default interface CalculateFaresResponse {
   data : CalculatedFares

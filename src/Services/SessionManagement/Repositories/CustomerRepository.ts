@@ -1,6 +1,6 @@
 import Datastore = require("nedb-promises");
-import { Service } from "typedi";
-import Customer from "../../../../data/Models/Customer";
+import { Service } from "typedi"
+import Customer from "../../../../data/Models/Customer"
 import SessionDataDbs from '../config'
 
 @Service()
@@ -8,17 +8,17 @@ export default class CustomerRepository {
   customerDb : Datastore
 
   constructor() {
-    this.customerDb = SessionDataDbs.customerDb;
+    this.customerDb = SessionDataDbs.customerDb
   }
 
   async GetClientByNumber(whatsappId: string) : Promise<Customer> {
-    const document = await this.customerDb.findOne({ "info.whatsappId": whatsappId });
+    const document = await this.customerDb.findOne({ "info.whatsappId": whatsappId })
     return document as Customer
   }
 
   async InsertCustomer(client: Customer) : Promise<Customer> {
     const insertedClient = await this.customerDb.insert(client)
-    return insertedClient;
+    return insertedClient
   }
 
   async UpdateClient(clientId : string, payload : any) : Promise<number> {

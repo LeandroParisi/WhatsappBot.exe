@@ -1,4 +1,4 @@
-import LoginData from "../../../../data/Interfaces/LoginData";
+import LoginData from "../../../../data/Interfaces/LoginData"
 
 export interface LoginDataResponse {
   message : string

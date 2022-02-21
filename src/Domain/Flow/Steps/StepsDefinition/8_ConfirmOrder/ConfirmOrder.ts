@@ -33,7 +33,7 @@ export default class ConfirmOrderStep extends StepDefinition implements IOptions
   *
   */
     constructor(stepDefinitionArgs : StepDefinitionArgs) {
-    super(stepDefinitionArgs);
+    super(stepDefinitionArgs)
     this.ORDER_STEP = ConfirmOrderStep.ORDER_STEP
     this.ADDRESS_STEP = ConfirmOrderStep.ADDRESS_STEP
   }

@@ -1,14 +1,14 @@
-import { Service } from "typedi";
-import MaxLoginReached from '../../Abstractions/Errors/MaxLoginReached';
-import BackendError from '../../Abstractions/Errors/BackendError';
-import TaonRepository from '../../TaonBackend/TaonRepository';
-import UserDataRepository from "../Repositories/UserDataRepository";
-import LocationsRepository from "../Repositories/LocationsRepository";
-import BranchData from '../../../../data/DTOs/BranchData';
-import BranchTemplateMessagesFactory from '../../../Domain/MessageFactories/BranchTemplateMessagesFactory';
-import DaysUtils from '../../../Shared/Utils/DaysUtils';
-import PromotionsUtils from '../../../Shared/Utils/PromotionsUtils';
-import MemoryData from "../../../../data/DTOs/MemoryData/MemoryData";
+import { Service } from "typedi"
+import MaxLoginReached from '../../Abstractions/Errors/MaxLoginReached'
+import BackendError from '../../Abstractions/Errors/BackendError'
+import TaonRepository from '../../TaonBackend/TaonRepository'
+import UserDataRepository from "../Repositories/UserDataRepository"
+import LocationsRepository from "../Repositories/LocationsRepository"
+import BranchData from '../../../../data/DTOs/BranchData'
+import BranchTemplateMessagesFactory from '../../../Domain/MessageFactories/BranchTemplateMessagesFactory'
+import DaysUtils from '../../../Shared/Utils/DaysUtils'
+import PromotionsUtils from '../../../Shared/Utils/PromotionsUtils'
+import MemoryData from "../../../../data/DTOs/MemoryData/MemoryData"
 
 export interface InitialData {
   branchData : BranchData
@@ -28,7 +28,7 @@ export default class UserDataHandler {
   }
 
   async ValidateUser() : Promise<string> {
-    const userData = await this.repository.GetLoginData();
+    const userData = await this.repository.GetLoginData()
 
     try {
       if (userData) {
@@ -39,7 +39,7 @@ export default class UserDataHandler {
     
         const data = await this.TaonRepository.Login(email, password)
     
-        const insertedId = await this.repository.SaveLoginData(data);
+        const insertedId = await this.repository.SaveLoginData(data)
         return insertedId
       }
     } catch (error) {
@@ -47,10 +47,10 @@ export default class UserDataHandler {
         throw new MaxLoginReached("Max login retries reached, try logging in again", error)
       }
       if (this.IsBackendError(error)) {
-        await this.repository.DestroySessionData();
+        await this.repository.DestroySessionData()
         this.loginRetries += 1
         // TODO adicionar mensagem de retry no console
-        await this.ValidateUser();
+        await this.ValidateUser()
       } else {
         throw error
       }
@@ -65,14 +65,14 @@ export default class UserDataHandler {
   }
 
   async LoadInitialData(deviceNumber : string) : Promise<InitialData> {
-    const userData = await this.repository.GetLoginData();
+    const userData = await this.repository.GetLoginData()
 
     // TODO: Tentar tratar este erro, o catch não funcionou aqui para jogar para o handler global do index    
     const data = await this.TaonRepository.GetInitialData(userData.token, deviceNumber)
 
     const locations = await this.TaonRepository.GetLocations()
 
-    const memoryData = new MemoryData(locations);
+    const memoryData = new MemoryData(locations)
 
     const branchData = await this.EnrichBranchData(data)
 
@@ -124,7 +124,7 @@ export default class UserDataHandler {
 
     const avaiablePromotions = PromotionsUtils.GetAvaiablePromotions(branchData.promotions, currentDay)
 
-    let enrichedBranchData = { 
+    const enrichedBranchData = { 
       ...branchData,
       avaiablePromotions: [...avaiablePromotions],
       templateMessages: {
@@ -191,12 +191,12 @@ export default class UserDataHandler {
   // eslint-disable-next-line class-methods-use-this
   async ErrorCatcher(callback: () => any) {
     try {
-      const result = await callback();
-      return result;
+      const result = await callback()
+      return result
     } catch (error) {
       // No need to treat error since it's already beeing treated
       // on config/database.onError event listener
-      return null;
+      return null
     }
   }
 }

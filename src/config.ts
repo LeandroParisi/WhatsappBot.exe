@@ -1,7 +1,7 @@
-import staticImplements from "./Shared/Anotations/staticImplements";
+import staticImplements from "./Shared/Anotations/staticImplements"
 // TODO: ajustar essa bagaça
-import { StepNumbers } from './Domain/Flow/Steps/Interfaces/IStep';
-import SystemUtils from "./Shared/Utils/SystemUtils";
+import { StepNumbers } from './Domain/Flow/Steps/Interfaces/IStep'
+import SystemUtils from "./Shared/Utils/SystemUtils"
 
 
 @staticImplements()

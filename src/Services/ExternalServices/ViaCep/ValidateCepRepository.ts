@@ -1,8 +1,8 @@
-import { Service } from "typedi";
-import CepInfo from "../../../../data/DTOs/CepInfo";
-import Api from "../../Shared/api";
-import METHODS from "../../Shared/methods";
-import ViaCepPayload from "./Payloads/ViaCepPayload";
+import { Service } from "typedi"
+import CepInfo from "../../../../data/DTOs/CepInfo"
+import Api from "../../Shared/api"
+import METHODS from "../../Shared/methods"
+import ViaCepPayload from "./Payloads/ViaCepPayload"
 
 @Service()
 export default class ValidateCepRepository {

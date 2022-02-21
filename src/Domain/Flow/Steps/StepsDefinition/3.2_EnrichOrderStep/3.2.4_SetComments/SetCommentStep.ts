@@ -25,7 +25,7 @@ export default class SetCommentStep extends StepDefinition implements IOptionsAn
    *
    */
    constructor(stepDefinitionArgs : StepDefinitionArgs) {
-    super(stepDefinitionArgs);
+    super(stepDefinitionArgs)
     this.ORDER_STEP = SetCommentStep.ORDER_STEP
     this.ADDRESS_STEP = SetCommentStep.ADDRESS_STEP
   }

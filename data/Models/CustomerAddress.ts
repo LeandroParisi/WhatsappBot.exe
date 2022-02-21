@@ -1,5 +1,5 @@
-import Payload from "../../src/Domain/Flow/StepActions/DTOs/Base/Payload";
-import { v4 as uuid } from "uuid";
+import Payload from "../../src/Domain/Flow/StepActions/DTOs/Base/Payload"
+import { v4 as uuid } from "uuid"
 
 export enum AddressStatusEnum {
   REGISTERING,
@@ -87,11 +87,11 @@ export class CustomerAddressSQL {
     this.id = address._id
     this.customerId = address.customerId    
     this.countryId = address.countryId
-    this.countryName = address.countryName;
+    this.countryName = address.countryName
     this.stateId = address.stateId
-    this.stateName = address.stateName;
+    this.stateName = address.stateName
     this.cityId = address.cityId
-    this.cityName = address.cityName;
+    this.cityName = address.cityName
     this.neighborhood = address.neighborhood
     this.street = address.street
     this.streetNumber = address.streetNumber

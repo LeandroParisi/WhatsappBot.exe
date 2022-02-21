@@ -1,20 +1,17 @@
-import { Message } from "venom-bot";
-import BranchData from "../../../../../../data/DTOs/BranchData";
-import staticImplements from "../../../../../Shared/Anotations/staticImplements";
-import Customer from "../../../../../../data/Models/Customer";
-import IStep, { IStepOptions, StepNumbers } from "../../Interfaces/IStep";
-import MainMenu from "../10_MainMenu/MainMenu";
-import StepInfo from "../../Messages/StepInfo";
-import { SessionData } from "../../../Startup/BotCore";
-import Order from "../../../../../../data/Models/Order";
-import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
-import SelectAddress from "../StepGenerators/SelectAddress";
-import StepDefinition, { StepDefinitionArgs } from "../../Interfaces/StepDefinition";
-import ConfirmOrderStep from "../8_ConfirmOrder/ConfirmOrder";
-import SelectCoupomStep from "./3.2.5_SelectCoupom/SelectCoupomStep";
-import SetCommentStep from "./3.2.4_SetComments/SetCommentStep";
-import StepError from "../../../../Abstractions/Errors/StepError";
-import { CurrentlyRegisteringOrder } from "../../../../../../data/Enums/CurrentlyRegisteringOrder";
+import staticImplements from "../../../../../Shared/Anotations/staticImplements"
+import Customer from "../../../../../../data/Models/Customer"
+import IStep, { IStepOptions, StepNumbers } from "../../Interfaces/IStep"
+import StepInfo from "../../Messages/StepInfo"
+import { SessionData } from "../../../Startup/BotCore"
+import Order from "../../../../../../data/Models/Order"
+import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler"
+import SelectAddress from "../StepGenerators/SelectAddress"
+import StepDefinition, { StepDefinitionArgs } from "../../Interfaces/StepDefinition"
+import ConfirmOrderStep from "../8_ConfirmOrder/ConfirmOrder"
+import SelectCoupomStep from "./3.2.5_SelectCoupom/SelectCoupomStep"
+import SetCommentStep from "./3.2.4_SetComments/SetCommentStep"
+import StepError from "../../../../Abstractions/Errors/StepError"
+import { CurrentlyRegisteringOrder } from "../../../../../../data/Enums/CurrentlyRegisteringOrder"
 
 @staticImplements<IStep>()
 @staticImplements<IStepOptions>()
@@ -28,7 +25,7 @@ export default class EnrichOrderStep extends StepDefinition {
     *
   */
    constructor(stepDefinitionArgs : StepDefinitionArgs) {
-    super(stepDefinitionArgs);
+    super(stepDefinitionArgs)
     this.ORDER_STEP = EnrichOrderStep.ORDER_STEP
     this.ADDRESS_STEP = EnrichOrderStep.ADDRESS_STEP
   }

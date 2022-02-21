@@ -1,6 +1,4 @@
-import { AxiosResponse } from "axios"
 import { Service } from "typedi"
-import Config from "../../config"
 import BackendError from "../Abstractions/Errors/BackendError"
 
 /* eslint-disable max-len */

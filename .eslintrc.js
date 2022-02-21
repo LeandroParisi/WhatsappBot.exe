@@ -1,42 +1,41 @@
 module.exports = {
-  parser: '@typescript-eslint/parser',
-  extends: [
-    'airbnb',
-    'plugin:@typescript-eslint/recommended',
+  "extends": [
+    "typescript"
   ],
-  env: {
-    browser: true,
-    node: true,
-    serviceworker: true,
+  "plugins": ["unused-imports"],
+  "env": {    
+    "node": true
   },
-  parserOptions: {
-    sourceType: 'module',
-  },
-  settings: {
-    react: {
-      version: 'detect',
-    },
-    'import/resolver': {
-      node: {
-        extensions: ['.ts', '.js'],
-      },
-    },
-  },
-  rules: {
-    '@typescript-eslint/indent': ['error', 2],
-    indent: 'off',
-    'jsx-a11y/anchor-is-valid': ['error', {
-      aspects: ['invalidHref', 'preferButton'],
-    }],
-    'no-console': ['error', {
-      allow: ['error', 'info', 'log'],
-    }],
-    'react/no-danger': 0,
-    'import/extensions': ['error', 'never'],
-    'max-len': ['error', { ignoreComments: true, code: 150 }],
+  "rules": {
+    'import/no-unresolved': 0,
+    'import/extensions': 0,
     semi: ['error', 'never'],
-    '@typescript-eslint/no-var-requires': 0,
+    '@typescript-eslint/no-unsafe-argument': 0,
+    '@typescript-eslint/unbound-method': 0,
+    '@typescript-eslint/ban-ts-comment': [
+      'error',
+      {
+        'ts-ignore': 'allow-with-description',
+        minimumDescriptionLength: 4,
+      },
+    ],
+    'import/no-extraneous-dependencies': 0,
+    'import/no-duplicates': 0,
+    'import/no-self-import': 0,
+    'import/named': 0,
+    'import/order': 0,
+    'import/no-cycle': 0,
+    'import/no-named-as-default': 0,
+    'import/no-named-as-default-member': 0,
+    'import/no-useless-path-segments': 0,
+    '@typescript-eslint/no-unused-vars': ['error'],
+    'max-len': [1, 125, 2],
     'no-useless-constructor': 0,
-    'class-methods-use-this': 0,
-  },
+    "@typescript-eslint/no-unused-vars": "off",
+		"unused-imports/no-unused-imports": "error",
+		"unused-imports/no-unused-vars": [
+			"warn",
+			{ "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
+		]
+  }
 }

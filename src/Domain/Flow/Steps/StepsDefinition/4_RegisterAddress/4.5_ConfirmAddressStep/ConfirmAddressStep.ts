@@ -1,15 +1,15 @@
-import staticImplements from "../../../../../../Shared/Anotations/staticImplements";
-import Validations from "../../../../Utils/Validations";
-import IStep, {  IStepOptions, StepNumbers } from "../../../Interfaces/IStep";
-import StepInfo from "../../../Messages/StepInfo";
-import MessageUtils from "../../../../../MessageFactories/AddressMessageFactory";
-import RegisterAddressStep from "../RegisterAddressStep";
-import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler";
-import StepDefinition, { StepDefinitionArgs } from "../../../Interfaces/StepDefinition";
-import GenericParser from "../../../../../../Shared/Parsers/GenericParser";
-import CustomerAddress, { CurrentlyRegisteringAddress } from "../../../../../../../data/Models/CustomerAddress";
-import EnrichOrderStep from "../../3.2_EnrichOrderStep/EnrichOrderStep";
-import ActionsUtils from "../../../../Utils/ActionsUtils";
+import staticImplements from "../../../../../../Shared/Anotations/staticImplements"
+import Validations from "../../../../Utils/Validations"
+import IStep, {  IStepOptions, StepNumbers } from "../../../Interfaces/IStep"
+import StepInfo from "../../../Messages/StepInfo"
+import MessageUtils from "../../../../../MessageFactories/AddressMessageFactory"
+import RegisterAddressStep from "../RegisterAddressStep"
+import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler"
+import StepDefinition, { StepDefinitionArgs } from "../../../Interfaces/StepDefinition"
+import GenericParser from "../../../../../../Shared/Parsers/GenericParser"
+import CustomerAddress, { CurrentlyRegisteringAddress } from "../../../../../../../data/Models/CustomerAddress"
+import EnrichOrderStep from "../../3.2_EnrichOrderStep/EnrichOrderStep"
+import ActionsUtils from "../../../../Utils/ActionsUtils"
 
 interface ValidationPayload {
   isValid : boolean,
@@ -35,7 +35,7 @@ export default class ConfirmAddressStep extends StepDefinition {
   *
   */
     constructor(stepDefinitionArgs : StepDefinitionArgs) {
-    super(stepDefinitionArgs);
+    super(stepDefinitionArgs)
     this.ORDER_STEP = ConfirmAddressStep.ORDER_STEP
     this.ADDRESS_STEP = ConfirmAddressStep.ADDRESS_STEP
   }

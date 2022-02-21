@@ -1,4 +1,4 @@
-import { Attribute, AttributeTypes, Product, Promotion } from "../../../data/DTOs/BranchData";
+import { Attribute, AttributeTypes, Product, Promotion } from "../../../data/DTOs/BranchData"
 
 export interface PromotionMessage {
   promoInfo : string
@@ -25,7 +25,7 @@ export default class PromotionsUtils {
         })
         .join(", ")
 
-      return `\n${product.name}${!!product.attributes.length ? " -> " : ""}${formattedAttributes}`
+      return `\n${product.name}${product.attributes.length ? " -> " : ""}${formattedAttributes}`
     }).join("\n")
 
     return {

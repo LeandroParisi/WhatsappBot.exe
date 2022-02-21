@@ -1,7 +1,5 @@
-import staticImplements from "../../../../../Shared/Anotations/staticImplements";
-import { StepNumbers } from "../../Interfaces/IStep";
-import IStepInfo from "../../Messages/IStepInfo";
-import StepInfo from "../../Messages/StepInfo";
+import { StepNumbers } from "../../Interfaces/IStep"
+import StepInfo from "../../Messages/StepInfo"
 
 interface options {
   promotions : string

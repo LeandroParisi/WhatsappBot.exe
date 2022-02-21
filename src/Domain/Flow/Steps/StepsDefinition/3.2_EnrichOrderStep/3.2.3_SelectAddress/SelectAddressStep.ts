@@ -38,7 +38,7 @@ export default class SelectAddressStep extends StepDefinition {
     *
   */
    constructor(stepDefinitionArgs : StepDefinitionArgs) {
-    super(stepDefinitionArgs);
+    super(stepDefinitionArgs)
     this.ORDER_STEP = SelectAddressStep.ORDER_STEP
     this.ADDRESS_STEP = SelectAddressStep.ADDRESS_STEP
   }

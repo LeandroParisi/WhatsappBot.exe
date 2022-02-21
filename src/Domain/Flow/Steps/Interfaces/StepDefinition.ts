@@ -1,10 +1,10 @@
-import { Message } from "venom-bot";
-import Customer from "../../../../../data/Models/Customer";
-import CustomerAddress from "../../../../../data/Models/CustomerAddress";
-import Order from "../../../../../data/Models/Order";
-import { SessionData } from "../../Startup/BotCore";
-import StepInfo from "../Messages/StepInfo";
-import IStep, { IStepOptions, StepNumbers } from "./IStep";
+import { Message } from "venom-bot"
+import Customer from "../../../../../data/Models/Customer"
+import CustomerAddress from "../../../../../data/Models/CustomerAddress"
+import Order from "../../../../../data/Models/Order"
+import { SessionData } from "../../Startup/BotCore"
+import StepInfo from "../Messages/StepInfo"
+import { IStepOptions } from "./IStep"
 
 export interface StepDefinitionArgs {
   customer: Customer, 

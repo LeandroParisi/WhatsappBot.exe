@@ -44,7 +44,7 @@ export default class DaysUtils {
   }
 
   static GetDateFromTimestamp(timestamp : number) : Date {
-    const timestampDate = new Date(timestamp * 1000);
+    const timestampDate = new Date(timestamp * 1000)
 
     const minutesInAnHour = 60
 
@@ -67,10 +67,10 @@ export default class DaysUtils {
   }
 
   static SubtractTimeFromDate(currentDate : Date, hoursToSubtract : number) : Date {
-    var numberOfMlSeconds = currentDate.getTime();
-    var addMlSeconds = (hoursToSubtract * 60) * 60 * 1000;
-    var newDateObj = new Date(numberOfMlSeconds - addMlSeconds);
+    const numberOfMlSeconds = currentDate.getTime()
+    const addMlSeconds = (hoursToSubtract * 60) * 60 * 1000
+    const newDateObj = new Date(numberOfMlSeconds - addMlSeconds)
 
-    return newDateObj;
+    return newDateObj
 }
 }

@@ -1,9 +1,6 @@
 import Datastore = require("nedb-promises");
-import { Service } from "typedi";
-import IOrderInfo from "../../../../data/Interfaces/IOrderInfo";
-import Customer from "../../../../data/Models/Customer";
-import CustomerAddress from "../../../../data/Models/CustomerAddress";
-import Order from "../../../../data/Models/Order";
+import { Service } from "typedi"
+import CustomerAddress from "../../../../data/Models/CustomerAddress"
 import SessionDataDbs from '../config'
 
 @Service()
@@ -11,10 +8,10 @@ export default class AddressesRepository {
   addressesDb : Datastore
 
   constructor() {
-    this.addressesDb = SessionDataDbs.addressesDb;
+    this.addressesDb = SessionDataDbs.addressesDb
   }
 
-  async Upsert(address: CustomerAddress) : Promise<Number> {
+  async Upsert(address: CustomerAddress) : Promise<number> {
     const registeredAddress = await this.addressesDb.findOne({ _id: address._id })
     let insertedRows = 1
     if (registeredAddress) {
@@ -33,7 +30,7 @@ export default class AddressesRepository {
 
   async GetClientAddresses(customerId : string) : Promise<CustomerAddress> {
     const address = await this.addressesDb.findOne({ customerId })
-    return address as CustomerAddress;
+    return address as CustomerAddress
   }
 
   async CleanUp() : Promise<void> {

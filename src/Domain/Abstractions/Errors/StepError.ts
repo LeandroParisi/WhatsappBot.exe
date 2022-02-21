@@ -3,7 +3,7 @@ export default class StepError extends Error {
   originalError: any;
 
   constructor (stepNumber : number, message : string, error? : any) {
-    super();
+    super()
     this.stepNumber = stepNumber,
     this.message = message
     this.originalError = error 

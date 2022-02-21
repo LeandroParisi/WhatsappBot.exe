@@ -1,12 +1,12 @@
-import Container from "typedi";
-import CepInfo from "../../../../../../../data/DTOs/CepInfo";
-import ValidateCepRepository from "../../../../../../Services/ExternalServices/ViaCep/ValidateCepRepository";
-import staticImplements from "../../../../../../Shared/Anotations/staticImplements";
-import Validations from "../../../../Utils/Validations";
-import IStep, { IStepOptions, StepNumbers } from "../../../Interfaces/IStep";
-import StepDefinition, { StepDefinitionArgs } from "../../../Interfaces/StepDefinition";
-import StepInfo from "../../../Messages/StepInfo";
-import RegisterAddressStep from "../RegisterAddressStep";
+import Container from "typedi"
+import CepInfo from "../../../../../../../data/DTOs/CepInfo"
+import ValidateCepRepository from "../../../../../../Services/ExternalServices/ViaCep/ValidateCepRepository"
+import staticImplements from "../../../../../../Shared/Anotations/staticImplements"
+import Validations from "../../../../Utils/Validations"
+import IStep, { IStepOptions, StepNumbers } from "../../../Interfaces/IStep"
+import StepDefinition, { StepDefinitionArgs } from "../../../Interfaces/StepDefinition"
+import StepInfo from "../../../Messages/StepInfo"
+import RegisterAddressStep from "../RegisterAddressStep"
 
 @staticImplements<IStep>()
 @staticImplements<IStepOptions>()
@@ -20,7 +20,7 @@ export default class RegisterPostalCode extends StepDefinition  {
   *
   */
    constructor(stepDefinitionArgs : StepDefinitionArgs) {
-    super(stepDefinitionArgs);
+    super(stepDefinitionArgs)
     this.ADDRESS_STEP = RegisterPostalCode.ADDRESS_STEP
     this.ORDER_STEP = RegisterPostalCode.ORDER_STEP
   }
@@ -70,7 +70,7 @@ export default class RegisterPostalCode extends StepDefinition  {
   }
 
   private async ValidateAnswer() : Promise<boolean> {
-    let isAnswerValid = this.isValidCep()
+    const isAnswerValid = this.isValidCep()
 
     if (!isAnswerValid) return isAnswerValid
 

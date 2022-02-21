@@ -1,6 +1,6 @@
-import Payload from "../../StepActions/DTOs/Base/Payload";
-import { ActionsEnum } from "../../StepActions/Interfaces/IActionHandler";
-import IStepInfo from "./IStepInfo";
+import Payload from "../../StepActions/DTOs/Base/Payload"
+import { ActionsEnum } from "../../StepActions/Interfaces/IActionHandler"
+import IStepInfo from "./IStepInfo"
 
 
 export default class StepInfo implements IStepInfo {

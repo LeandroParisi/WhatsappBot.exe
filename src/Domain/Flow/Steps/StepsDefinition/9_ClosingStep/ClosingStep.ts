@@ -14,7 +14,7 @@ export default class ClosingStep extends StepDefinition{
   *
   */
    constructor(stepDefinitionArgs : StepDefinitionArgs) {
-    super(stepDefinitionArgs);
+    super(stepDefinitionArgs)
   }
 
   public async Interact() : Promise<StepInfo> {

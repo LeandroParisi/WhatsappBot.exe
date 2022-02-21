@@ -1,17 +1,17 @@
-import staticImplements from "../../../../../Shared/Anotations/staticImplements";
-import IStep, { StepNumbers } from "../../Interfaces/IStep";
-import StepInfo from "../../Messages/StepInfo";
-import Validations from "../../../Utils/Validations";
-import PromotionsSelectionStep from "../StepGenerators/PromotionsSelectionStep";
-import ReturnToMenu from "../StepGenerators/ReturnToMenu";
-import StepError from "../../../../Abstractions/Errors/StepError";
-import DaysUtils from "../../../../../Shared/Utils/DaysUtils";
-import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler";
-import Order from "../../../../../../data/Models/Order";
-import StepDefinition, { StepDefinitionArgs } from "../../Interfaces/StepDefinition";
-import EnrichOrderStep from "../3.2_EnrichOrderStep/EnrichOrderStep";
-import GenericParser from "../../../../../Shared/Parsers/GenericParser";
-import ActionsUtils from "../../../Utils/ActionsUtils";
+import staticImplements from "../../../../../Shared/Anotations/staticImplements"
+import IStep, { StepNumbers } from "../../Interfaces/IStep"
+import StepInfo from "../../Messages/StepInfo"
+import Validations from "../../../Utils/Validations"
+import PromotionsSelectionStep from "../StepGenerators/PromotionsSelectionStep"
+import ReturnToMenu from "../StepGenerators/ReturnToMenu"
+import StepError from "../../../../Abstractions/Errors/StepError"
+import DaysUtils from "../../../../../Shared/Utils/DaysUtils"
+import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler"
+import Order from "../../../../../../data/Models/Order"
+import StepDefinition, { StepDefinitionArgs } from "../../Interfaces/StepDefinition"
+import EnrichOrderStep from "../3.2_EnrichOrderStep/EnrichOrderStep"
+import GenericParser from "../../../../../Shared/Parsers/GenericParser"
+import ActionsUtils from "../../../Utils/ActionsUtils"
 
 enum PossibleAnswers {
   back = "VOLTAR",
@@ -37,7 +37,7 @@ export default class PromotionsStep extends StepDefinition {
      *
     */
      constructor(stepDefinitionArgs : StepDefinitionArgs) {
-      super(stepDefinitionArgs);
+      super(stepDefinitionArgs)
     }
   
   public async Interact() : Promise<StepInfo> {

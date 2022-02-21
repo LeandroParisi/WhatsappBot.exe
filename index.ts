@@ -1,16 +1,15 @@
-import 'reflect-metadata';
-import Container from 'typedi';
+import 'reflect-metadata'
+import Container from 'typedi'
 import BotCore from './src/Domain/Flow/Startup/BotCore'
-import BotStartup from './src/Domain/Flow/Startup/BotStartup';
-
-const venom = require('venom-bot')
+import BotStartup from './src/Domain/Flow/Startup/BotStartup'
+import venom from 'venom-bot'
 
 class Main {
   BotCore : BotCore
   BotStartup : BotStartup
 
   constructor() {
-    this.BotCore = Container.get(BotCore);
+    this.BotCore = Container.get(BotCore)
     this.BotStartup = Container.get(BotStartup)
   }
 
@@ -22,14 +21,14 @@ class Main {
 
       const bot = await this.CreateBot()
 
-      this.BotCore.SetBot(bot);
+      this.BotCore.SetBot(bot)
 
       await this.BotStartup.LoadUserInfo(bot, this.BotCore)
 
-      this.BotCore.Start();
+      this.BotCore.Start()
     } catch (error) {
       // Trace
-      console.log(error);
+      console.log(error)
     }
   }
 
@@ -41,11 +40,10 @@ class Main {
       headless: false, // Headless chrome
       useChrome: true,
 
-    });
-
+    })
     return bot  
   }
 }
 
-new Main().Run();
+new Main().Run()
 // new Main().TESTE();
