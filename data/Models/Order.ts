@@ -15,25 +15,21 @@ export default class Order implements IOrderInfo, Payload {
   branchId : string //
   customerId : string //
   addressId? : string //
-  orderNumber : number //
   subTotal : number
   deliveryTypeId? : number //
   deliveryFee : number
   paymentMethodId? : number //
-  discount : number
   totalPrice : number
   status : string
   coupomId? : number
   promotionId?: number //
   estimatedDeliveryDuration : number
   distanceInKm: number
-  freeDelivery?: boolean
   comments : string
-  dispatchTime : Date
-  deliveryTime : Date
   createdAt: Date;
-
+  
   // Bot exclusive properties
+  freeDelivery?: boolean
   currentlyRegistering : CurrentlyRegisteringOrderValues
   isEdit : boolean
   coupomCode? : string
@@ -107,7 +103,6 @@ export class OrderSQL implements IOrderInfo, Payload {
   dispatchTime : Date
   deliveryTime : Date
   createdAt: Date;
-  currentlyRegistering : CurrentlyRegisteringOrderValues
 
   /**
    *
@@ -116,15 +111,21 @@ export class OrderSQL implements IOrderInfo, Payload {
      order : Order
   ) {
     this.id = order._id
-    this.customerId = order.customerId
-    this.promotionId = order.promotionId
     this.branchId = order.branchId
-    this.createdAt = order.createdAt
-    this.deliveryTypeId = order.deliveryTypeId
-    this.paymentMethodId = order.paymentMethodId
-    this.coupomId = order.coupomId
+    this.customerId = order.customerId
     this.addressId = order.addressId
+    this.subTotal = order.subTotal
+    this.deliveryTypeId = order.deliveryTypeId
+    this.deliveryFee = order.deliveryFee
+    this.paymentMethodId = order.paymentMethodId
+    this.totalPrice = order.totalPrice
+    this.status = order.status
+    this.coupomId = order.coupomId
+    this.promotionId = order.promotionId
+    this.estimatedDeliveryDuration = order.estimatedDeliveryDuration
+    this.distanceInKm = order.distanceInKm
     this.comments = order.comments
+    this.createdAt = order.createdAt
   }
 
   MapToMongo() : Order {
@@ -143,12 +144,10 @@ export class OrderSQL implements IOrderInfo, Payload {
 export function CreateOrder(order : Order) : Order {
   const createdOrder = new Order(order.customerId, order.branchId, order.promotionId, order._id)
   createdOrder.addressId = order.addressId
-  createdOrder.orderNumber = order.orderNumber
   createdOrder.subTotal = order.subTotal
   createdOrder.deliveryTypeId = order.deliveryTypeId
   createdOrder.deliveryFee = order.deliveryFee
   createdOrder.paymentMethodId = order.paymentMethodId
-  createdOrder.discount = order.discount
   createdOrder.totalPrice = order.totalPrice
   createdOrder.status = order.status
   createdOrder.coupomId = order.coupomId
@@ -156,8 +155,6 @@ export function CreateOrder(order : Order) : Order {
   createdOrder.distanceInKm= order.distanceInKm
   createdOrder.freeDelivery= order.freeDelivery
   createdOrder.comments = order.comments
-  createdOrder.dispatchTime = order.dispatchTime
-  createdOrder.deliveryTime = order.deliveryTime
   createdOrder.createdAt= order.createdAt
   createdOrder.currentlyRegistering= order.currentlyRegistering
   createdOrder.isEdit= order.isEdit

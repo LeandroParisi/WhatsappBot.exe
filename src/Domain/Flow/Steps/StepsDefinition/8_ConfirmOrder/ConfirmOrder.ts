@@ -12,7 +12,15 @@ import StepInfo from "../../Messages/StepInfo"
 import PaymentMethodsUtils from "../../../../../Shared/Utils/PaymentMethodsUtils"
 import DeliveryTypeUtils from "../../../../../Shared/Utils/DeliveryTypeUtils"
 import GenericParser from "../../../../../Shared/Parsers/GenericParser"
-import { OrderConfirmationAnswers, OrderConfirmationOptions, OrderConfirmationOptionsValues, OrderConfirmationPossibleEdits, OrderConfirmationPossibleEditsValues, OrderOptionsTranslation, ValidationPayload } from "./Enums"
+import { 
+  OrderConfirmationAnswers,
+  OrderConfirmationOptions,
+  OrderConfirmationOptionsValues,
+  OrderConfirmationPossibleEdits,
+  OrderConfirmationPossibleEditsValues,
+  OrderOptionsTranslation,
+  ValidationPayload 
+} from "./Enums"
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler"
 import { CurrentlyRegisteringOrder } from "../../../../../../data/Enums/CurrentlyRegisteringOrder"
 import EnrichOrderStep from "../3.2_EnrichOrderStep/EnrichOrderStep"
@@ -64,7 +72,7 @@ export default class ConfirmOrderStep extends StepDefinition implements IOptions
             'Perfeito! Irei processar seu pedido.',
             'Favor aguardar um pouco, já já lhe envio a confirmação'
           ],
-          StepNumbers.closingStep,
+          undefined,
           [ActionsEnum.SEND_ORDER],
           [this.OrderInfo]
         )
@@ -93,6 +101,9 @@ export default class ConfirmOrderStep extends StepDefinition implements IOptions
       case (OrderConfirmationPossibleEdits.comment):
         this.OrderInfo.currentlyRegistering = CurrentlyRegisteringOrder.COMMENTS
         break
+      // case (OrderConfirmationPossibleEdits.cupom):
+      //     this.OrderInfo.currentlyRegistering = CurrentlyRegisteringOrder.COUPOM
+      //     break
       default:
         throw new Error("Invalid order confirmation option")
     }
@@ -138,7 +149,8 @@ export default class ConfirmOrderStep extends StepDefinition implements IOptions
         "Vou lhe enviar as informações:",
         `*${OrderConfirmationOptions.promotion}. Promoção:*\n${promoInfo}${productInfo}`,
         `*${OrderConfirmationOptions.deliveryType}. Tipo de entrega:*\n${DeliveryTypeUtils.TranslateToPt(deliveryType)}`,
-        `*${OrderConfirmationOptions.paymentMethod}. Método de pagamento:*\n${PaymentMethodsUtils.TranslateToPt(paymentMethod)}`,
+        `*${OrderConfirmationOptions.paymentMethod}. Método de pagamento:*\n${
+          PaymentMethodsUtils.TranslateToPt(paymentMethod)}`,
         `*${OrderConfirmationOptions.address}. Endereço:*\n${address}`,
         `*${OrderConfirmationOptions.comment}. Comentário:*\n${orderInfo.comments || "Nenhum"}`,
         `*${OrderConfirmationOptions.subTotal}. Sub Total:*\n${GenericParser.FormatPrice(
@@ -150,7 +162,7 @@ export default class ConfirmOrderStep extends StepDefinition implements IOptions
         `*${OrderConfirmationOptions.totalPrice}. Total (Sub Total + Taxa de entrega):*\n${GenericParser.FormatPrice(
           {price:orderInfo.totalPrice , decimal: true}
         )}`,
-
+        // `*${OrderConfirmationOptions.cupom}. Cupom:*\n${orderInfo.coupomCode || "Nenhum"}`,
         `Você pode editar as seguintes opções: ${ConfirmOrderStep.GetEditOptions()}`,
         'Para editar basta digitar o número correspondente',
         `Ou, se estiver tudo ok, digite *${OrderConfirmationAnswers.OK}* para finalizarmos seu pedido`,

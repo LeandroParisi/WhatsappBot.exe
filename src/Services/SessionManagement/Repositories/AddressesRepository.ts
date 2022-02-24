@@ -37,7 +37,7 @@ export default class AddressesRepository {
     await this.addressesDb.remove({}, { multi: true })
   }
 
-  async DeleteAddress(query : Object) : Promise<any> {
+  async DeleteAddress(query : any) : Promise<any> {
     const affectedRows = await this.addressesDb.remove(query, { multi: true })
     return affectedRows
   }

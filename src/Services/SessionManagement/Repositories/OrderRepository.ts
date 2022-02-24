@@ -30,5 +30,9 @@ export default class OrderRepository {
   async CleanUp() : Promise<void> {
     await this.orderDb.remove({}, { multi: true })
   }
+
+  async DeleteOrderById(_id : string) : Promise<void> {
+    await this.orderDb.remove({ _id }, { multi: true })
+  }
 }
 

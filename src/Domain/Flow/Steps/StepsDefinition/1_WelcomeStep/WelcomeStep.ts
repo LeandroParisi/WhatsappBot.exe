@@ -19,7 +19,7 @@ export default class WelcomeStep extends StepDefinition {
     const messages = [
       `Olá ${this.Customer.info.firstName},\nMeu nome é ${this.SessionData.branchData.botName} e irei lhe auxiliar durante sua experiência de compra conosco, então, vamos lá?`, 
       MainMenu.INTRO_MESSAGE,
-      MainMenu.MENU_OPTIONS,
+      MainMenu.GetMenuOptions(this.Customer),
     ]
     
     return new StepInfo (

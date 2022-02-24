@@ -29,7 +29,7 @@ export const NextEditStep = {
   [CurrentlyRegisteringOrder.ADDRESS]: CurrentlyRegisteringOrder.DELIVERY_FEE,
   [CurrentlyRegisteringOrder.DELIVERY_FEE]: CurrentlyRegisteringOrder.FINISHED,
   [CurrentlyRegisteringOrder.COMMENTS]: CurrentlyRegisteringOrder.FINISHED,
-  [CurrentlyRegisteringOrder.COUPOM]: CurrentlyRegisteringOrder.FINISHED,
+  // [CurrentlyRegisteringOrder.COUPOM]: CurrentlyRegisteringOrder.FINISHED,
 
 }
 

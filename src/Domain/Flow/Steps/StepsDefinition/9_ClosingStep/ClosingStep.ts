@@ -37,7 +37,7 @@ export default class ClosingStep extends StepDefinition{
   private AnswerFactory(selectedOption: number): StepInfo {
     switch (selectedOption) {
       case 1:
-        return ReturnToMenu.GenerateMessage({})
+        return ReturnToMenu.GenerateMessage({}, this.Customer)
       case 2:
         return new StepInfo(
           [

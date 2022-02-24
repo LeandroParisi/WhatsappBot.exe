@@ -18,6 +18,7 @@ export const OrderConfirmationOptions = {
   subTotal: 6,
   deliveryFee: 7,
   totalPrice: 8,
+  // cupom: 9
 } as const
 
 
@@ -30,8 +31,8 @@ export const OrderConfirmationPossibleEdits = {
   paymentMethod: OrderConfirmationOptions.paymentMethod,
   address: OrderConfirmationOptions.address,
   comment: OrderConfirmationOptions.comment,
+  // cupom: OrderConfirmationOptions.cupom
 } as const
-
 
 export type OrderConfirmationPossibleEditsKeys = keyof typeof OrderConfirmationPossibleEdits;
 export type OrderConfirmationPossibleEditsValues = typeof OrderConfirmationPossibleEdits[OrderConfirmationPossibleEditsKeys];
@@ -46,4 +47,6 @@ export const OrderOptionsTranslation = {
   [OrderConfirmationOptions.subTotal]: 'Sub Total',
   [OrderConfirmationOptions.deliveryFee]: 'Taxa de entrega',
   [OrderConfirmationOptions.totalPrice]: 'Total',
+  // [OrderConfirmationOptions.cupom]: 'Cupom',
+
 }

@@ -51,6 +51,10 @@ export default class ValidateCoupomAction implements IActionHandler<ValidateCoup
         [order, ...ActionsUtils.ExtractActionsPayload(nextStep)]
       )
     } else if (!isValid && !!validationMessages?.length) {
+      order.coupomId = undefined
+      order.coupomCode = undefined
+      order.freeDelivery = undefined
+
       return new StepInfo(
         [
           'Desculpe, este cupom não é valido para esta compra pelos seguinte motivos:',
@@ -59,9 +63,15 @@ export default class ValidateCoupomAction implements IActionHandler<ValidateCoup
           `Caso contrário digite *${SelectCoupomStep.NEGATION}* para não aplicar nenhum cupom`
         ],
         StepNumbers.selectCoupom,
+        [ActionsEnum.UPDATE_ORDER],
+        [order]
       )
     }
     else {
+      order.coupomId = undefined
+      order.coupomCode = undefined
+      order.freeDelivery = undefined
+
       return new StepInfo(
         [
           'Desculpe, este cupom não existe.',
@@ -69,6 +79,8 @@ export default class ValidateCoupomAction implements IActionHandler<ValidateCoup
           `Caso contrário digite *${SelectCoupomStep.NEGATION}* para não aplicar nenhum cupom`
         ],
         StepNumbers.selectCoupom,
+        [ActionsEnum.UPDATE_ORDER],
+        [order]
       )
     }
   }

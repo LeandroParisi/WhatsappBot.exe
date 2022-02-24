@@ -8,6 +8,7 @@ export default class Customer {
   public _id : string
   public currentStep : number
   public lastMessage : Date
+  public hasOrders? : boolean
   public info? : CustomerInfo
   public customerTemplateMessages? : CustomerTemplateMessages
 

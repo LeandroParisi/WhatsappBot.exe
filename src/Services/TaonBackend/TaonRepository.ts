@@ -1,7 +1,6 @@
 import { Service } from "typedi"
 // import { Message } from "venom-bot";
 import BranchData from "../../../data/DTOs/BranchData"
-import { CustomerInfoSql } from "../../../data/DTOs/CustomerInfo"
 import LoginData from "../../../data/Interfaces/LoginData"
 import Customer from "../../../data/Models/Customer"
 import { CustomerAddressSQL } from "../../../data/Models/CustomerAddress"
@@ -11,12 +10,14 @@ import { LoginDataResponse } from "./Responses/LoginDataResponse"
 import BotInitialLoadResponse from "./Responses/BotInitialLoadResponse"
 import Locations from "../../../data/DTOs/MemoryData/SubClasses/Locations"
 import LocationsResponse from "./Responses/LocationsResponse"
-import CheckCustomerResponse from "./Responses/CheckCustomerResponse"
+import CheckCustomerResponse, { CheckCustomerDataReponse } from "./Responses/CheckCustomerResponse"
 import METHODS from "../Shared/methods"
 import ValidatedCoupom, { IsCoupomValidResponse } from "./Responses/IsCoupomValidResponse"
 import { OrderSQL } from "../../../data/Models/Order"
 import CalculateFaresResponse, { CalculatedFares } from "./Responses/CalculateFaresResponse"
 import ValidateCoupomBody from "./Requests/ValidateCoupomBody"
+import RegisterOrderRes from "./Responses/RegisterOrderResponse"
+import CalculateFaresBody from "./Requests/CalculateFaresBody"
 
 @Service()
 export default class TaonRepository {
@@ -86,7 +87,7 @@ export default class TaonRepository {
     return response.data
   }
 
-  async CheckCustomerInfo(customer : Customer, message : any) : Promise<CustomerInfoSql>{
+  async CheckCustomerInfo(customer : Customer, message : any) : Promise<CheckCustomerDataReponse>{
     const endpoint = `customers/bot/checkCustomer/${message.from}`
 
     const response = await this.Api.Request<CheckCustomerResponse>({
@@ -98,7 +99,7 @@ export default class TaonRepository {
       }
     })
 
-    return new CustomerInfoSql(response.data)
+    return response.data
   }
 
   async SaveAddress(body : CustomerAddressSQL) : Promise<void> {
@@ -117,6 +118,18 @@ export default class TaonRepository {
     const response = await this.Api.Request<CalculateFaresResponse>({
       endpoint,
       method: METHODS.GET,
+      body: new CalculateFaresBody(body)
+    })
+
+    return response.data
+  }
+
+  async RegisterOrder(body : OrderSQL) : Promise<string> {
+    const endpoint = 'orders/register'
+
+    const response = await this.Api.Request<RegisterOrderRes>({
+      endpoint,
+      method: METHODS.POST,
       body
     })
 

@@ -8,6 +8,7 @@ import DaysUtils from "../../../Shared/Utils/DaysUtils"
 import TaonRepository from "../../TaonBackend/TaonRepository"
 import CustomerRepository from '../Repositories/CustomerRepository'
 import CustomerAddress from "../../../../data/Models/CustomerAddress"
+import { CustomerInfoSql } from "../../../../data/DTOs/CustomerInfo"
 
 @Service()
 export default class SessionHandler {
@@ -24,9 +25,12 @@ export default class SessionHandler {
 
     const customer = new Customer(message)
 
-    const customerInfo = await this.TaonRepository.CheckCustomerInfo(customer, message)
+    const response = await this.TaonRepository.CheckCustomerInfo(customer, message)
+
+    const customerInfo = new CustomerInfoSql(response.customerInfo)
 
     customer._id = customerInfo.id
+    customer.hasOrders = response.information.hasOrders
     customer.info = customerInfo.MapToMongo()
 
     customer.customerTemplateMessages = SessionHandler.GenerateTemplateMessages(customer.info.customerAddresses)

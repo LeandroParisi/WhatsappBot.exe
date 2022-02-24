@@ -8,6 +8,8 @@ import PromotionsSelectionStep from "../StepGenerators/PromotionsSelectionStep"
 import StepError from "../../../../Abstractions/Errors/StepError"
 import StepDefinition from "../../Interfaces/StepDefinition"
 import GenericParser from "../../../../../Shared/Parsers/GenericParser"
+import Customer from "../../../../../../data/Models/Customer"
+import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler"
 
 const options = [
   '1. Fazer pedido',
@@ -22,7 +24,6 @@ export default class MainMenu extends StepDefinition {
   static STEP_NUMBER = StepNumbers.mainMenu
   
   static INTRO_MESSAGE = "Em que posso te ajudar hoje?\n(Digite o número da opção para darmos continuidade)"
-  static MENU_OPTIONS = options.join("\n")
 
   public async Interact() : Promise<StepInfo> {
     const clientAnswer = this.Message.body
@@ -33,7 +34,7 @@ export default class MainMenu extends StepDefinition {
         [
           'Desculpe, não entendi qual opção deseja.\nFavor tentar novamente.',
           'Digite só o número da opção para darmos continuidade.',
-          MainMenu.MENU_OPTIONS,
+          MainMenu.GetMenuOptions(this.Customer),
         ], 
         StepNumbers.mainMenu
       )
@@ -41,7 +42,11 @@ export default class MainMenu extends StepDefinition {
   }
 
   private ValidateAnswer() : boolean {
-    return /^[1-9]$/.test(this.Message.body) && Number(this.Message.body) <= options.length
+    const newOptions = [...options]
+    if (this.Customer.hasOrders) {
+      newOptions.push("6. Verificar o status do meu pedido") 
+    }
+    return /^[1-9]$/.test(this.Message.body) && Number(this.Message.body) <= newOptions.length
   }
 
   private AnswerFactory(selectedOption : number) : StepInfo {
@@ -82,6 +87,15 @@ export default class MainMenu extends StepDefinition {
           ],
           StepNumbers.closingStep
         )
+      case 6: 
+        return new StepInfo(
+          [
+            "Perfeito. Por favor aguarde enquanto eu checo seus pedidos pendentes."
+          ],
+          undefined,
+          [ActionsEnum.CHECK_CUSTOMER_ORDERS],
+          [this.Customer]
+        )
       default:
         throw new StepError(MainMenu.STEP_NUMBER, `Invalid stepNumber selected by user ${selectedOption}`)
 
@@ -100,6 +114,15 @@ export default class MainMenu extends StepDefinition {
         StepNumbers.closingStep
       )
     }
+  }
+
+  public static GetMenuOptions(customer : Customer) : string {
+    if (customer.hasOrders) {
+      const newOptions = [...options]
+      newOptions.push("6. Verificar o status do meu pedido") 
+      return newOptions.join('\n')
+    }
+    return options.join('\n')
   }
 
 }

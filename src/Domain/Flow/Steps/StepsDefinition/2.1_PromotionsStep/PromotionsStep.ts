@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import staticImplements from "../../../../../Shared/Anotations/staticImplements"
 import IStep, { StepNumbers } from "../../Interfaces/IStep"
 import StepInfo from "../../Messages/StepInfo"
@@ -111,7 +112,7 @@ export default class PromotionsStep extends StepDefinition {
         })
 
       case SelectedOption.back:
-        return ReturnToMenu.GenerateMessage({})
+        return ReturnToMenu.GenerateMessage({}, this.Customer)
 
       case SelectedOption.outdatedOptions:
         return PromotionsSelectionStep.GenerateMessage({
