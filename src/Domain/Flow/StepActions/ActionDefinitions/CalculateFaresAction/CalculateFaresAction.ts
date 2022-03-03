@@ -7,8 +7,8 @@ import StepInfo from "../../../Steps/Messages/StepInfo"
 import EnrichOrderStep from "../../../Steps/StepsDefinition/3.2_EnrichOrderStep/EnrichOrderStep"
 import { SessionData } from "../../../Startup/BotCore"
 import ActionsUtils from "../../../Utils/ActionsUtils"
-import ValidateCoupomDTO from "../../DTOs/ValidateCoupomDTO"
 import { CurrentlyRegisteringOrder } from "../../../../../../data/Enums/CurrentlyRegisteringOrder"
+import ValidateCoupomDTO from "../ValidateCoupomAction/DTO/ValidateCoupomDTO"
 
 
 export default class CalculateFaresAction implements IActionHandler<Order> {

@@ -2,7 +2,7 @@
 
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements"
 import GenericParser from "../../../../../../Shared/Parsers/GenericParser"
-import ValidateCoupomDTO from "../../../../StepActions/DTOs/ValidateCoupomDTO"
+import ValidateCoupomDTO from "../../../../StepActions/ActionDefinitions/ValidateCoupomAction/DTO/ValidateCoupomDTO"
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler"
 import ActionsUtils from "../../../../Utils/ActionsUtils"
 import IStep, { IIntroMessages, IOptionsAnswer, IStepOptions, StepNumbers } from "../../../Interfaces/IStep"

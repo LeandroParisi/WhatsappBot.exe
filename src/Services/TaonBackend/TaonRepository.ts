@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { Service } from "typedi"
 // import { Message } from "venom-bot";
 import BranchData from "../../../data/DTOs/BranchData"
@@ -18,6 +19,7 @@ import CalculateFaresResponse, { CalculatedFares } from "./Responses/CalculateFa
 import ValidateCoupomBody from "./Requests/ValidateCoupomBody"
 import RegisterOrderRes from "./Responses/RegisterOrderResponse"
 import CalculateFaresBody from "./Requests/CalculateFaresBody"
+import CheckCustomerOrdersDTO from "../../Domain/Flow/StepActions/ActionDefinitions/CheckCustomerOrdersAction/DTO/CheckCustomerOrdersDTO"
 
 @Service()
 export default class TaonRepository {
@@ -35,6 +37,16 @@ export default class TaonRepository {
       endpoint, 
       method : METHODS.GET,
       body
+    })
+
+    return response.data
+  }
+
+  async CheckCustomerOrders(payload: CheckCustomerOrdersDTO) : Promise<OrderSQL[]> {
+    const endpoint = `orders/byCustomerAndBranch/${payload.branchId}/${payload.customerId}?status=${payload.status.join(',')}`
+    const response = await this.Api.Request<{data: OrderSQL[]}>({
+      endpoint, 
+      method : METHODS.GET,
     })
 
     return response.data

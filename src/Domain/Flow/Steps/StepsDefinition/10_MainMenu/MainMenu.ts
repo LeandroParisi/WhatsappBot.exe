@@ -10,6 +10,7 @@ import StepDefinition from "../../Interfaces/StepDefinition"
 import GenericParser from "../../../../../Shared/Parsers/GenericParser"
 import Customer from "../../../../../../data/Models/Customer"
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler"
+import CheckCustomerOrdersDTO from "../../../StepActions/ActionDefinitions/CheckCustomerOrdersAction/DTO/CheckCustomerOrdersDTO"
 
 const options = [
   '1. Fazer pedido',
@@ -94,7 +95,7 @@ export default class MainMenu extends StepDefinition {
           ],
           undefined,
           [ActionsEnum.CHECK_CUSTOMER_ORDERS],
-          [this.Customer]
+          [new CheckCustomerOrdersDTO(this.SessionData.branchData.id, this.Customer._id)]
         )
       default:
         throw new StepError(MainMenu.STEP_NUMBER, `Invalid stepNumber selected by user ${selectedOption}`)
