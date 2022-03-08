@@ -9,6 +9,9 @@ import {
    NextStep 
   } from "../Enums/CurrentlyRegisteringOrder"
 import { CalculatedFares } from "../../src/Services/TaonBackend/Responses/CalculateFaresResponse"
+import { OrderStatusValues } from "../Enums/OrderStatus"
+import { DeliveryTypesKeys } from "../Enums/DeliveryTypes"
+import { PaymentMethodsKeys, PaymentMethodsValues } from "../Enums/PaymentMethods"
 
 export default class Order implements IOrderInfo, Payload {
   _id : string; //
@@ -16,11 +19,11 @@ export default class Order implements IOrderInfo, Payload {
   customerId : string //
   addressId? : string //
   subTotal : number
-  deliveryTypeId? : number //
+  deliveryTypeId? : DeliveryTypesKeys //
   deliveryFee : number
-  paymentMethodId? : number //
+  paymentMethodId? : PaymentMethodsKeys //
   totalPrice : number
-  status : string
+  status : OrderStatusValues
   coupomId? : number
   promotionId?: number //
   estimatedDeliveryDuration : number
@@ -78,8 +81,6 @@ export default class Order implements IOrderInfo, Payload {
     console.log({after: this.currentlyRegistering})
 
   }
-
-
 }
 
 export class OrderSQL implements IOrderInfo, Payload {
@@ -89,19 +90,19 @@ export class OrderSQL implements IOrderInfo, Payload {
   addressId? : string //
   orderNumber : number //
   subTotal : number
-  deliveryTypeId? : number //
+  deliveryTypeId? : DeliveryTypesKeys //
   deliveryFee : number
-  paymentMethodId? : number //
+  paymentMethodId? : PaymentMethodsKeys //
   discount : number
   totalPrice : number
-  status : string
+  status : OrderStatusValues
   coupomId? : number
   promotionId?: number //
   estimatedDeliveryDuration : number
   distanceInKm: number
   comments : string
-  dispatchTime : Date
-  deliveryTime : Date
+  dispatchTime : string
+  deliveryTime : string
   createdAt: Date;
 
   /**

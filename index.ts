@@ -27,6 +27,17 @@ class Main {
       await this.BotStartup.LoadUserInfo(bot, this.BotCore)
 
       this.BotCore.Start()
+
+      // fs.readFile('./test.html', function (err, html) {
+      //   if (err) {
+      //       throw err; 
+      //   }       
+      //   http.createServer(function(request, response) {  
+      //       response.writeHead(200, {"Content-Type": "text/html"});  
+      //       response.write(html);  
+      //       response.end();  
+      //   }).listen(8000);
+    // });
     } catch (error) {
       // Trace
       console.log(error)

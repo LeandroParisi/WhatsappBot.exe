@@ -1,11 +1,12 @@
-export enum DeliveryTypeTranslation {
-  delivery = 'Entrega',
-  counter_pickup = 'Retirada no balcão',
-  on_spot_consumption = 'Consumo no local',
-}
+import { DeliveryTypes, DeliveryTypesKeys, DeliveryTypeTranslation } from "../../../data/Enums/DeliveryTypes"
+
 
 export default class DeliveryTypeUtils {
   static TranslateToPt(deliveryType : keyof typeof DeliveryTypeTranslation) : string {
     return DeliveryTypeTranslation[deliveryType]
+  }
+
+  static TranslateToPtFromNumber(deliveryTypeId : DeliveryTypesKeys) : string {
+    return DeliveryTypes[deliveryTypeId]
   }
 }

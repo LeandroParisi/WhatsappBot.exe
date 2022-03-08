@@ -1,4 +1,5 @@
 
+import { DeliveryTypesKeys } from "../../../../../../../data/Enums/DeliveryTypes"
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements"
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler"
 import ActionsUtils from "../../../../Utils/ActionsUtils"
@@ -32,7 +33,7 @@ export default class SelectDeliveryTypeStep extends StepDefinition {
 
       if (isValidAnswer) {
         this.OrderInfo.deliveryTypeId = branchData
-          .deliveryTypes[Number(this.Answer) -  1].id
+          .deliveryTypes[Number(this.Answer) -  1].id as DeliveryTypesKeys
 
         this.OrderInfo.GetNextOrderRegisteringStep()
 

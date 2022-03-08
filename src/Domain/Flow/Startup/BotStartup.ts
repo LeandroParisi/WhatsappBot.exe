@@ -2,6 +2,7 @@ import { Service } from "typedi"
 import SessionHandler from "../../../Services/SessionManagement/Handlers/SessionHandler"
 import AddressesRepository from "../../../Services/SessionManagement/Repositories/AddressesRepository"
 import OrderRepository from "../../../Services/SessionManagement/Repositories/OrderRepository"
+import PendingOrdersRepository from "../../../Services/SessionManagement/Repositories/PendingOrdersRepository"
 import UserDataHandler from "../../../Services/UserData/Handlers/UserDataHandler"
 import LocationsRepository from "../../../Services/UserData/Repositories/LocationsRepository"
 import DaysUtils from "../../../Shared/Utils/DaysUtils"
@@ -17,6 +18,8 @@ export default class BotStartup {
     private readonly SessionHandler : SessionHandler,
     private readonly UserDataHandler : UserDataHandler,
     private readonly LocationsRepository : LocationsRepository,
+    private readonly PendingOrdersRepository : PendingOrdersRepository,
+
   ) {}
 
   public InstallServices() {
@@ -52,5 +55,6 @@ export default class BotStartup {
     await this.LocationsRepository.CleanUp()
     await this.OrderRepository.CleanUp()
     await this.AddressesRepository.CleanUp()
+    await this.PendingOrdersRepository.CleanUp()
   }
 }

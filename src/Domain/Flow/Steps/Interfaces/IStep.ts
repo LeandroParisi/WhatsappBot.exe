@@ -13,6 +13,7 @@ export enum StepNumbers {
   registerCity = 4.3,
   registerPostalCode = 4.4,
   confirmAddress = 4.5,
+  checkOrders = 7,
   confirmOrder = 8,
   closingStep = 9,
   mainMenu = 10,

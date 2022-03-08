@@ -1,4 +1,5 @@
 
+import { PaymentMethodsKeys } from "../../../../../../../data/Enums/PaymentMethods"
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements"
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler"
 import ActionsUtils from "../../../../Utils/ActionsUtils"
@@ -33,7 +34,7 @@ export default class SelectPaymentMethodStep extends StepDefinition{
 
     if (isValidAnswer) {
       this.OrderInfo.paymentMethodId = branchData
-        .paymentMethods[Number(this.Answer) -  1].id
+        .paymentMethods[Number(this.Answer) -  1].id as PaymentMethodsKeys
 
       this.OrderInfo.GetNextOrderRegisteringStep()
 
