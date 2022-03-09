@@ -1,10 +1,10 @@
 import Container from "typedi"
-import PendingOrdersRepository from "../../../../../Services/SessionManagement/Repositories/PendingOrdersRepository";
+import PendingOrdersRepository from "../../../../../Services/SessionManagement/Repositories/PendingOrdersRepository"
 import TaonRepository from "../../../../../Services/TaonBackend/TaonRepository"
-import CustomerTemplateMessagesFactory from "../../../../MessageFactories/CustomerTemplateMessagesFactory";
-import { StepNumbers } from "../../../Steps/Interfaces/IStep";
-import StepInfo from "../../../Steps/Messages/StepInfo";
-import ClosingStep from "../../../Steps/StepsDefinition/9_ClosingStep/ClosingStep";
+import CustomerTemplateMessagesFactory from "../../../../MessageFactories/CustomerTemplateMessagesFactory"
+import { StepNumbers } from "../../../Steps/Interfaces/IStep"
+import StepInfo from "../../../Steps/Messages/StepInfo"
+import ClosingStep from "../../../Steps/StepsDefinition/9_ClosingStep/ClosingStep"
 import IActionHandler, { ActionsEnum } from "../../Interfaces/IActionHandler"
 import CheckCustomerOrdersDTO from "./DTO/CheckCustomerOrdersDTO"
 
