@@ -1,14 +1,14 @@
 import Container from "typedi"
-import Customer from "../../../../../../data/Models/Customer"
-import Order, { OrderSQL } from "../../../../../../data/Models/Order"
 import IActionHandler, { ActionsEnum } from "../../Interfaces/IActionHandler"
 import TaonRepository from "../../../../../Services/TaonBackend/TaonRepository"
 import StepInfo from "../../../Steps/Messages/StepInfo"
 import EnrichOrderStep from "../../../Steps/StepsDefinition/3.2_EnrichOrderStep/EnrichOrderStep"
 import { SessionData } from "../../../Startup/BotCore"
 import ActionsUtils from "../../../Utils/ActionsUtils"
-import { CurrentlyRegisteringOrder } from "../../../../../../data/Enums/CurrentlyRegisteringOrder"
 import ValidateCoupomDTO from "../ValidateCoupomAction/DTO/ValidateCoupomDTO"
+import Order, { OrderSQL } from "../../../../../Data/Models/Order"
+import Customer from "../../../../../Data/Models/Customer"
+import { CurrentlyRegisteringOrder } from "../../../../../Data/Enums/CurrentlyRegisteringOrder"
 
 
 export default class CalculateFaresAction implements IActionHandler<Order> {

@@ -1,12 +1,12 @@
 import staticImplements from "../../Shared/Anotations/staticImplements"
 import AddressParser from "../../Shared/Parsers/AddressParser"
-import CustomerAddress from "../../../data/Models/CustomerAddress"
-import { OrderSQL } from "../../../data/Models/Order"
-import { StatusTranslations } from "../../../data/Enums/OrderStatus"
 import DeliveryTypeUtils from "../../Shared/Utils/DeliveryTypeUtils"
 import PaymentMethodsUtils from "../../Shared/Utils/PaymentMethodsUtils"
 import GenericParser from "../../Shared/Parsers/GenericParser"
 import moment from "moment"
+import CustomerAddress from "../../Data/Models/CustomerAddress"
+import { OrderSQL } from "../../Data/Models/Order"
+import { StatusTranslations } from "../../Data/Enums/OrderStatus"
 
 
 @staticImplements()

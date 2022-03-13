@@ -1,4 +1,4 @@
-import ViaCepPayload from "../../src/Services/ExternalServices/ViaCep/Payloads/ViaCepPayload"
+import ViaCepPayload from "../../Services/ExternalServices/ViaCep/Payloads/ViaCepPayload"
 
 export default class CepInfo {
   cep : string

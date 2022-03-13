@@ -1,4 +1,4 @@
-import { Attribute, AttributeTypes, Product, Promotion } from "../../../data/DTOs/BranchData"
+import { Attribute, AttributeTypes, Product, Promotion } from "../../Data/DTOs/BranchData"
 
 export interface PromotionMessage {
   promoInfo : string

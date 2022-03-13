@@ -1,5 +1,5 @@
 import Config from "../../../../../config"
-import { PromotionsInformation } from "../../../../../../data/DTOs/BranchData"
+import { PromotionsInformation } from "../../../../../Data/DTOs/BranchData"
 import staticImplements from "../../../../../Shared/Anotations/staticImplements"
 import IStep, { StepNumbers } from "../../Interfaces/IStep"
 import StepInfo from "../../Messages/StepInfo"

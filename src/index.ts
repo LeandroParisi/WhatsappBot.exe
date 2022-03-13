@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import 'reflect-metadata'
 import Container from 'typedi'
-import BotCore from './src/Domain/Flow/Startup/BotCore'
-import BotStartup from './src/Domain/Flow/Startup/BotStartup'
+import BotCore from './Domain/Flow/Startup/BotCore'
+import BotStartup from './Domain/Flow/Startup/BotStartup'
 import { app, BrowserWindow } from 'electron'
 const venom = require('venom-bot')
 

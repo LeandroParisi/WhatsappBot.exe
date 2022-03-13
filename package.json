@@ -4,9 +4,9 @@
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "tsc && copyfiles -f index.html dist",
+    "build": "tsc && copyfiles -f src/index.html dist",
     "start": "npm run build && electron dist/index.js",
-    "dev": "npx ts-node index.ts",
+    "dev": "npx ts-node src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dbtest": "node ./tests/dbTests.js"
   },
@@ -35,6 +35,7 @@
     "venom-bot": "^4.0.5"
   },
   "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.63",
     "@types/electron": "^1.6.10",
     "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.10.2",

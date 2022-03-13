@@ -1,4 +1,4 @@
-import { ICustomerInfoSql } from "../../../../data/DTOs/CustomerInfo"
+import { ICustomerInfoSql } from "../../../Data/DTOs/CustomerInfo"
 
 export interface CheckCustomerDataReponse {
   customerInfo : ICustomerInfoSql,

@@ -1,4 +1,4 @@
-import { PaymentMethods, PaymentMethodsKeys, PaymentMethodTranslation } from "../../../data/Enums/PaymentMethods"
+import { PaymentMethods, PaymentMethodsKeys, PaymentMethodTranslation } from "../../Data/Enums/PaymentMethods"
 
 
 export default class PaymentMethodsUtils {

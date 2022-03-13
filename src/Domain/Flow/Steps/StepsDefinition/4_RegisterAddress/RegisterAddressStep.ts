@@ -5,7 +5,7 @@ import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler"
 import IStep, { IStepOptions, StepNumbers } from "../../Interfaces/IStep"
 import StepDefinition, { StepDefinitionArgs } from "../../Interfaces/StepDefinition"
 import StepInfo from "../../Messages/StepInfo"
-import MemoryData from "../../../../../../data/DTOs/MemoryData/MemoryData"
+import MemoryData from "../../../../../Data/DTOs/MemoryData/MemoryData"
 
 
 @staticImplements<IStep>()

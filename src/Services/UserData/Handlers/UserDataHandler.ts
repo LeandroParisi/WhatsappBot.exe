@@ -4,11 +4,11 @@ import BackendError from '../../Abstractions/Errors/BackendError'
 import TaonRepository from '../../TaonBackend/TaonRepository'
 import UserDataRepository from "../Repositories/UserDataRepository"
 import LocationsRepository from "../Repositories/LocationsRepository"
-import BranchData from '../../../../data/DTOs/BranchData'
+import BranchData from '../../../Data/DTOs/BranchData'
 import BranchTemplateMessagesFactory from '../../../Domain/MessageFactories/BranchTemplateMessagesFactory'
 import DaysUtils from '../../../Shared/Utils/DaysUtils'
 import PromotionsUtils from '../../../Shared/Utils/PromotionsUtils'
-import MemoryData from "../../../../data/DTOs/MemoryData/MemoryData"
+import MemoryData from "../../../Data/DTOs/MemoryData/MemoryData"
 
 export interface InitialData {
   branchData : BranchData

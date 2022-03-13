@@ -1,5 +1,5 @@
-import AddressParser from "../../../../src/Shared/Parsers/AddressParser"
-import GenericParser from "../../../../src/Shared/Parsers/GenericParser"
+import AddressParser from "../../../../Shared/Parsers/AddressParser"
+import GenericParser from "../../../../Shared/Parsers/GenericParser"
 import { City, Country, State } from "../../BranchData"
 
 export default class Locations {

@@ -1,5 +1,5 @@
 import Container from "typedi"
-import CepInfo from "../../../../../../../data/DTOs/CepInfo"
+import CepInfo from "../../../../../../Data/DTOs/CepInfo"
 import ValidateCepRepository from "../../../../../../Services/ExternalServices/ViaCep/ValidateCepRepository"
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements"
 import Validations from "../../../../Utils/Validations"

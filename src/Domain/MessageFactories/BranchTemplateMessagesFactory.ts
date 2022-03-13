@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { Promotion, OpeningHours, DeliveryType, DeliveryFees, DeliveryFeeTypesEnum, DeliveryFeeType, PaymentMethod, PromotionsInformation } from "../../../data/DTOs/BranchData"
+import { Promotion, OpeningHours, DeliveryType, DeliveryFees, DeliveryFeeTypesEnum, DeliveryFeeType, PaymentMethod, PromotionsInformation } from "../../Data/DTOs/BranchData"
 import staticImplements from "../../Shared/Anotations/staticImplements"
 import DaysUtils from "../../Shared/Utils/DaysUtils"
 import DeliveryTypeUtils from "../../Shared/Utils/DeliveryTypeUtils"

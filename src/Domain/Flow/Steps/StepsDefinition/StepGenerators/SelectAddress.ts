@@ -5,7 +5,7 @@ import StepInfo from "../../Messages/StepInfo"
 import { AddressPossibleAnswers } from "../3.2_EnrichOrderStep/3.2.3_SelectAddress/SelectAddressStep"
 import RegisterAddressStep from "../4_RegisterAddress/RegisterAddressStep"
 import { SessionData } from "../../../Startup/BotCore"
-import MemoryData from "../../../../../../data/DTOs/MemoryData/MemoryData"
+import MemoryData from "../../../../../Data/DTOs/MemoryData/MemoryData"
 
 interface options {
   prefixMessages? : string[],

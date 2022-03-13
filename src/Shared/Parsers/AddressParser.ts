@@ -1,4 +1,4 @@
-import { City, Country, State } from "../../../data/DTOs/BranchData"
+import { City, Country, State } from "../../Data/DTOs/BranchData"
 import CustomerAddress from "../../../data/Models/CustomerAddress"
 
 export default class AddressParser {
