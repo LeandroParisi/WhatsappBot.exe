@@ -1,5 +1,5 @@
 
-import { DeliveryTypesKeys } from "../../../../../../../data/Enums/DeliveryTypes"
+import { DeliveryTypesKeys } from "../../../../../../Data/Enums/DeliveryTypes"
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements"
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler"
 import ActionsUtils from "../../../../Utils/ActionsUtils"

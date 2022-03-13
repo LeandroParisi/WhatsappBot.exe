@@ -1,4 +1,4 @@
-import Customer from "../../../../../data/Models/Customer"
+import Customer from "../../../../Data/Models/Customer"
 import { SessionData } from "../../Startup/BotCore"
 
 export interface ValidateParameters {

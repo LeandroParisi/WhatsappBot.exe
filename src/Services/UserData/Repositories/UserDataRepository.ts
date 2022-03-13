@@ -1,6 +1,6 @@
 import Datastore = require("nedb-promises");
 import { Service } from "typedi"
-import LoginData from "../../../../data/Interfaces/LoginData"
+import LoginData from "../../../Data/Interfaces/LoginData"
 import BranchDataDb from '../branchDataConfig'
 
 @Service()

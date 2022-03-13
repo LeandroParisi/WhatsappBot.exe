@@ -7,7 +7,7 @@ import RegisterAddressStep from "../RegisterAddressStep"
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler"
 import StepDefinition, { StepDefinitionArgs } from "../../../Interfaces/StepDefinition"
 import GenericParser from "../../../../../../Shared/Parsers/GenericParser"
-import CustomerAddress, { CurrentlyRegisteringAddress } from "../../../../../../../data/Models/CustomerAddress"
+import CustomerAddress, { CurrentlyRegisteringAddress } from "../../../../../../Data/Models/CustomerAddress"
 import EnrichOrderStep from "../../3.2_EnrichOrderStep/EnrichOrderStep"
 import ActionsUtils from "../../../../Utils/ActionsUtils"
 

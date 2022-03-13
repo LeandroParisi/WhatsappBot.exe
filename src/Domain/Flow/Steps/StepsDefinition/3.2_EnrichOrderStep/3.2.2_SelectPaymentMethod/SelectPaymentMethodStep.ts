@@ -1,5 +1,5 @@
 
-import { PaymentMethodsKeys } from "../../../../../../../data/Enums/PaymentMethods"
+import { PaymentMethodsKeys } from "../../../../../../Data/Enums/PaymentMethods"
 import staticImplements from "../../../../../../Shared/Anotations/staticImplements"
 import { ActionsEnum } from "../../../../StepActions/Interfaces/IActionHandler"
 import ActionsUtils from "../../../../Utils/ActionsUtils"

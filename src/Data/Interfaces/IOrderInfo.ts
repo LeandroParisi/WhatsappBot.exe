@@ -1,5 +1,5 @@
 import { OrderStatusValues } from "../Enums/OrderStatus"
-import { PaymentMethodsKeys, PaymentMethodsValues } from "../Enums/PaymentMethods"
+import { PaymentMethodsKeys } from "../Enums/PaymentMethods"
 
 export default interface IOrderInfo {
   branchId : string

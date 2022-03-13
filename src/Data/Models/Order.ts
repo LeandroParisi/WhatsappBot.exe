@@ -1,17 +1,17 @@
 import IOrderInfo from "../Interfaces/IOrderInfo"
-import DaysUtils from "../../src/Shared/Utils/DaysUtils"
 import { v4 as uuid } from 'uuid'
-import Payload from "../../src/Domain/Flow/StepActions/DTOs/Base/Payload"
 import { 
   CurrentlyRegisteringOrder,
    CurrentlyRegisteringOrderValues,
    NextEditStep,
    NextStep 
   } from "../Enums/CurrentlyRegisteringOrder"
-import { CalculatedFares } from "../../src/Services/TaonBackend/Responses/CalculateFaresResponse"
 import { OrderStatusValues } from "../Enums/OrderStatus"
 import { DeliveryTypesKeys } from "../Enums/DeliveryTypes"
-import { PaymentMethodsKeys, PaymentMethodsValues } from "../Enums/PaymentMethods"
+import Payload from "../../Domain/Flow/StepActions/DTOs/Base/Payload"
+import { PaymentMethodsKeys } from "../Enums/PaymentMethods"
+import DaysUtils from "../../Shared/Utils/DaysUtils"
+import { CalculatedFares } from "../../Services/TaonBackend/Responses/CalculateFaresResponse"
 
 export default class Order implements IOrderInfo, Payload {
   _id : string; //

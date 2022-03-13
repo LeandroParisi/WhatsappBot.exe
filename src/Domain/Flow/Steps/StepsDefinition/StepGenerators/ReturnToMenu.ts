@@ -1,4 +1,4 @@
-import Customer from "../../../../../../data/Models/Customer"
+import Customer from "../../../../../Data/Models/Customer"
 import { StepNumbers } from "../../Interfaces/IStep"
 import StepInfo from "../../Messages/StepInfo"
 import MainMenu from "../10_MainMenu/MainMenu"

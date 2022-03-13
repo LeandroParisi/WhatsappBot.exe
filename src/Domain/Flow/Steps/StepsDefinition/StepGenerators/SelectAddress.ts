@@ -1,5 +1,5 @@
-import Customer from "../../../../../../data/Models/Customer"
-import CustomerAddress, { AddressStatusEnum } from "../../../../../../data/Models/CustomerAddress"
+import Customer from "../../../../../Data/Models/Customer"
+import CustomerAddress, { AddressStatusEnum } from "../../../../../Data/Models/CustomerAddress"
 import { StepNumbers } from "../../Interfaces/IStep"
 import StepInfo from "../../Messages/StepInfo"
 import { AddressPossibleAnswers } from "../3.2_EnrichOrderStep/3.2.3_SelectAddress/SelectAddressStep"

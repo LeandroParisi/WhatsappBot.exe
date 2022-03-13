@@ -2,9 +2,9 @@ import BranchData, { DeliveryType, PaymentMethod, Promotion } from "../../../../
 import staticImplements from "../../../../../Shared/Anotations/staticImplements"
 import AddressParser from "../../../../../Shared/Parsers/AddressParser"
 import PromotionsUtils from "../../../../../Shared/Utils/PromotionsUtils"
-import Customer from "../../../../../../data/Models/Customer"
-import CustomerAddress from "../../../../../../data/Models/CustomerAddress"
-import Order from "../../../../../../data/Models/Order"
+import Customer from "../../../../../Data/Models/Customer"
+import CustomerAddress from "../../../../../Data/Models/CustomerAddress"
+import Order from "../../../../../Data/Models/Order"
 import Validations from "../../../Utils/Validations"
 import IStep, { IOptionsAnswer, IStepOptions, StepNumbers } from "../../Interfaces/IStep"
 import StepDefinition, { StepDefinitionArgs } from "../../Interfaces/StepDefinition"
@@ -22,7 +22,7 @@ import {
   ValidationPayload 
 } from "./Enums"
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler"
-import { CurrentlyRegisteringOrder } from "../../../../../../data/Enums/CurrentlyRegisteringOrder"
+import { CurrentlyRegisteringOrder } from "../../../../../Data/Enums/CurrentlyRegisteringOrder"
 import EnrichOrderStep from "../3.2_EnrichOrderStep/EnrichOrderStep"
 import ActionsUtils from "../../../Utils/ActionsUtils"
 

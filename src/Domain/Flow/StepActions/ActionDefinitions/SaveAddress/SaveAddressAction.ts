@@ -1,7 +1,7 @@
 import Container from "typedi"
 import TaonRepository from "../../../../../Services/TaonBackend/TaonRepository"
 import IActionHandler, { ActionsEnum } from "../../Interfaces/IActionHandler"
-import CustomerAddress, { CustomerAddressSQL } from "../../../../../../data/Models/CustomerAddress"
+import CustomerAddress, { CustomerAddressSQL } from "../../../../../Data/Models/CustomerAddress"
 import CustomerRepository from "../../../../../Services/SessionManagement/Repositories/CustomerRepository"
 import SessionHandler from "../../../../../Services/SessionManagement/Handlers/SessionHandler"
 import AddressesRepository from "../../../../../Services/SessionManagement/Repositories/AddressesRepository"

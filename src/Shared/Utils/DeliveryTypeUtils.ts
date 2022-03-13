@@ -1,4 +1,4 @@
-import { DeliveryTypes, DeliveryTypesKeys, DeliveryTypeTranslation } from "../../../data/Enums/DeliveryTypes"
+import { DeliveryTypes, DeliveryTypesKeys, DeliveryTypeTranslation } from "../../Data/Enums/DeliveryTypes"
 
 
 export default class DeliveryTypeUtils {

@@ -1,7 +1,7 @@
 import Container from "typedi"
 import OrderRepository from "../../../../../Services/SessionManagement/Repositories/OrderRepository"
-import Customer from "../../../../../../data/Models/Customer"
-import Order from "../../../../../../data/Models/Order"
+import Customer from "../../../../../Data/Models/Customer"
+import Order from "../../../../../Data/Models/Order"
 import IActionHandler, { ActionsEnum } from "../../Interfaces/IActionHandler"
 
 

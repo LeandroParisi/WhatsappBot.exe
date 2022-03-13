@@ -1,5 +1,5 @@
 import staticImplements from "../../Shared/Anotations/staticImplements"
-import CustomerAddress, { CurrentlyRegisteringAddress } from "../../../data/Models/CustomerAddress"
+import CustomerAddress, { CurrentlyRegisteringAddress } from "../../Data/Models/CustomerAddress"
 
 @staticImplements()
 export default class AddressMessageFactory {

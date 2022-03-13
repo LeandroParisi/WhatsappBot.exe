@@ -1,5 +1,5 @@
 import staticImplements from "../../../../../Shared/Anotations/staticImplements"
-import CustomerAddress, { CurrentlyRegisteringAddress } from "../../../../../../data/Models/CustomerAddress"
+import CustomerAddress, { CurrentlyRegisteringAddress } from "../../../../../Data/Models/CustomerAddress"
 import MessageUtils from "../../../../MessageFactories/AddressMessageFactory"
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler"
 import IStep, { IStepOptions, StepNumbers } from "../../Interfaces/IStep"

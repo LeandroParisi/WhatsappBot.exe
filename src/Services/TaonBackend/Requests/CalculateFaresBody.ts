@@ -1,4 +1,4 @@
-import { OrderSQL } from "../../../../data/Models/Order"
+import { OrderSQL } from "../../../Data/Models/Order"
 
 export default class CalculateFaresBody {
   id : string

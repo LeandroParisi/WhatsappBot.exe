@@ -1,9 +1,9 @@
 import staticImplements from "../../../../../Shared/Anotations/staticImplements"
-import Customer from "../../../../../../data/Models/Customer"
+import Customer from "../../../../../Data/Models/Customer"
 import IStep, { IStepOptions, StepNumbers } from "../../Interfaces/IStep"
 import StepInfo from "../../Messages/StepInfo"
 import { SessionData } from "../../../Startup/BotCore"
-import Order from "../../../../../../data/Models/Order"
+import Order from "../../../../../Data/Models/Order"
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler"
 import SelectAddress from "../StepGenerators/SelectAddress"
 import StepDefinition, { StepDefinitionArgs } from "../../Interfaces/StepDefinition"
@@ -11,7 +11,7 @@ import ConfirmOrderStep from "../8_ConfirmOrder/ConfirmOrder"
 import SelectCoupomStep from "./3.2.5_SelectCoupom/SelectCoupomStep"
 import SetCommentStep from "./3.2.4_SetComments/SetCommentStep"
 import StepError from "../../../../Abstractions/Errors/StepError"
-import { CurrentlyRegisteringOrder } from "../../../../../../data/Enums/CurrentlyRegisteringOrder"
+import { CurrentlyRegisteringOrder } from "../../../../../Data/Enums/CurrentlyRegisteringOrder"
 
 @staticImplements<IStep>()
 @staticImplements<IStepOptions>()

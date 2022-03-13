@@ -1,4 +1,4 @@
-import { OrderStatus, OrderStatusValues } from "../../../../../../../data/Enums/OrderStatus"
+import { OrderStatus, OrderStatusValues } from "../../../../../../Data/Enums/OrderStatus"
 
 export default class CheckCustomerOrdersDTO {
   branchId : string

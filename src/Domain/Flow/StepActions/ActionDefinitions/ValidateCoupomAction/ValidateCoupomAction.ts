@@ -1,5 +1,5 @@
 import Container from "typedi"
-import Customer from "../../../../../../data/Models/Customer"
+import Customer from "../../../../../Data/Models/Customer"
 import TaonRepository from "../../../../../Services/TaonBackend/TaonRepository"
 import IActionHandler, { ActionsEnum } from "../../Interfaces/IActionHandler"
 import StepInfo from "../../../Steps/Messages/StepInfo"

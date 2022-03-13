@@ -1,4 +1,4 @@
-import Order from "../../../../../../../data/Models/Order"
+import Order from "../../../../../../Data/Models/Order"
 
 export default class ValidateCoupomDTO {
   order : Order

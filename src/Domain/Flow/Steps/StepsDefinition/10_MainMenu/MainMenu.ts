@@ -8,7 +8,7 @@ import PromotionsSelectionStep from "../StepGenerators/PromotionsSelectionStep"
 import StepError from "../../../../Abstractions/Errors/StepError"
 import StepDefinition from "../../Interfaces/StepDefinition"
 import GenericParser from "../../../../../Shared/Parsers/GenericParser"
-import Customer from "../../../../../../data/Models/Customer"
+import Customer from "../../../../../Data/Models/Customer"
 import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler"
 import CheckCustomerOrdersDTO from "../../../StepActions/ActionDefinitions/CheckCustomerOrdersAction/DTO/CheckCustomerOrdersDTO"
 

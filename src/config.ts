@@ -8,7 +8,7 @@ import SystemUtils from "./Shared/Utils/SystemUtils"
 export default class Config {
   static onlineMenuUrl = "URL_CARDAPIO.com"
   static backendUrl = "http://localhost:3030/"
-
+  static dbsPath = "databases"
 
   static sessionResetRules = {
     stepsToReset: SystemUtils.GetEnumNumberValues(StepNumbers).filter(n => n >= 2 && n < 10),
