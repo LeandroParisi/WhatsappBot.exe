@@ -3,6 +3,7 @@ import 'reflect-metadata'
 import Container from 'typedi'
 import BotCore from './src/Domain/Flow/Startup/BotCore'
 import BotStartup from './src/Domain/Flow/Startup/BotStartup'
+import { app, BrowserWindow } from 'electron'
 const venom = require('venom-bot')
 
 class Main {
@@ -16,6 +17,8 @@ class Main {
 
   async Run() {
     try {
+      this.TesteElectron()
+      
       this.BotStartup.InstallServices()
       
       await this.BotStartup.Startup(this.BotCore)
@@ -53,6 +56,23 @@ class Main {
       useChrome: true,
     })
     return bot  
+  }
+
+  private TesteElectron() : void {
+    app.on('ready', () => {
+      console.log('App is ready')
+
+      const win = new BrowserWindow({
+        width: 600,
+        height: 400
+      })
+
+      const indexHTML = './index.html'
+
+      win.loadFile(indexHTML).then(() => {
+        // IMPLEMENT FANCY STUFF HERE
+      })
+    })
   }
 }
 
