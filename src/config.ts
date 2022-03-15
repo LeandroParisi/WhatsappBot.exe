@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import staticImplements from "./Shared/Anotations/staticImplements"
 // TODO: ajustar essa bagaça
 import { StepNumbers } from './Domain/Flow/Steps/Interfaces/IStep'

@@ -67,6 +67,10 @@ class Main {
       mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
+        webPreferences: {
+          nodeIntegration: true,
+          contextIsolation: false,
+        },
       })
 
       mainWindow.loadFile('index.html')
@@ -97,6 +101,7 @@ class Main {
     })
 
     ipcMain.on('app_version', (event) => {
+      console.log({version: app.getVersion() })
       event.sender.send('app_version', { version: app.getVersion() })
     })
     
@@ -114,27 +119,6 @@ class Main {
   }
 }
 
-
-  
-  
-  
-  // {
-  //   app.on('ready', () => {
-  //     console.log('App is ready')
-
-  //     const win = new BrowserWindow({
-  //       width: 600,
-  //       height: 400
-  //     })
-
-  //     const indexHTML = './index.html'
-
-  //     win.loadFile(indexHTML).then(() => {
-  //       // IMPLEMENT FANCY STUFF HERE
-  //     })
-  //   })
-  // }
-// }
 
 new Main().Run()
 // new Main().TESTE();
