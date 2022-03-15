@@ -3,11 +3,12 @@ import staticImplements from "./Shared/Anotations/staticImplements"
 import { StepNumbers } from './Domain/Flow/Steps/Interfaces/IStep'
 import SystemUtils from "./Shared/Utils/SystemUtils"
 
+require('dotenv').config()
 
 @staticImplements()
 export default class Config {
-  static onlineMenuUrl = "URL_CARDAPIO.com"
-  static backendUrl = "http://localhost:3030/"
+  static onlineMenuUrl = process.env.ONLINE_MENU_URL
+  static backendUrl = process.env.BACKEND_URL
   static dbsPath = "databases"
 
   static sessionResetRules = {

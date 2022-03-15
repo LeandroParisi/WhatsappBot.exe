@@ -1,6 +1,6 @@
 {
   "name": "bot.ext_taon",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "My awesome bot for whatsapp",
   "main": "./dist/index.js",
   "scripts": {
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LeandroParisi/bot.ext_taon.git"
+    "url": "git+https://github.com/LeandroParisi/WhatsappBot.exe.git"
   },
   "keywords": [],
   "author": "",
@@ -35,7 +35,8 @@
     "reflect-metadata": "^0.1.13",
     "typedi": "^0.10.0",
     "uuid": "^8.3.2",
-    "venom-bot": "^4.0.5"
+    "venom-bot": "^4.0.5",
+    "dotenv": "^10.0.0"
   },
   "devDependencies": {
     "@types/electron": "^1.6.10",
