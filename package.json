@@ -6,14 +6,14 @@
   "scripts": {
     "start": "npm run pre-build && electron dist/index.js",
     "dev": "npx ts-node src/index.ts",
-    "deploy": "electron-builder build --mac --win --publish always",
-    "build": "electron-builder build --mac --win --publish never",
+    "deploy": "electron-builder build --win --publish always",
+    "build": "electron-builder build --win --publish never",
     "pre-build": "tsc && copyfiles -f src/index.html dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LeandroParisi/WhatsappBot.exe.git"
+    "url": "git+https://github.com/LeandroParisi/bot.ext_taon.git"
   },
   "keywords": [],
   "author": "",
