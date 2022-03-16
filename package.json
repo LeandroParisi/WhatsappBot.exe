@@ -1,14 +1,18 @@
 {
-  "name": "bot.ext_taon",
+  "name": "whatsapp-bot",
   "version": "0.0.1",
   "description": "My awesome bot for whatsapp",
-  "main": "./dist/index.js",
+  "main": "./compiled/index.js",
   "scripts": {
-    "start": "npm run pre-build && electron dist/index.js",
+    "start": "npm run pre-build && electron compiled/index.js",
     "dev": "npx ts-node src/index.ts",
+
     "deploy": "electron-builder build --win --publish always",
     "build": "electron-builder build --win --publish never",
-    "pre-build": "tsc && copyfiles -f src/index.html dist",
+    "pre-build": "tsc && copyfiles -f src/index.html compiled",
+    "pack": "electron-builder --win",
+
+    "postinstall": "electron-builder install-app-deps",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

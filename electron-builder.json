@@ -1,0 +1,22 @@
+{
+  "appId": "taon.bot",
+  "productName": "WhatsappBot",
+  "copyright": "Leandro Parisi",
+  "publish": {
+    "provider": "github",
+    "token": "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"
+  },
+  "directories": {
+      "app": ".",
+      "output": "out",
+      "buildResources": "build-res"
+  },
+  "files": [
+      "package.json",
+      "compiled/**/*",
+      "node_modules"
+  ],
+  "win": {
+      "target": "nsis"
+  }
+}

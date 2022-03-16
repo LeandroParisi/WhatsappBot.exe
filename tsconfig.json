@@ -5,7 +5,7 @@
     "noImplicitAny": true,
     "esModuleInterop": true,
     "allowJs": true,
-    "outDir": "./dist",
+    "outDir": "./compiled",
     "typeRoots": [
       "customTypes",
       "node_modules/@types"
