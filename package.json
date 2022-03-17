@@ -6,10 +6,12 @@
   "scripts": {
     "start": "npm run pre-build && electron compiled/index.js",
     "dev": "npx ts-node src/index.ts",
-    "deploy": "electron-builder build --win --publish always",
-    "build": "electron-builder build --win --publish never",
+
+    "deploy": "npm run postinstall && npm run pre-build && electron-builder build --win --publish always",
+    "build": "npm run postinstall && npm run pre-build && electron-builder build --win --publish never",
     "pre-build": "tsc && copyfiles -f src/index.html compiled",
-    "pack": "electron-builder --win",
+    
+    "pack": "npm run postinstall && npm run pre-build && electron-builder --win",
     "postinstall": "electron-builder install-app-deps",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
