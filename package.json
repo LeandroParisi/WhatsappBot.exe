@@ -6,12 +6,10 @@
   "scripts": {
     "start": "npm run pre-build && electron compiled/index.js",
     "dev": "npx ts-node src/index.ts",
-
     "deploy": "electron-builder build --win --publish always",
     "build": "electron-builder build --win --publish never",
     "pre-build": "tsc && copyfiles -f src/index.html compiled",
     "pack": "electron-builder --win",
-
     "postinstall": "electron-builder install-app-deps",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -30,6 +28,7 @@
     "axios": "^0.24.0",
     "cep-promise": "^4.1.2",
     "copyfiles": "^2.4.1",
+    "dotenv": "^10.0.0",
     "electron-squirrel-startup": "^1.0.0",
     "electron-updater": "^4.6.5",
     "moment": "^2.29.1",
@@ -37,10 +36,10 @@
     "nedb-promises": "^5.0.2",
     "node-fetch": "^3.1.0",
     "reflect-metadata": "^0.1.13",
+    "sharp": "^0.30.3",
     "typedi": "^0.10.0",
     "uuid": "^8.3.2",
-    "venom-bot": "^4.0.5",
-    "dotenv": "^10.0.0"
+    "venom-bot": "^4.0.5"
   },
   "devDependencies": {
     "@types/electron": "^1.6.10",
