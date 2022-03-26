@@ -2,17 +2,14 @@
   "name": "whatsapp-bot",
   "version": "0.0.1",
   "description": "My awesome bot for whatsapp",
-  "main": "./compiled/index.js",
+  "main": "./index.js",
   "scripts": {
-    "start": "npm run pre-build && electron compiled/index.js",
+    "start": "npm run pre-build && electron build/index.js",
     "dev": "npx ts-node src/index.ts",
-
-    "deploy": "electron-builder build --win --publish always",
-    "build": "electron-builder build --win --publish never",
-    "pre-build": "tsc && copyfiles -f src/index.html compiled",
-    "pack": "electron-builder --win",
-
-    "postinstall": "electron-builder install-app-deps",
+    "release": "npm run pre-build && electron-builder --win --publish always",
+    "build": "npm run pre-build && electron-builder --win --publish never",
+    "pack": "npm run pre-build && electron-builder build --win",
+    "pre-build": "rm -rf build && tsc && copyfiles -f src/index.html build && copyfiles -f package.json build && copyfiles -f yarn.lock build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -30,6 +27,7 @@
     "axios": "^0.24.0",
     "cep-promise": "^4.1.2",
     "copyfiles": "^2.4.1",
+    "dotenv": "^10.0.0",
     "electron-squirrel-startup": "^1.0.0",
     "electron-updater": "^4.6.5",
     "moment": "^2.29.1",
@@ -39,8 +37,7 @@
     "reflect-metadata": "^0.1.13",
     "typedi": "^0.10.0",
     "uuid": "^8.3.2",
-    "venom-bot": "^4.0.5",
-    "dotenv": "^10.0.0"
+    "venom-bot": "^4.0.5"
   },
   "devDependencies": {
     "@types/electron": "^1.6.10",

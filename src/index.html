@@ -26,8 +26,14 @@
   </style>
 </head>
 <body>
-  <h1>Electron Auto Update Example</h1>
+  <h1>TaOn - WhatsappBot</h1>
   <p id="version"></p>
+
+  <div id="inputs-container">
+    <button id="send" onclick="sendInput()">
+      Click Me!
+    </button>
+  </div>
 
   <div id="notification" class="hidden">
     <p id="message"></p>
@@ -44,7 +50,7 @@
     const version = document.getElementById('version');
     
     ipcRenderer.send('app_version');
-    
+
     ipcRenderer.on('app_version', (event, arg) => {
       ipcRenderer.removeAllListeners('app_version');
       version.innerText = 'Version ' + arg.version;
@@ -73,6 +79,10 @@
     
     function restartApp() {
       ipcRenderer.send('restart_app');
+    }
+
+    function sendInput() {
+      ipcRenderer.send('receive_input', "teste")
     }
   </script>
 </body>
