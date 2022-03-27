@@ -13,6 +13,7 @@ export default class UserDataRepository {
   }
 
   async SaveLoginData(data : LoginData) : Promise<string> {
+    await this.DestroySessionData()
     const insertedData = await this.sessionData.insert(data)
     return insertedData._id
   }

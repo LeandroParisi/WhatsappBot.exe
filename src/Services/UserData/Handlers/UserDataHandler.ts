@@ -1,6 +1,4 @@
 import { Service } from "typedi"
-import MaxLoginReached from '../../Abstractions/Errors/MaxLoginReached'
-import BackendError from '../../Abstractions/Errors/BackendError'
 import TaonRepository from '../../TaonBackend/TaonRepository'
 import UserDataRepository from "../Repositories/UserDataRepository"
 import LocationsRepository from "../Repositories/LocationsRepository"
@@ -9,6 +7,8 @@ import BranchTemplateMessagesFactory from '../../../Domain/MessageFactories/Bran
 import DaysUtils from '../../../Shared/Utils/DaysUtils'
 import PromotionsUtils from '../../../Shared/Utils/PromotionsUtils'
 import MemoryData from "../../../Data/DTOs/MemoryData/MemoryData"
+import LoginError from "../../Abstractions/Errors/LoginError"
+import ILoginInfo from "../../../Data/Interfaces/ILoginInfo"
 
 export interface InitialData {
   branchData : BranchData
@@ -27,39 +27,46 @@ export default class UserDataHandler {
     this.loginRetries = 0
   }
 
-  async ValidateUser() : Promise<string> {
+  async HasToken() : Promise<boolean> {
+    const userData = await this.repository.GetLoginData()
+
+    return !!userData
+  }
+
+  async ValidateToken() : Promise<string> {
     const userData = await this.repository.GetLoginData()
 
     try {
-      if (userData) {
-        await this.TaonRepository.ValidateSession(userData.token)
-        return userData._id
-      } else {
-        const { email, password } = this.GetUserInfo()
-    
-        const data = await this.TaonRepository.Login(email, password)
-    
-        const insertedId = await this.repository.SaveLoginData(data)
-        return insertedId
-      }
+      await this.TaonRepository.ValidateSession(userData.token)
+      return userData._id
     } catch (error) {
-      if (this.loginRetries >= 3) {
-        throw new MaxLoginReached("Max login retries reached, try logging in again", error)
-      }
-      if (this.IsBackendError(error)) {
-        await this.repository.DestroySessionData()
-        this.loginRetries += 1
-        // TODO adicionar mensagem de retry no console
-        await this.ValidateUser()
+      if (error?.status === 401) {
+        // await this.repository.DestroySessionData()
+        throw new LoginError("Sua sessão expirou, favor tentar logar novamente", error, true)
       } else {
-        throw error
+        throw new LoginError("Não foi possível lhe conectar, favor fazer contato com nossa equipe.", error, true)
       }
     }
   }
 
-  async SetStartupTime(userId : string, lastStartup : Date) {
+  async Login(loginInfo : ILoginInfo) : Promise<string> {
+    try {
+        const data = await this.TaonRepository.Login(loginInfo)
+    
+        const insertedId = await this.repository.SaveLoginData(data)
+        return insertedId
+    } catch (error) {
+      if (error?.status === 404) {
+        throw new LoginError("Senha ou email inválidos", error, true)
+      } else {
+        throw new LoginError("Não foi possível lhe conectar, favor fazer contato com nossa equipe.", error, true)
+      }
+    }
+  }
+
+  async SetStartupTime(lastStartup : Date) {
     await this.repository.UpdateUserData(
-      { _id: userId },
+      { },
       { lastStartup }
     )
   }
@@ -103,20 +110,6 @@ export default class UserDataHandler {
     enrichedBranchData = this.GenerateTemplateMessages(enrichedBranchData)
     
     return enrichedBranchData
-  }
-
-  private GetUserInfo() {
-    // TODO: Capturar email e password do usuário
-
-    const email = "user@teste.com"
-    const password = "123456"
-
-    return { email, password }
-
-  }
-
-  private IsBackendError(error : BackendError) {
-    return error?.status === 401
   }
 
   private FilterPromotions(branchData : BranchData, lastStartup : Date) : BranchData {
@@ -165,28 +158,6 @@ export default class UserDataHandler {
 
     return data
   }
-
-  // GetUserInfo() {
-  //   let email = ""
-  //   let password = ""
-
-  //   const rl = readline.createInterface({
-  //     input: process.stdin,
-  //     output: process.stdout
-  //   });
-    
-  //   rl.question('What is your email? ', (answer) => {
-  //     email = answer
-  //     rl.close();
-  //   });
-
-  //   rl.question('What is your password? ', (answer) => {
-  //     password = answer
-  //     rl.close();
-  //   });
-
-  //   return {email, password}
-  // }
 
   // eslint-disable-next-line class-methods-use-this
   async ErrorCatcher(callback: () => any) {

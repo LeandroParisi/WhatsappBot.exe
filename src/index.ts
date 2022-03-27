@@ -4,9 +4,10 @@ import Container from 'typedi'
 import BotCore from './Domain/Flow/Startup/BotCore'
 import BotStartup from './Domain/Flow/Startup/BotStartup'
 import ElectronStartup from './Electron/EletronStartup'
+import ILoginSubscriber from './Electron/Interfaces/EventsSubscribers/ILoginSubscriber'
 const venom = require('venom-bot')
 
-class Main {
+export default class Main implements ILoginSubscriber {
   BotCore : BotCore
   BotStartup : BotStartup
   ElectronStartup : ElectronStartup
@@ -15,27 +16,32 @@ class Main {
     this.BotCore = Container.get(BotCore)
     this.BotStartup = Container.get(BotStartup)
     this.ElectronStartup = Container.get(ElectronStartup)
+    this.ElectronStartup.SubscribeForLogin(this)
   }
+
 
   async Run() {
     try {
-      this.ElectronStartup.Run()
+      await this.ElectronStartup.Run()
 
       this.BotStartup.InstallServices()
       
-      // await this.BotStartup.Startup(this.BotCore)
-
-      const bot = await this.CreateBot()
-
-      // this.BotCore.SetBot(bot)
-
-      // await this.BotStartup.LoadUserInfo(bot, this.BotCore)
-
-      // this.BotCore.Start()
     } catch (error) {
       // Trace
       console.log(error)
     }
+  }
+
+  public async ReceiveLogin(): Promise<void> {
+    await this.BotStartup.Startup(this.BotCore)
+
+    const bot = await this.CreateBot()
+
+    this.BotCore.SetBot(bot)
+
+    await this.BotStartup.LoadUserInfo(bot, this.BotCore)
+
+    this.BotCore.Start()
   }
 
   private async CreateBot() : Promise<any> {

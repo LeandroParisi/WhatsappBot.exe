@@ -20,6 +20,7 @@ import ValidateCoupomBody from "./Requests/ValidateCoupomBody"
 import RegisterOrderRes from "./Responses/RegisterOrderResponse"
 import CalculateFaresBody from "./Requests/CalculateFaresBody"
 import CheckCustomerOrdersDTO from "../../Domain/Flow/StepActions/ActionDefinitions/CheckCustomerOrdersAction/DTO/CheckCustomerOrdersDTO"
+import ILoginInfo from "../../Data/Interfaces/ILoginInfo"
 
 @Service()
 export default class TaonRepository {
@@ -53,13 +54,13 @@ export default class TaonRepository {
   }
 
   
-  async Login(email : string, password : string) : Promise<LoginData> {
+  async Login(loginInfo : ILoginInfo) : Promise<LoginData> {
     const endpoint = "users/bot/login"
 
     const response = await this.Api.Request<LoginDataResponse>({
       endpoint, 
       method: METHODS.POST,
-      body: { email, password },
+      body: loginInfo
     })
 
     return response.data

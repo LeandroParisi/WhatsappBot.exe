@@ -9,7 +9,7 @@
     "release": "npm run pre-build && electron-builder --win --publish always",
     "build": "npm run pre-build && electron-builder --win --publish never",
     "pack": "npm run pre-build && electron-builder build --win",
-    "pre-build": "rm -rf build && tsc && copyfiles -f src/index.html build && copyfiles -f package.json build && copyfiles -f yarn.lock build",
+    "pre-build": "rm -rf build && tsc && copyfiles -f src/index.html build && copyfiles -f package.json build && copyfiles -f yarn.lock build && cp -R ./src/Electron/WebPage build/WebPage",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
