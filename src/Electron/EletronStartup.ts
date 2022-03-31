@@ -57,25 +57,6 @@ export default class EletronStartup {
       })
     }
 
-    // async function login() {
-    //   try {
-    //     const isLogged = await this.TryLogin()
-    //     console.log({isLogged})
-
-    //     if (!isLogged) {
-    //       mainWindow.webContents.send('request_login', "Favor logar com sua credenciais.")
-    //     }
-    //   } catch (error) {
-    //     const e = error as LoginError
-
-    //     mainWindow.webContents.send('invalid_token', error.message)
-
-    //     if (e.retryLogin) {
-    //       mainWindow.webContents.send('request_login', error.message)
-    //     }
-    //   }
-
-    // }
     
     app.on('ready', async () => {
       createWindow()

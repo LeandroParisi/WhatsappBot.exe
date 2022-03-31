@@ -3,6 +3,10 @@
   margin: auto
 }
 
-#logs {
+#logs.error {
   color: red
+}
+
+#logs.success {
+  color: green
 }

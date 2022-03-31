@@ -62,12 +62,14 @@
     });
 
     ipcRenderer.on('request_login', (_event, message) => {
+      errorMessage()
       logs.innerText = message
-      loginContainer.classList.toggle('show');
+      loginContainer.classList.remove('hidden');
     })
 
     ipcRenderer.on('logged_in', (_event, message) => {
-      logs.innerText = message || ""
+      successMessage()
+      logs.innerText = message || "Você está conectado!"
       loginContainer.classList.add('hidden');
     })
 
@@ -85,6 +87,16 @@
         password: document.getElementById('password').value
       }
       ipcRenderer.send('receive_input', loginInfo)
+    }
+
+    function successMessage() {
+      logs.classList.add("success")
+      logs.classList.remove("error")
+    }
+
+    function errorMessage() {
+      logs.classList.add("error")
+      logs.classList.remove("success")
     }
   </script>
 </body>
