@@ -38,6 +38,7 @@
     "nedb-promises": "^5.0.2",
     "node-fetch": "^3.1.0",
     "reflect-metadata": "^0.1.13",
+    "sharp": "^0.30.3",
     "typedi": "^0.10.0",
     "uuid": "^8.3.2",
     "venom-bot": "^4.0.5"
