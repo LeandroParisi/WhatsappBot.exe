@@ -12,10 +12,10 @@ lerna-debug.log*
 tokens/
 databases
 databases/
-out
-out/
+build
+build/
 dist
-compiled
+dist/
 
 # Dependency directories
 node_modules/

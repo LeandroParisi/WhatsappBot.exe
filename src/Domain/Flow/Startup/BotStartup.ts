@@ -11,7 +11,6 @@ import Installer from "./Installer"
 
 @Service()
 export default class BotStartup {
-
   constructor(
     private readonly OrderRepository : OrderRepository,
     private readonly AddressesRepository : AddressesRepository,
@@ -19,7 +18,6 @@ export default class BotStartup {
     private readonly UserDataHandler : UserDataHandler,
     private readonly LocationsRepository : LocationsRepository,
     private readonly PendingOrdersRepository : PendingOrdersRepository,
-
   ) {}
 
   public InstallServices() {
@@ -30,15 +28,10 @@ export default class BotStartup {
     const startupDate = DaysUtils.GetDateFromTimestamp(Date.now() / 1000)
 
     await this.CleanUp()
-    await this.ValidateUser(startupDate)
     await this.SessionHandler.ValidateCurrentSessions(startupDate)
+    await this.UserDataHandler.SetStartupTime(startupDate)
 
     bot.SetStartupDate(startupDate)
-  }
-
-  private async ValidateUser(startupDate : Date) : Promise<void> {
-    const userId = await this.UserDataHandler.ValidateUser()
-    await this.UserDataHandler.SetStartupTime(userId, startupDate)
   }
 
   public async LoadUserInfo(venomBot : any, bot : BotCore) {
