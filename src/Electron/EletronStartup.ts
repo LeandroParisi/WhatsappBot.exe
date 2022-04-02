@@ -2,6 +2,7 @@ import { app, BrowserWindow, ipcMain } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import { Service } from 'typedi'
 import Main from '..'
+import Config from '../config'
 import ILoginInfo from '../Data/Interfaces/ILoginInfo'
 import LoginError from '../Services/Abstractions/Errors/LoginError'
 import UserDataHandler from '../Services/UserData/Handlers/UserDataHandler'
@@ -68,7 +69,7 @@ export default class EletronStartup {
         console.log({isLogged})
 
         if (!isLogged) {
-          mainWindow.webContents.send('request_login', "Favor logar com sua credenciais.")
+          mainWindow.webContents.send('request_login', `Favor logar com sua credenciais. ${Config.backendUrl}`)
         } else {
           for (const subscriber of this.LoginSubscribers) {
             subscriber.ReceiveLogin()
