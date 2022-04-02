@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import 'reflect-metadata'
 import Container from 'typedi'
-import Config from './config'
 import BotCore from './Domain/Flow/Startup/BotCore'
 import BotStartup from './Domain/Flow/Startup/BotStartup'
 import ElectronStartup from './Electron/EletronStartup'
@@ -20,10 +19,8 @@ export default class Main implements ILoginSubscriber {
     this.ElectronStartup.SubscribeForLogin(this)
   }
 
-
   async Run() {
     try {
-      console.log(Config.backendUrl)
       await this.ElectronStartup.Run()
 
       this.BotStartup.InstallServices()
