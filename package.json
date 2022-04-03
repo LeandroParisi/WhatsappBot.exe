@@ -7,7 +7,6 @@
     "start": "npm run pre-build:dev && electron build/index.js",
     "dev": "npx ts-node src/index.ts",
     "release": "npm run pre-build:release && electron-builder --win --publish always",
-    "build": "npm run pre-build:release && electron-builder --win --publish never",
     "pack": "npm run pre-build:release && electron-builder build --win",
     "pre-build:release": "npm run clean-up && npm run compile",
     "pre-build:dev": "npm run compile",
