@@ -9,7 +9,7 @@
   <h1>TaOn - WhatsappBot</h1>
   <p id="version"></p>
 
-  <div id="login-container" class="hidden">
+  <div id="login-container" class="">
     <input placeholder="email" id="email" type="text" />
     <input placeholder="senha" id="password" type="password" />
     <button id="send" onclick="sendInput()">
@@ -62,12 +62,14 @@
     });
 
     ipcRenderer.on('request_login', (_event, message) => {
+      console.log('request login')
       errorMessage()
       logs.innerText = message
       loginContainer.classList.remove('hidden');
     })
 
     ipcRenderer.on('logged_in', (_event, message) => {
+      console.log('logged in')
       successMessage()
       logs.innerText = message || "Você está conectado!"
       loginContainer.classList.add('hidden');

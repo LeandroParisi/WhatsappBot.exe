@@ -10,7 +10,7 @@ require('dotenv').config()
 @staticImplements()
 export default class Config {
   static onlineMenuUrl = process.env.ONLINE_MENU_URL || ElectronConfig.onlineMenuUrl
-  static backendUrl = process.env.BACKEND_URL || ElectronConfig.backendUrl
+  static backendUrl = ElectronConfig.backendUrl
   static dbsPath = "databases"
 
   static sessionResetRules = {
