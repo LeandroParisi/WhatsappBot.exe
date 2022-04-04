@@ -76,10 +76,10 @@ export default class EletronStartup {
         if (!isLogged) {
           mainWindow.webContents.send('request_login', 'Favor logar com sua credenciais.')
         } else {
+          mainWindow.webContents.send('logged_in', 'Sua sessão é válida.')
           for (const subscriber of this.LoginSubscribers) {
             subscriber.ReceiveLogin()
           }
-          mainWindow.webContents.send('logged_in', 'Sua sessão é válida.')
         }
       } catch (error) {
         const e = error as LoginError
@@ -111,10 +111,10 @@ export default class EletronStartup {
           if (!isLogged) {
             mainWindow.webContents.send('request_login', "Favor logar com sua credenciais.")
           } else {
+            mainWindow.webContents.send('logged_in', 'Sua sessão é válida.')
             for (const subscriber of this.LoginSubscribers) {
               subscriber.ReceiveLogin()
             }
-            mainWindow.webContents.send('logged_in', 'Sua sessão é válida.')
           }
         } catch (error) {
           const e = error as LoginError
