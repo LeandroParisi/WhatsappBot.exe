@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { Service } from 'typedi'
 import { Message } from 'venom-bot'
 import BranchData from '../../../Data/DTOs/BranchData'
@@ -14,6 +15,7 @@ import MemoryData from '../../../Data/DTOs/MemoryData/MemoryData'
 import {Whatsapp} from 'venom-bot'
 import Customer from '../../../Data/Models/Customer'
 
+require('dotenv').config()
 
 interface SetupInfo {
   customer : Customer
@@ -146,7 +148,10 @@ export default class BotCore {
   }
 
   private IsValidMessage(inboundMessage: Message) {
-    return !inboundMessage.isGroupMsg && inboundMessage.from === "553197794403@c.us"
+    if (process.env.TEST_WHATAPP_NUMBER) {
+      return !inboundMessage.isGroupMsg && inboundMessage.from === "553197794403@c.us"
+    }
+    return !inboundMessage.isGroupMsg
   }
 
   public SetBot(bot: any) {
