@@ -1,6 +1,6 @@
 {
   "name": "whatsapp-bot",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "My awesome bot for whatsapp",
   "main": "./index.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "pre-build:dev": "npm run compile",
     "compile": "rm -rf build && tsc && copyfiles -f src/index.html build && copyfiles -f package.json build && copyfiles -f yarn.lock build && cp -R ./src/Electron/WebPage build/WebPage",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "clean-up": "rm -rf ./tokens && rm -rf databases"
+    "clean-up": "rm -rf ./tokens && rm -rf databases && rm -rf dist"
   },
   "repository": {
     "type": "git",

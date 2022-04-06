@@ -149,7 +149,7 @@ export default class BotCore {
 
   private IsValidMessage(inboundMessage: Message) {
     if (process.env.TEST_WHATAPP_NUMBER) {
-      return !inboundMessage.isGroupMsg && inboundMessage.from === "553197794403@c.us"
+      return !inboundMessage.isGroupMsg && inboundMessage.from === process.env.TEST_WHATAPP_NUMBER
     }
     return !inboundMessage.isGroupMsg
   }
