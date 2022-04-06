@@ -1,5 +1,5 @@
 import Datastore = require("nedb-promises");
-import Config from "../../config"
+import DatabaseFactory from "../Shared/DatabaseFactory"
 const errorHandler = require('../Shared/errorHandler')
 
 class SessionDataDbs {
@@ -9,10 +9,10 @@ class SessionDataDbs {
   pendingOrders : Datastore
 
   constructor() {
-    this.customerDb = Datastore.create(`./${Config.dbsPath}/sessionManagement/customersData.db`)
-    this.orderDb = Datastore.create(`./${Config.dbsPath}/sessionManagement/ordersData.db`)
-    this.addressesDb = Datastore.create(`./${Config.dbsPath}/sessionManagement/addressesData.db`)
-    this.pendingOrders = Datastore.create(`./${Config.dbsPath}/sessionManagement/pendingOrders.db`)
+    this.customerDb = DatabaseFactory.Create("sessionManagement/customersData.db")
+    this.orderDb = DatabaseFactory.Create("sessionManagement/ordersData.db")
+    this.addressesDb = DatabaseFactory.Create("sessionManagement/addressesData.db")
+    this.pendingOrders = DatabaseFactory.Create("sessionManagement/pendingOrders.db")
 
     this.customerDb.on('__error__', (datastore, event, error) => {
       errorHandler(datastore, event, error)

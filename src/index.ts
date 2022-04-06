@@ -45,9 +45,8 @@ export default class Main implements ILoginSubscriber {
 
   private async CreateBot() : Promise<any> {
     const bot = await venom.create({
-      session: 'teste', // name of session
+      session: 'whatsapp_bot', // name of session
       multidevice: true , // for version not multidevice use false.(default: true)
-      // mkdirFolderToken: '/node_modules', //folder directory tokens, just inside the venom folder, example:  { mkdirFolderToken: '/node_modules', } //will save the tokens folder in the node_modules directory,
       headless: false, // Headless chrome
       useChrome: true,
     })

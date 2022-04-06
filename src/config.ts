@@ -11,7 +11,7 @@ require('dotenv').config()
 export default class Config {
   static onlineMenuUrl = process.env.ONLINE_MENU_URL || ElectronConfig.onlineMenuUrl
   static backendUrl = process.env.BACKEND_URL || ElectronConfig.backendUrl
-  static dbsPath = "databases"
+  static dbsPath = "./databases"
 
   static sessionResetRules = {
     stepsToReset: SystemUtils.GetEnumNumberValues(StepNumbers).filter(n => n >= 2 && n < 10),

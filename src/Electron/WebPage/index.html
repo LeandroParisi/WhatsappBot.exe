@@ -40,6 +40,7 @@
     const restartButton = document.getElementById('restart-button');
     const logs = document.getElementById('logs');
     const loginContainer = document.getElementById('login-container');
+    const loginButton = document.getElementById('send');
     
     ipcRenderer.send('app_version');
 
@@ -62,12 +63,14 @@
     });
 
     ipcRenderer.on('request_login', (_event, message) => {
+      loginButton.disabled = false
       errorMessage()
       logs.innerText = message
       loginContainer.classList.remove('hidden');
     })
 
     ipcRenderer.on('logged_in', (_event, message) => {
+      loginButton.disabled = true
       successMessage()
       logs.innerText = message || "Você está conectado!"
       loginContainer.classList.add('hidden');
@@ -82,6 +85,7 @@
     }
 
     function sendInput() {
+      loginButton.disabled = true
       const loginInfo = {
         email: document.getElementById('email').value,
         password: document.getElementById('password').value

@@ -31,7 +31,7 @@ export default class SendOrderAction implements IActionHandler<Order> {
       return new StepInfo(
         [
           "Seu pedido foi devidamente registrado.",
-          "Para acompanhar seu pedido basta."
+          "Para acompanhar seu pedido basta enviar outra mensagem e então escolher a opção *6* do menu."
         ],
         StepNumbers.welcomeStep
       )

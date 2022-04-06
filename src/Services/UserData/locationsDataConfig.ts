@@ -1,7 +1,7 @@
 
 import Datastore = require("nedb-promises");
 import { Service } from "typedi"
-import Config from "../../config"
+import DatabaseFactory from "../Shared/DatabaseFactory"
 const errorHandler = require('../Shared/errorHandler')
 
 @Service()
@@ -11,9 +11,9 @@ class LocationsDb {
   citiesDb : Datastore
 
   constructor() {
-    this.countriesDb = Datastore.create(`./${Config.dbsPath}/branchData/countriesData.db`)
-    this.statesDb = Datastore.create(`./${Config.dbsPath}/branchData/statesData.db`)
-    this.citiesDb = Datastore.create(`./${Config.dbsPath}/branchData/citiesData.db`)
+    this.countriesDb = DatabaseFactory.Create("branchData/countriesData.db")
+    this.statesDb = DatabaseFactory.Create("branchData/statesData.db")
+    this.citiesDb = DatabaseFactory.Create("branchData/citiesData.db")
 
 
     this.countriesDb.on('__error__', (datastore, event, error) => {
