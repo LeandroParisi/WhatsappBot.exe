@@ -3,16 +3,13 @@ import { autoUpdater } from 'electron-updater'
 import { Service } from 'typedi'
 import Main from '..'
 import ILoginInfo from '../Data/Interfaces/ILoginInfo'
+import Logger from '../Logger'
 import LoginError from '../Services/Abstractions/Errors/LoginError'
 import UserDataHandler from '../Services/UserData/Handlers/UserDataHandler'
 import ILoginSubscriber from './Interfaces/EventsSubscribers/ILoginSubscriber'
 
-autoUpdater.setFeedURL({
-  token: "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",
-  owner: "LeandroParisi",
-  repo: "WhatsappBot.exe",
-  provider: "github"
-})
+
+
 
 @Service()
 export default class EletronStartup {
@@ -26,6 +23,7 @@ export default class EletronStartup {
   ) {}
 
   async Run() {
+    this.ConfigureAutoUpdater()
     this.LoadApp()
   }
 
@@ -60,7 +58,11 @@ export default class EletronStartup {
       })
 
       mainWindow.once('ready-to-show', () => {
-        autoUpdater.checkForUpdates()
+        try {
+          autoUpdater.checkForUpdates()
+        } catch (error) {
+          Logger.error("Error trying to check for updates.", error)
+        }
       })
     }
 
@@ -176,4 +178,19 @@ export default class EletronStartup {
   public SubscribeForLogin(subscriber: Main) {
     this.LoginSubscribers.push(subscriber)
   }
+
+  private ConfigureAutoUpdater() {
+    try {
+      autoUpdater.setFeedURL({
+        token: "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",
+        owner: "LeandroParisi",
+        repo: "WhatsappBot.exe",
+        provider: "github"
+      })
+    } catch (error) {
+      Logger.error("Error trying to set Feed URL", error)
+    }
+  }
 }
+
+

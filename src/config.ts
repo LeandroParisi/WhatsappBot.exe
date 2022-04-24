@@ -5,6 +5,7 @@ import { StepNumbers } from './Domain/Flow/Steps/Interfaces/IStep'
 import SystemUtils from "./Shared/Utils/SystemUtils"
 import ElectronConfig from "./electronConfig"
 
+
 require('dotenv').config()
 
 @staticImplements()

@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import 'reflect-metadata'
-import Container from 'typedi'
+import Container, { Service } from 'typedi'
 import BotCore from './Domain/Flow/Startup/BotCore'
 import BotStartup from './Domain/Flow/Startup/BotStartup'
 import ElectronStartup from './Electron/EletronStartup'
 import ILoginSubscriber from './Electron/Interfaces/EventsSubscribers/ILoginSubscriber'
+import Logger from './Logger'
 const venom = require('venom-bot')
 
+@Service()
 export default class Main implements ILoginSubscriber {
   constructor(
     private readonly BotCore : BotCore,
@@ -17,6 +19,7 @@ export default class Main implements ILoginSubscriber {
   }
 
   async Run() {
+    Logger.info("Teste")
     try {
       await this.ElectronStartup.Run()
 
