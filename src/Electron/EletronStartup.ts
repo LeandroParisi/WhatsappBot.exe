@@ -64,7 +64,6 @@ export default class EletronStartup {
       })
     }
 
-    
     app.on('ready', async () => {
       createWindow()
       this.SetAutoUpdateEvents(mainWindow)
