@@ -1,6 +1,6 @@
 {
   "name": "whatsapp-bot",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "My awesome bot for whatsapp",
   "main": "./index.js",
   "scripts": {
@@ -8,6 +8,7 @@
     "dev": "npx ts-node src/index.ts",
     "release": "npm run pre-build:release && electron-builder --win --publish always",
     "pack": "npm run pre-build:release && electron-builder build --win",
+    "pack:linux": "npm run pre-build:release && electron-builder build --linux",
     "pre-build:release": "npm run clean-up && npm run compile",
     "pre-build:dev": "npm run compile",
     "compile": "rm -rf build && tsc && copyfiles -f src/index.html build && copyfiles -f package.json build && copyfiles -f yarn.lock build && cp -R ./src/Electron/WebPage build/WebPage",
@@ -49,6 +50,7 @@
     "@typescript-eslint/parser": "^5.10.2",
     "electron": "^16.1.0",
     "electron-builder": "^22.14.13",
+    "electron-github-autoupdater": "^2.0.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-airbnb-base": "^14.2.1",

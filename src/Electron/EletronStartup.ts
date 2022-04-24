@@ -1,11 +1,17 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
-import { autoUpdater } from 'electron-updater'
+import { autoUpdater } from 'electron-github-autoupdater'
 import { Service } from 'typedi'
 import Main from '..'
 import ILoginInfo from '../Data/Interfaces/ILoginInfo'
 import LoginError from '../Services/Abstractions/Errors/LoginError'
 import UserDataHandler from '../Services/UserData/Handlers/UserDataHandler'
 import ILoginSubscriber from './Interfaces/EventsSubscribers/ILoginSubscriber'
+
+const updater = autoUpdater({
+  owner: 'LeandroParisi',
+  repo: 'WhatsappBot.exe',
+  accessToken: "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"
+})
 
 @Service()
 export default class EletronStartup {
@@ -53,7 +59,7 @@ export default class EletronStartup {
       })
 
       mainWindow.once('ready-to-show', () => {
-        autoUpdater.checkForUpdatesAndNotify()
+        updater.checkForUpdates()
       })
     }
 
@@ -152,17 +158,17 @@ export default class EletronStartup {
     })
     
     ipcMain.on('restart_app', () => {
-      autoUpdater.quitAndInstall()
+      updater.quitAndInstall()
     })
     
   }
 
   private SetAutoUpdateEvents(mainWindow : BrowserWindow) {
-    autoUpdater.on('update-available', () => {
+    updater.on('update-available', () => {
       mainWindow.webContents.send('update_available')
     })
     
-    autoUpdater.on('update-downloaded', () => {
+    updater.on('update-downloaded', () => {
       mainWindow.webContents.send('update_downloaded')
     })
   }
