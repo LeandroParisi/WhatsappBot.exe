@@ -8,9 +8,6 @@ import LoginError from '../Services/Abstractions/Errors/LoginError'
 import UserDataHandler from '../Services/UserData/Handlers/UserDataHandler'
 import ILoginSubscriber from './Interfaces/EventsSubscribers/ILoginSubscriber'
 
-
-
-
 @Service()
 export default class EletronStartup {
   private LoginSubscribers : Array<ILoginSubscriber> = []
@@ -59,7 +56,7 @@ export default class EletronStartup {
 
       mainWindow.once('ready-to-show', () => {
         try {
-          autoUpdater.checkForUpdates()
+          autoUpdater.checkForUpdatesAndNotify()
         } catch (error) {
           Logger.error("Error trying to check for updates.", error)
         }
@@ -180,6 +177,8 @@ export default class EletronStartup {
   }
 
   private ConfigureAutoUpdater() {
+    autoUpdater.logger = Logger
+
     try {
       autoUpdater.setFeedURL({
         token: "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",

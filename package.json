@@ -1,6 +1,6 @@
 {
   "name": "whatsapp-bot",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "My awesome bot for whatsapp",
   "main": "./index.js",
   "scripts": {
