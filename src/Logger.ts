@@ -5,7 +5,7 @@ const Logger = createLogger({
     new transports.Console(),
     new transports.File({
       dirname: "logs",
-      filename: "whatappBot.log",
+      filename: "whatsappBot.log",
     }),
   ],
   format: format.combine(
