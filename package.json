@@ -1,6 +1,6 @@
 {
   "name": "whatsapp-bot",
-  "version": "0.0.6",
+  "version": "0.0.1",
   "description": "My awesome bot for whatsapp",
   "main": "./index.js",
   "scripts": {
@@ -50,7 +50,6 @@
     "@typescript-eslint/parser": "^5.10.2",
     "electron": "^16.1.0",
     "electron-builder": "^22.14.13",
-    "electron-github-autoupdater": "^2.0.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-airbnb-base": "^14.2.1",
