@@ -8,14 +8,11 @@ import ILoginSubscriber from './Electron/Interfaces/EventsSubscribers/ILoginSubs
 const venom = require('venom-bot')
 
 export default class Main implements ILoginSubscriber {
-  BotCore : BotCore
-  BotStartup : BotStartup
-  ElectronStartup : ElectronStartup
-
-  constructor() {
-    this.BotCore = Container.get(BotCore)
-    this.BotStartup = Container.get(BotStartup)
-    this.ElectronStartup = Container.get(ElectronStartup)
+  constructor(
+    private readonly BotCore : BotCore,
+    private readonly BotStartup : BotStartup,
+    private readonly ElectronStartup : ElectronStartup
+  ) {
     this.ElectronStartup.SubscribeForLogin(this)
   }
 
@@ -54,5 +51,4 @@ export default class Main implements ILoginSubscriber {
   }
 }
 
-
-new Main().Run()
+Container.get(Main).Run()
