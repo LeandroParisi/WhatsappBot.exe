@@ -3,7 +3,8 @@
   "productName": "WhatsappBot",
   "copyright": "Leandro Parisi",
   "publish": {
-    "provider": "github"
+    "provider": "github",
+    "token": "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"
   },
   "directories": {
       "app": "./build",
