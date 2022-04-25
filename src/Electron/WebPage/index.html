@@ -4,9 +4,11 @@
   <link rel="stylesheet" href="./CSS/Boilerplate.css">
   <link rel="stylesheet" href="./CSS/Logs.css">
   <link rel="stylesheet" href="./CSS/LoginContainer.css">
+  <link rel="stylesheet" href="./CSS/Spinner.css">
+
 </head>
 <body>
-  <h1>TaOn - WhatsappBot - 0.0.14 - UPDATE!!</h1>
+  <h1>TaOn - WhatsappBot</h1>
   <p id="version"></p>
 
   <div id="login-container" class="">
@@ -23,9 +25,7 @@
 
   <div id="notification" class="hidden">
     <p id="message"></p>
-    <button id="close-button" onClick="closeNotification()">
-      Close
-    </button>
+    <div class="spinner"></div>
     <button id="restart-button" onClick="restartApp()" class="hidden">
       Restart
     </button>
@@ -41,7 +41,9 @@
     const logs = document.getElementById('logs');
     const loginContainer = document.getElementById('login-container');
     const loginButton = document.getElementById('send');
+    const spinner = document.querySelector('.spinner')
     
+    console.log(spinner)
     ipcRenderer.send('app_version');
 
     ipcRenderer.on('app_version', (event, arg) => {
@@ -58,6 +60,7 @@
     ipcRenderer.on('update_downloaded', () => {
       ipcRenderer.removeAllListeners('update_downloaded');
       message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
+      spinner.classList.add('hidden')
       restartButton.classList.remove('hidden');
       notification.classList.remove('hidden');
     });
