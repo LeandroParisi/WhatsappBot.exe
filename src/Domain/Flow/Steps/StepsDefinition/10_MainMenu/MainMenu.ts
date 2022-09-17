@@ -1,16 +1,16 @@
-import Config from "../../../../../config"
+import Config from "../../../../../Config/config"
 import { PromotionsInformation } from "../../../../../Data/DTOs/BranchData"
+import Customer from "../../../../../Data/Models/Customer"
 import staticImplements from "../../../../../Shared/Anotations/staticImplements"
+import GenericParser from "../../../../../Shared/Parsers/GenericParser"
+import StepError from "../../../../Abstractions/Errors/StepError"
+import CheckCustomerOrdersDTO from "../../../StepActions/ActionDefinitions/CheckCustomerOrdersAction/DTO/CheckCustomerOrdersDTO"
+import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler"
 import IStep, { StepNumbers } from "../../Interfaces/IStep"
+import StepDefinition from "../../Interfaces/StepDefinition"
 import StepInfo from "../../Messages/StepInfo"
 import ClosingStep from "../9_ClosingStep/ClosingStep"
 import PromotionsSelectionStep from "../StepGenerators/PromotionsSelectionStep"
-import StepError from "../../../../Abstractions/Errors/StepError"
-import StepDefinition from "../../Interfaces/StepDefinition"
-import GenericParser from "../../../../../Shared/Parsers/GenericParser"
-import Customer from "../../../../../Data/Models/Customer"
-import { ActionsEnum } from "../../../StepActions/Interfaces/IActionHandler"
-import CheckCustomerOrdersDTO from "../../../StepActions/ActionDefinitions/CheckCustomerOrdersAction/DTO/CheckCustomerOrdersDTO"
 
 const options = [
   '1. Fazer pedido',

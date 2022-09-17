@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import 'reflect-metadata'
 import Container, { Service } from 'typedi'
+import Config, { NodeEnvs } from './Config/config'
 import BotCore from './Domain/Flow/Startup/BotCore'
 import BotStartup from './Domain/Flow/Startup/BotStartup'
 import ElectronStartup from './Electron/EletronStartup'
@@ -19,7 +20,9 @@ export default class Main implements ILoginSubscriber {
 
   async Run() {
     try {
-      await this.ElectronStartup.Run()
+      if (Config.env !== NodeEnvs.LOCAL_WITHOUT_ELECTRON) {
+        await this.ElectronStartup.Run()
+      }
 
       this.BotStartup.InstallServices()
       

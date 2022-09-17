@@ -1,14 +1,14 @@
 import { Service } from "typedi"
 import { Message } from "venom-bot"
-import Config from "../../../config"
+import Config from "../../../Config/config"
+import { CustomerInfoSql } from "../../../Data/DTOs/CustomerInfo"
 import CustomerTemplateMessages from "../../../Data/DTOs/CustomerTemplateMessages"
+import Customer from "../../../Data/Models/Customer"
+import CustomerAddress from "../../../Data/Models/CustomerAddress"
 import CustomerTemplateMessagesFactory from "../../../Domain/MessageFactories/CustomerTemplateMessagesFactory"
 import DaysUtils from "../../../Shared/Utils/DaysUtils"
 import TaonRepository from "../../TaonBackend/TaonRepository"
 import CustomerRepository from '../Repositories/CustomerRepository'
-import { CustomerInfoSql } from "../../../Data/DTOs/CustomerInfo"
-import Customer from "../../../Data/Models/Customer"
-import CustomerAddress from "../../../Data/Models/CustomerAddress"
 
 @Service()
 export default class SessionHandler {
