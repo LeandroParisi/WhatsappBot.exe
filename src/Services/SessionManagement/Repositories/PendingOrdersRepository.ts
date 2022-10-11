@@ -1,4 +1,4 @@
-import Datastore = require("nedb-promises");
+import Datastore from "nedb-promises"
 import { Service } from "typedi"
 import { OrderSQL } from "../../../Data/Models/Order"
 import SessionDataDbs from '../config'

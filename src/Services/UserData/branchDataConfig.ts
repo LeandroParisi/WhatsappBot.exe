@@ -1,7 +1,7 @@
 
-import Datastore = require("nedb-promises");
+import Datastore from "nedb-promises"
 import DatabaseFactory from "../Shared/DatabaseFactory"
-const errorHandler = require('../Shared/errorHandler')
+import errorHandler from "../Shared/errorHandler"
 
 class BranchDataDb {
   sessionData : Datastore

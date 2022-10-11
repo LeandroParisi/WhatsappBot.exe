@@ -42,7 +42,7 @@
     "sharp": "^0.30.3",
     "typedi": "^0.10.0",
     "uuid": "^8.3.2",
-    "venom-bot": "^4.0.5",
+    "venom-bot": "^4.1.0",
     "winston": "^3.7.2"
   },
   "devDependencies": {

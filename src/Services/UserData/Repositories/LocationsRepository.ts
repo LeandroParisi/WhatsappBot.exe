@@ -1,4 +1,3 @@
-import Datastore = require("nedb-promises");
 import { Service } from "typedi"
 import { City, Country, State } from "../../../Data/DTOs/BranchData"
 import { Locations } from "../../../Data/DTOs/Locations"

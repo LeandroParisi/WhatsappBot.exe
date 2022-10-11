@@ -1,19 +1,18 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { Service } from 'typedi'
-import { Message } from 'venom-bot'
+import { Message, Whatsapp } from 'venom-bot'
 import BranchData from '../../../Data/DTOs/BranchData'
-import SessionHandler from '../../../Services/SessionManagement/Handlers/SessionHandler'
-import UserDataHandler from '../../../Services/UserData/Handlers/UserDataHandler'
-import StepFactory from '../Steps/StepsDefinition/StepFactory/StepFactory'
-import ActionsFactory from '../StepActions/ActionDefinitions/ActionsFactory/ActionsFactory'
-import TaonHandler from '../../../Services/TaonBackend/TaonHandler'
-import StepInfo from '../Steps/Messages/StepInfo'
-import OrderRepository from '../../../Services/SessionManagement/Repositories/OrderRepository'
-import AddressesRepository from '../../../Services/SessionManagement/Repositories/AddressesRepository'
-import StepDefinition from '../Steps/Interfaces/StepDefinition'
 import MemoryData from '../../../Data/DTOs/MemoryData/MemoryData'
-import {Whatsapp} from 'venom-bot'
 import Customer from '../../../Data/Models/Customer'
+import SessionHandler from '../../../Services/SessionManagement/Handlers/SessionHandler'
+import AddressesRepository from '../../../Services/SessionManagement/Repositories/AddressesRepository'
+import OrderRepository from '../../../Services/SessionManagement/Repositories/OrderRepository'
+import TaonHandler from '../../../Services/TaonBackend/TaonHandler'
+import UserDataHandler from '../../../Services/UserData/Handlers/UserDataHandler'
+import ActionsFactory from '../StepActions/ActionDefinitions/ActionsFactory/ActionsFactory'
+import StepDefinition from '../Steps/Interfaces/StepDefinition'
+import StepInfo from '../Steps/Messages/StepInfo'
+import StepFactory from '../Steps/StepsDefinition/StepFactory/StepFactory'
 
 require('dotenv').config()
 
@@ -148,6 +147,7 @@ export default class BotCore {
   }
 
   private IsValidMessage(inboundMessage: Message) {
+    console.log({inboundMessage})
     if (process.env.TEST_WHATAPP_NUMBER) {
       return !inboundMessage.isGroupMsg && inboundMessage.from === process.env.TEST_WHATAPP_NUMBER
     }

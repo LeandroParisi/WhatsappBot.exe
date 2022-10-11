@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import 'reflect-metadata'
+import * as rf from 'reflect-metadata'
 import Container, { Service } from 'typedi'
 import Config, { NodeEnvs } from './Config/config'
 import BotCore from './Domain/Flow/Startup/BotCore'
 import BotStartup from './Domain/Flow/Startup/BotStartup'
 import ElectronStartup from './Electron/EletronStartup'
 import ILoginSubscriber from './Electron/Interfaces/EventsSubscribers/ILoginSubscriber'
+console.log({rf})
+
 const venom = require('venom-bot')
 
 @Service()
@@ -25,7 +27,10 @@ export default class Main implements ILoginSubscriber {
       }
 
       this.BotStartup.InstallServices()
-      
+
+      if (Config.env == NodeEnvs.LOCAL_WITHOUT_ELECTRON) {
+        await this.ReceiveLogin()
+      }
     } catch (error) {
       // Trace
       console.log(error)

@@ -1,8 +1,8 @@
 
-import Datastore = require("nedb-promises");
+import Datastore from "nedb-promises"
 import { Service } from "typedi"
 import DatabaseFactory from "../Shared/DatabaseFactory"
-const errorHandler = require('../Shared/errorHandler')
+import errorHandler from "../Shared/errorHandler"
 
 @Service()
 class LocationsDb {

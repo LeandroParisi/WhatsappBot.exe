@@ -5,7 +5,7 @@ Whatsapp bot to automate sales experiences built with Venom Bot framework and Ty
 
 ## Setup:
 1) npm install
-2) npm start
+2) npm run dev
 3) scan QR code with your whatsapp on phone to run it
 
 Attention!
